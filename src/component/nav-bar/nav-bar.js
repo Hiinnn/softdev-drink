@@ -1,15 +1,15 @@
 import React from 'react';
-import './nav-bar.css';
+import './Nav-bar.css';
 
 // class navBar extends React {
-function navBar(){
+function Navbar(){
     return (
         <div className="nav-bar-wrapper">
             <a className="logo" href=""><img src={require('../../asset/drink-logo.png')}/></a>
+            <a className="stat">eiei</a>
             <a className="profile" href=""></a>
-
         </div>
     ) ;
 }
 
-export default navBar;
+export default Navbar;

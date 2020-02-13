@@ -20,6 +20,18 @@
 
 .profile {
     position: relative;
+    /* margin-left: auto; */
+    margin-right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: aliceblue;
+}
+
+.stat {
+    position: relative;
     margin-left: auto;
     margin-right: 20px;
     width: 50px;
