@@ -121,6 +121,7 @@
     cursor: pointer;
 }
 
+<<<<<<< HEAD
 .search-box-wrapper .search-box:focus{
     color: cornsilk;
     background-color: rgb(116, 115, 115);
@@ -129,3 +130,13 @@
 .search-box-wrapper .search-box:focus::placeholder{
     color: cornsilk;
 }
+=======
+.search-box:focus{
+    background-color: rgb(85, 85, 85);
+    color: rgb(194, 192, 186);
+}
+
+.search-box:focus::placeholder{
+    color: rgb(194, 192, 186);
+}
+>>>>>>> 7cf16304d67540d308d7f110df5a5b3ec4df8497

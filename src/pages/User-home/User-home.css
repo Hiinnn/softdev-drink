@@ -1,7 +1,11 @@
 .main-content-container {
     width: 100%;
+<<<<<<< HEAD
     height: 1000px;
     background-color: black;
+=======
+    height: 2000px;
+>>>>>>> 7cf16304d67540d308d7f110df5a5b3ec4df8497
 }
 
 .main-content-container img{
