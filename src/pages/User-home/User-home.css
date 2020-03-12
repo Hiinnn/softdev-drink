@@ -1,3 +1,10 @@
 .main-content-container {
-    
+    width: 100%;
+    height: 1000px;
+    background-color: black;
+}
+
+.main-content-container img{
+    width: 100%;
+    height: 100%;
 }

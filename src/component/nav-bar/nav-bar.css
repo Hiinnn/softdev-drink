@@ -83,19 +83,16 @@
 }
 
 .search-box-wrapper .search-box{
-    width: 89%;
+    width: 85%;
     height: 100%;
-    font-size: 15px;
     position: relative;
-
     outline: 0px;
     padding: 0px;
     padding-left: 10px;
     box-sizing: border-box;
-
     border: transparent;
     margin-right: 2px;
-    border-radius: 3px 0px 0px 3px ;
+    border-radius: 3px 0px 0px 3px;
     background-color: #46464d;
 }
 
@@ -116,12 +113,19 @@
     width: 20px;
     height: 20px;
     position: relative;
-
     left: 50%;
     transform: translateX(-50%);
-    
 }
 
 .search-icon-wrapper:hover{
     cursor: pointer;
+}
+
+.search-box-wrapper .search-box:focus{
+    color: cornsilk;
+    background-color: rgb(116, 115, 115);
+}
+
+.search-box-wrapper .search-box:focus::placeholder{
+    color: cornsilk;
 }
