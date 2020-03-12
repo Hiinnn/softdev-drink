@@ -83,9 +83,8 @@
 }
 
 .search-box-wrapper .search-box{
-    width: 89%;
+    width: 85%;
     height: 100%;
-    font-size: 15px;
     position: relative;
 
     outline: 0px;
@@ -124,4 +123,13 @@
 
 .search-icon-wrapper:hover{
     cursor: pointer;
+}
+
+.search-box:focus{
+    background-color: rgb(85, 85, 85);
+    color: rgb(194, 192, 186);
+}
+
+.search-box:focus::placeholder{
+    color: rgb(194, 192, 186);
 }
