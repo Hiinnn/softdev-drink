@@ -5,9 +5,10 @@ table {
 }
 
 th.col1 {
-	padding-right: 160px;
+	width: 210px;
 	padding-bottom: 6px;
 	padding-top: 6px;
+	text-align: center;
 }
 
 th.col2 {

@@ -17,6 +17,9 @@ class Table extends Component {
 				data10,
 				data11,
 				data12,
+				data13,
+				data14,
+				data15,
 				tableNum
 			} = this.props
 
@@ -122,11 +125,32 @@ class Table extends Component {
 																																<
 																																td className = "or" > { data12 } < /td> <
 																																td > -0 + < /td> <
-																																/tr>} <
-																																/tbody> <
-																																/table>
-																														)
-																												}
-																										}
+																																/tr>} {
+																																	data13 &&
+																																		<
+																																		tr >
+																																		<
+																																		td className = "or" > { data13 } < /td> <
+																																		td > -0 + < /td> <
+																																		/tr>} {
+																																			data14 &&
+																																				<
+																																				tr >
+																																				<
+																																				td className = "or" > { data14 } < /td> <
+																																				td > -0 + < /td> <
+																																				/tr>} {
+																																					data15 &&
+																																						<
+																																						tr >
+																																						<
+																																						td className = "or" > { data15 } < /td> <
+																																						td > -0 + < /td> <
+																																						/tr>} <
+																																						/tbody> <
+																																						/table>
+																																				)
+																																		}
+																																}
 
-																									export default Table;
+																															export default Table;
