@@ -1,0 +1,20 @@
+.order-container {
+	width: 100%;
+	display: inline-block;
+	background-image: url('bgor.jpeg');
+	image-rendering: auto;
+}
+
+div {}
+
+.food {
+	min-width: 400px;
+	width: 10px;
+	display: inline-block;
+	position: relative;
+	padding-top: 10%;
+	padding-left: 10%;
+	padding-bottom: 25%;
+}
+
+.food:hover {}
