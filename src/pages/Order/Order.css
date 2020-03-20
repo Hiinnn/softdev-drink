@@ -14,10 +14,11 @@
 	font-size: 16px;
 	cursor: pointer;
 	border-radius: 25px;
+	margin-left: 58%;
 }
 
 .button:hover {
-	font-size: 10px;
+	background-color: #1c4723;
 }
 
 .food {

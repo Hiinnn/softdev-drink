@@ -48,19 +48,12 @@ class Order extends React.Component {
 			data3 = 'punch'
 			data4 = 'Açai Pome Blue Mojito'
 			data5 = 'Winter Shandy'
-			data6 = 'Shirley Ginger'
-			data7 = 'Tahitian Coffee'
-			data8 = 'Strawberry Fields'
-			data9 = 'Citrus Fizz'
-			data10 = 'Mango Mule'
-			data11 = 'Berry Burlesque'
-			data12 = 'Hot Apple Cider'
-			data13 = 'Citrus Fizz'
-			data14 = 'Mango Mule'
-			data15 = 'Berry Burlesque' /
+			data6 = 'Shirley Ginger' /
 			>
 			<
-			br / > < Table type = 'TABLE'
+			br / >
+			<
+			Table type = 'TABLE'
 			tableNum = '3' / >
 			<
 			br / > < button class = "button" > Order Now < /button> <
