@@ -19,6 +19,7 @@
 
 .button:hover {
 	background-color: #1c4723;
+	box-shadow: 0 0 5px 1px rgba(54, 184, 108, 0.5);
 }
 
 .food {
