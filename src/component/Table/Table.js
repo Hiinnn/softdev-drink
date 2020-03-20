@@ -16,7 +16,8 @@ class Table extends Component {
 				data9,
 				data10,
 				data11,
-				data12
+				data12,
+				tableNum
 			} = this.props
 
 			return ( <
@@ -26,99 +27,104 @@ class Table extends Component {
 					<
 					tr >
 					<
-					th > { type } < /th> <
-					th > AMOUNT < /th> <
-					/tr> <
-					/thead> <
-					tbody > {
-						data1 &&
-						<
-						tr >
-						<
-						td className = "or" > { data1 } < /td> <
-						td > -0 + < /td> <
-						/tr>} {
-							data2 &&
-								<
-								tr >
-								<
-								td className = "or" > { data2 } < /td> <
-								td > -0 + < /td> <
-								/tr>} {
-									data3 &&
+					th > { type } < /th> {
+						!tableNum &&
+							<
+							th > AMOUNT < /th>} {
+								tableNum &&
+									<
+									th > { tableNum } < /th>} <
+									/tr> <
+									/thead> <
+									tbody > {
+										data1 &&
 										<
 										tr >
 										<
-										td className = "or" > { data3 } < /td> <
+										td className = "or" > { data1 } < /td> <
 										td > -0 + < /td> <
 										/tr>} {
-											data4 &&
+											data2 &&
 												<
 												tr >
 												<
-												td className = "or" > { data4 } < /td> <
+												td className = "or" > { data2 } < /td> <
 												td > -0 + < /td> <
 												/tr>} {
-													data5 &&
+													data3 &&
 														<
 														tr >
 														<
-														td className = "or" > { data5 } < /td> <
+														td className = "or" > { data3 } < /td> <
 														td > -0 + < /td> <
 														/tr>} {
-															data6 &&
+															data4 &&
 																<
 																tr >
 																<
-																td className = "or" > { data6 } < /td> <
+																td className = "or" > { data4 } < /td> <
 																td > -0 + < /td> <
 																/tr>} {
-																	data7 &&
+																	data5 &&
 																		<
 																		tr >
 																		<
-																		td className = "or" > { data7 } < /td> <
+																		td className = "or" > { data5 } < /td> <
 																		td > -0 + < /td> <
 																		/tr>} {
-																			data8 &&
+																			data6 &&
 																				<
 																				tr >
 																				<
-																				td className = "or" > { data8 } < /td> <
+																				td className = "or" > { data6 } < /td> <
 																				td > -0 + < /td> <
 																				/tr>} {
-																					data9 &&
+																					data7 &&
 																						<
 																						tr >
 																						<
-																						td className = "or" > { data9 } < /td> <
+																						td className = "or" > { data7 } < /td> <
 																						td > -0 + < /td> <
 																						/tr>} {
-																							data10 &&
+																							data8 &&
 																								<
 																								tr >
 																								<
-																								td className = "or" > { data10 } < /td> <
+																								td className = "or" > { data8 } < /td> <
 																								td > -0 + < /td> <
 																								/tr>} {
-																									data11 &&
+																									data9 &&
 																										<
 																										tr >
 																										<
-																										td className = "or" > { data11 } < /td> <
+																										td className = "or" > { data9 } < /td> <
 																										td > -0 + < /td> <
 																										/tr>} {
-																											data12 &&
+																											data10 &&
 																												<
 																												tr >
 																												<
-																												td className = "or" > { data12 } < /td> <
+																												td className = "or" > { data10 } < /td> <
 																												td > -0 + < /td> <
-																												/tr>} <
-																												/tbody> <
-																												/table>
-																										)
-																								}
-																						}
+																												/tr>} {
+																													data11 &&
+																														<
+																														tr >
+																														<
+																														td className = "or" > { data11 } < /td> <
+																														td > -0 + < /td> <
+																														/tr>} {
+																															data12 &&
+																																<
+																																tr >
+																																<
+																																td className = "or" > { data12 } < /td> <
+																																td > -0 + < /td> <
+																																/tr>} <
+																																/tbody> <
+																																/table>
+																														)
+																												}
+																										}
 
-																					export default Table;
+																									export default Table;

@@ -1,11 +1,9 @@
 .order-container {
 	width: 100%;
 	display: inline-block;
-	background-image: url('bgor.jpeg');
+	background-image: url('../../asset/MainBackground/bgor.jpeg');
 	image-rendering: auto;
 }
-
-div {}
 
 .food {
 	min-width: 400px;
@@ -16,5 +14,3 @@ div {}
 	padding-left: 10%;
 	padding-bottom: 25%;
 }
-
-.food:hover {}
