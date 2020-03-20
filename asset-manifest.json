@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/softdev-drink/static/css/main.525cd48e.chunk.css",
+    "main.js": "/softdev-drink/static/js/main.18b846a6.chunk.js",
+    "main.js.map": "/softdev-drink/static/js/main.18b846a6.chunk.js.map",
+    "runtime-main.js": "/softdev-drink/static/js/runtime-main.a2004001.js",
+    "runtime-main.js.map": "/softdev-drink/static/js/runtime-main.a2004001.js.map",
+    "static/js/2.ebc3e6a4.chunk.js": "/softdev-drink/static/js/2.ebc3e6a4.chunk.js",
+    "static/js/2.ebc3e6a4.chunk.js.map": "/softdev-drink/static/js/2.ebc3e6a4.chunk.js.map",
+    "index.html": "/softdev-drink/index.html",
+    "precache-manifest.422f070e533e9ca0fde5fa02a33d3d5a.js": "/softdev-drink/precache-manifest.422f070e533e9ca0fde5fa02a33d3d5a.js",
+    "service-worker.js": "/softdev-drink/service-worker.js",
+    "static/css/main.525cd48e.chunk.css.map": "/softdev-drink/static/css/main.525cd48e.chunk.css.map",
+    "static/js/2.ebc3e6a4.chunk.js.LICENSE.txt": "/softdev-drink/static/js/2.ebc3e6a4.chunk.js.LICENSE.txt",
+    "static/media/Slider1.png": "/softdev-drink/static/media/Slider1.9fae005d.png",
+    "static/media/Slider2.jpg": "/softdev-drink/static/media/Slider2.ddc907db.jpg",
+    "static/media/Slider3.jpg": "/softdev-drink/static/media/Slider3.40c5ddb1.jpg",
+    "static/media/Slider4.jpg": "/softdev-drink/static/media/Slider4.a781b90f.jpg",
+    "static/media/searchIcon.png": "/softdev-drink/static/media/searchIcon.a8b4023d.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a2004001.js",
+    "static/js/2.ebc3e6a4.chunk.js",
+    "static/css/main.525cd48e.chunk.css",
+    "static/js/main.18b846a6.chunk.js"
+  ]
+}
