@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Order from './pages/User-home/Order/Order';
+import Order from './pages/Order/Order';
 
 
 function App() {

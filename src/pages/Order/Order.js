@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '../../../component/Nav-bar/Nav-bar';
-import Table from '../../../component/Table/Table';
+import Navbar from '../../component/Nav-bar/Nav-bar';
+import Table from '../../component/Table/Table';
 import './Order.css';
 
 class Order extends React.Component {
