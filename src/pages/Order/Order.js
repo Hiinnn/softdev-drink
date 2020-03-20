@@ -42,7 +42,17 @@ class Order extends React.Component {
 			> < /div> <
 			div className = "food" >
 			<
-			Table type = 'CART' / >
+			Table type = 'CART'
+			data1 = 'cola'
+			data2 = 'Lavender Lemonade'
+			data3 = 'punch'
+			data4 = 'Açai Pome Blue Mojito'
+			data5 = 'Winter Shandy'
+			data6 = 'Shirley Ginger'
+			data7 = 'Tahitian Coffee'
+			data8 = 'Strawberry Fields'
+			data9 = 'Citrus Fizz'
+			data10 = 'Mango Mule' / >
 			<
 			Table type = 'TABLE'
 			tableNum = '3' / >

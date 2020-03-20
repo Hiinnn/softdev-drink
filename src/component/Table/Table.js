@@ -23,20 +23,22 @@ class Table extends Component {
 			return ( <
 					table >
 					<
-					thead >
+					thead className = { type } >
 					<
 					tr >
 					<
-					th > { type } < /th> {
+					th className = "col1" > { type } < /th> {
 						!tableNum &&
 							<
-							th > AMOUNT < /th>} {
+							th className = "col2" > AMOUNT < /th>} {
 								tableNum &&
 									<
-									th > { tableNum } < /th>} <
-									/tr> <
-									/thead> <
-									tbody > {
+									th className = "col2" > { tableNum } < /th>} <
+									/tr>
+
+								<
+								/thead > <
+								tbody > {
 										data1 &&
 										<
 										tr >

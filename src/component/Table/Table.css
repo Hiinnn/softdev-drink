@@ -4,9 +4,20 @@ table {
 	border-collapse: collapse;
 }
 
+th.col1 {
+	padding-right: 160px;
+	padding-bottom: 6px;
+	padding-top: 6px;
+}
+
+th.col2 {
+	width: 100px;
+	text-align: center;
+}
+
 .or {
 	text-align: left;
-	padding-right: 30px;
+	padding: 5px;
 }
 
 td {
@@ -14,7 +25,22 @@ td {
 	border: 1px solid #dddddd;
 }
 
-thead {
-	background-color: darkolivegreen;
-	border: 5px solid darkolivegreen;
+thead.FOOD {
+	background-color: #38573d;
+	border: 5px solid #38573d;
+}
+
+thead.DRINK {
+	background-color: #8c6e4b;
+	border: 5px solid #8c6e4b;
+}
+
+thead.CART {
+	background-color: rgb(38, 38, 38);
+	border: 5px solid rgb(38, 38, 38);
+}
+
+thead.TABLE {
+	background-color: rgb(38, 38, 38);
+	border: 5px solid rgb(38, 38, 38);
 }
