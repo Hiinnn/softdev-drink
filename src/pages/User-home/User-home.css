@@ -1,8 +1,9 @@
-.main-content-container {
+.user-main-content-container {
     width: 100%;
-    height: 2000px;
-    background-image: url('../../asset/MainBackground/bg1cp.jpeg');  
-    background-color: black;
-    background-size:100% auto;
-    background-repeat: no-repeat;
+    height: 3000px;
+    background-color: rgb(80, 80, 80)
+}
+
+body {
+    background-color: rgb(65, 65, 65);
 }

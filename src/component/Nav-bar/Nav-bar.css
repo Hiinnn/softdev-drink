@@ -48,7 +48,6 @@
     position: relative;
 
     top: 45%;
-    padding-left: 10px;
     transform: translateY(-50%);
 
     margin: 0px;
@@ -97,7 +96,7 @@
 }
 
 .search-box-wrapper .search-icon-wrapper{
-    width: 25px;
+    width: 10%;
     height: 100%;
     position: relative;
     display: inline-block;
@@ -109,7 +108,7 @@
     background-color: #37373b;
 }
 
-.search-box-wrapper .search-icon{
+.search-box-wrapper .search-icon-wrapper .search-icon{
     width: 20px;
     height: 20px;
     position: relative;

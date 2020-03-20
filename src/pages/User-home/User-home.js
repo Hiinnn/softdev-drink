@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../../component/Nav-bar/Nav-bar';
-import Slider from '../../component/Slideshow/Slideshow';
-import Hotbar from '../../component/Hot-bars/Hot-bar';
+import Slideshow from '../../component/Slideshow/Slideshow';
+import Recommended from '../../component/Recommended/Recommended';
 import './User-home.css';
 
 class UserHome extends React.Component{
@@ -9,10 +9,10 @@ class UserHome extends React.Component{
         return (
             <div>
                 <Navbar/>
-                <Slider/>
-                <div className="main-content-container">
-                    {/* <Hotbar/> */}
-                </div>
+                {/* <div className="user-main-content-container"> */}""
+                    <Slideshow/>
+                    <Recommended/>
+                {/* </div> */}
             </div>
         );
     }
