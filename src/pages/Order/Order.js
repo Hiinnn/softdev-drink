@@ -36,8 +36,20 @@ class Order extends React.Component {
 						data10='Mango Mule'
 						data11='Berry Burlesque'
 						data12='Hot Apple Cider' />
+						<div className="food" >
+							<Table type='CART'
+								data1='cola'
+								data2='Lavender Lemonade'
+								data3='punch'
+								data4='Açai Pome Blue Mojito'
+								data5='Winter Shandy'
+								data6='Shirley Ginger' />
+							<br />
+							<Table type='TABLE'
+								tableNum='3' />
+							<br /> <button class="button"> Order Now </button>
+						</div>
 					</div>
-					<div className="food" > < Table type='CART' /> < Table type='TABLE' /> </div>
 				</div>
 			</div>
 		);

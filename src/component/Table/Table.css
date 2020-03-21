@@ -2,11 +2,36 @@ table {
 	color: aliceblue;
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
+	background-color: rgba(0, 0, 0, 0.438);
+}
+
+th.col1 {
+	width: 210px;
+	padding-bottom: 6px;
+	padding-top: 6px;
+	text-align: center;
+}
+
+img {
+	max-width: 17px;
+	height: auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	opacity: 0.4;
+}
+
+img:hover {
+	opacity: 10;
+}
+
+th.col2 {
+	width: 100px;
+	text-align: center;
 }
 
 .or {
 	text-align: left;
-	padding-right: 30px;
+	padding: 5px;
 }
 
 td {
@@ -14,11 +39,22 @@ td {
 	border: 1px solid #dddddd;
 }
 
-th {
-	border: 1px solid #dddddd;
+thead.FOOD {
+	background-color: #38573d;
+	border: 5px solid #38573d;
 }
 
-thead {
-	background-color: darkolivegreen;
-	border: 5px solid darkolivegreen;
+thead.DRINK {
+	background-color: #8c6e4b;
+	border: 5px solid #8c6e4b;
+}
+
+thead.CART {
+	background-color: rgb(38, 38, 38);
+	border: 5px solid rgb(38, 38, 38);
+}
+
+thead.TABLE {
+	background-color: rgb(38, 38, 38);
+	border: 5px solid rgb(38, 38, 38);
 }

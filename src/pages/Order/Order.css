@@ -1,20 +1,32 @@
 .order-container {
 	width: 100%;
-	display: inline-block;
-	background-image: url('../../asset/MainBackground/bgor.jpeg');
-	image-rendering: auto;
+	background-image: url('../../asset/MainBackground/bgor1.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
-div {}
+.button {
+	background-color: #38573d;
+	color: white;
+	border: none;
+	padding: 10px 25px;
+	text-align: center;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 25px;
+	margin-left: 58%;
+}
+
+.button:hover {
+	background-color: #1c4723;
+	box-shadow: 0 0 5px 1px rgba(54, 184, 108, 0.5);
+}
 
 .food {
 	min-width: 400px;
-	width: 10px;
-	display: inline-block;
-	position: relative;
-	padding-top: 10%;
-	padding-left: 10%;
-	padding-bottom: 25%;
+	display: inline-table;
+	padding-left: 4%;
+	padding-right: 4%;
+	padding-top: 7%;
+	padding-bottom: 10%;
 }
-
-.food:hover {}
