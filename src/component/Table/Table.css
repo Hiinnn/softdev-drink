@@ -1,4 +1,4 @@
-table {
+.tably {
 	color: aliceblue;
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
@@ -12,15 +12,16 @@ th.col1 {
 	text-align: center;
 }
 
-img {
+.image {
 	max-width: 17px;
 	height: auto;
 	margin-left: 10px;
 	margin-right: 10px;
 	opacity: 0.4;
+	cursor: pointer;
 }
 
-img:hover {
+.image:hover {
 	opacity: 10;
 }
 
@@ -32,9 +33,10 @@ th.col2 {
 .or {
 	text-align: left;
 	padding: 5px;
+	border: 1px solid #dddddd;
 }
 
-td {
+td.data {
 	text-align: center;
 	border: 1px solid #dddddd;
 }

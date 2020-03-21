@@ -5,11 +5,11 @@ import UserHome from './pages/User-home/User-home';
 
 
 function App() {
-  return (
-    <div className="App" >
-      <Order />
-      {/* <UserHome/> */}
-    </div>
+	return ( <
+		div className = "App" >
+		<
+		Order / > { /* <UserHome/> */ } <
+		/div>
 	);
 }
 export default App;
