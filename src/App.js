@@ -1,14 +1,13 @@
 import React from 'react';
 import './App.css';
-import Home from './pages/User-home/User-home';
+import Order from './pages/Order/Order';
 
 
 function App() {
   return (
-    <div className="App">
-        <Home/>
+    <div className="App" >
+      <Order />
     </div>
-  );
+	);
 }
-
 export default App;
