@@ -6,7 +6,7 @@ import { photos } from '../../data/Slideshowdata.js';
 export default class SlideShow extends Component {
     render() {
         return (
-            <Carousel >
+            <Carousel touch={true}>
                 {
                     photos.map((photo) => {
                         return (

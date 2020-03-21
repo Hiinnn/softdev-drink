@@ -11,6 +11,7 @@ class UserHome extends React.Component {
                 <Navbar />
                 <Slideshow />
                 <Recommended />
+                
             </div>
         );
     }

@@ -7,8 +7,8 @@ import UserHome from './pages/User-home/User-home';
 function App() {
   return (
     <div className="App" >
-      {/* <Order /> */}
-      <UserHome/>
+      <Order />
+      {/* <UserHome/> */}
     </div>
 	);
 }
