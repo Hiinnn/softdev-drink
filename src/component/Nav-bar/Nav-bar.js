@@ -12,8 +12,7 @@ class Navbar extends Component{
         return (
             <div className="nav-bar-container">
                 <div className="drink-logo"> DRINK </div>
-                <div className="nav-bar-button" onClick={this.clicked} style={{paddingRight:20}}> Sign up </div>
-                <div className="nav-bar-button"> Login </div>
+                <div className="nav-bar-button" onClick={this.clicked} style={{paddingRight:20}}> Sign-in </div>
                 <div className="search-box-wrapper">
                     <input className="search-box" type="text" placeholder="Search"></input>
                     <div className="search-icon-wrapper">
