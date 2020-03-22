@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
 import './Table.css';
+import { Thumbnail } from 'react-bootstrap';
 
 export default class Table extends Component {
-	render() {
 
+	constructor() {
+		super()
+		this.state = {
+			amount: 0,
+		}
+	}
+
+	add = () => {
+		this.setState({
+			amount: this.state.amount + 1,
+		})
+	}
+
+	render() {
 			return ( <
 				table className = "tably" >
 				<
@@ -29,9 +43,9 @@ export default class Table extends Component {
 											<
 											img className = "image"
 											src = { require("../../asset/MainBackground/minus.png") }
-											alt = "" / >
-											0 <
-											img className = "image"
+											alt = "" / > { this.state.amount } <
+											img onClick = { this.add }
+											className = "image"
 											src = { require("../../asset/MainBackground/plus.png") }
 											alt = "" / >
 											<
