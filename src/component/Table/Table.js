@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 import './Table.css';
-import { Thumbnail } from 'react-bootstrap';
 
 export default class Table extends Component {
 
 	constructor() {
 		super()
 		this.state = {
-			amount: 0,
+			am: [0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		}
 	}
-
-	add = () => {
+	add = (i) => {
 		this.setState({
-			amount: this.state.amount + 1,
+			am: this.state.am[i] + 1,
+		})
+	}
+	movv = () => {
+		this.setState({
+			am: this.state.am - 1,
 		})
 	}
 
 	render() {
+
 			return ( <
 				table className = "tably" >
 				<
@@ -38,18 +42,21 @@ export default class Table extends Component {
 										return ( <
 											tr key = { 'menu' + this.props.type + i } >
 											<
-											td className = "or" > { data } < /td> <
+											td className = "or" > { data } < /td>		 <
 											td className = "data" >
 											<
-											img className = "image"
+											img onClick = {
+												() => this.movv() }
+											className = "image"
 											src = { require("../../asset/MainBackground/minus.png") }
-											alt = "" / > { this.state.amount } <
-											img onClick = { this.add }
+											alt = "" / > { this.state.am[i] } <
+											img onClick = {
+												() => this.add(i) }
 											className = "image"
 											src = { require("../../asset/MainBackground/plus.png") }
 											alt = "" / >
 											<
-											/td> <
+											/td>							 <
 											/tr>
 										);
 									})

@@ -4,6 +4,20 @@ import Table from '../../component/Table/Table';
 import './Order.css';
 
 class Order extends React.Component {
+
+	constructor() {
+		super()
+		this.state = {
+			am: 0,
+		}
+	}
+	add = () => {
+		this.setState({
+			am: this.state.am + 1,
+		})
+	}
+
+
 	render() {
 		const data = {
 			Food: [
@@ -43,8 +57,12 @@ class Order extends React.Component {
 				'Shirley Ginger'
 			]
 		}
+		const am = data.Food.map(x => 0);
 
-		return ( <
+
+		return (
+
+			<
 			div >
 			<
 			Navbar / >
@@ -52,21 +70,25 @@ class Order extends React.Component {
 			div className = "order-container" >
 			<
 			div className = "food" > < Table type = 'FOOD'
+			amount = { this.state.am }
 			data = { data.Food }
 			/></div >
 			<
 			div className = "food" > < Table type = 'DRINK'
+			amount = { this.state.am }
 			data = { data.Drink }
 			/></div >
 			<
 			div className = "food" >
 			<
 			Table type = 'CART'
+			amount = { this.state.am }
 			data = { data.Cart }
 			/> <
 			br / >
 			<
 			Table type = 'TABLE'
+			amount = { this.state.am }
 			tableNum = '3' / >
 			<
 			br / > < button className = "button" > Order Now < /button> <
