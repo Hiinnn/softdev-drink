@@ -5,9 +5,22 @@
     background-color: #000000;
 }
 
+.profile-pic-container {
+    width: 300px;
+    height: 100%;
+    display: inline-block;
+}
+
+.profile-pic {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .profile-container{
     width: 510px;
     height: 660px;
+    float: right;
     display: inline-block;
     background-color: #5c5c5c;
     padding: 12px 12px;
@@ -15,9 +28,14 @@
 }
 
 .picandpro-container{
-    width:  62%;
+    width:  810px;
     height: 660px;
+    position: relative;
     display: inline-block;
+    
+    left: 50%;
+    transform: translateX(-50%);
+    /* margin-left: 25%; */
     background-color: transparent;
 }
 

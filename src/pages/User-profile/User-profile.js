@@ -26,11 +26,13 @@ class UserProfile extends React.Component {
                 <div className="main-content-container">
                     <br /><br />
 
-                    <div className="picandpro-container" style={{ marginLeft: "19%" }}>
+                    <div className="picandpro-container">
 
-                        <img src={require('../../asset/Profile/UserIcon.png')} width="200" height="200" align="left" ></img>
+                        <div className="profile-pic-container">
+                            <img className="profile-pic" src={require('../../asset/Profile/UserIcon.png')} width="200" height="200" align="left"></img>
+                        </div>
 
-                        <div className="profile-container" style={{ marginLeft: "9%" }} >
+                        <div className="profile-container">
 
                             <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
                             <br /><br />
@@ -58,7 +60,7 @@ class UserProfile extends React.Component {
                             <label className="text" style={{ marginLeft: 20 }}> Description </label>
                             <br /><br />
 
-                            <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder="Description..." > </textarea>
+                            <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} > </textarea>
                             <br /><br />
 
                             <div className="one-button" onClick={this.handleClick} > Save Profile </div>

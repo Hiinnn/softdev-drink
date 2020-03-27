@@ -1,77 +1,48 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import './Table.css';
 
 export default class Table extends Component {
-
-	constructor() {
-		super()
-		this.state = {
-			am: [0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		}
-	}
-	add = (i) => {
-		this.setState({
-			am: this.state.am[i] + 1,
-		})
-	}
-	movv = () => {
-		this.setState({
-			am: this.state.am - 1,
-		})
+	constructor(props) {
+		super(props)
 	}
 
 	render() {
+		return (
+			<table className="tably" >
+				<thead className={this.props.type} >
+					<tr>
+						<th className="col1" >{this.props.type}</th>
+						{this.props.tableNum && <th className="col2">{this.props.tableNum}</th>}
+						{!this.props.tableNum && <th className="col2">AMOUNT</th>}
+					</tr>
+				</thead>
 
-			return ( <
-				table className = "tably" >
-				<
-				thead className = { this.props.type } >
-				<
-				tr >
-				<
-				th className = "col1" > { this.props.type } < /th> {
-					this.props.tableNum && < th className = "col2" > { this.props.tableNum } < /th>} {
-						!this.props.tableNum && < th className = "col2" > AMOUNT < /th>} <
-							/tr> <
-							/thead>
-
-						{
-							!this.props.tableNum && < tbody > {
-									this.props.data.map((data, i) => {
-										console.log('type	' + typeof(this.props.tableNum));
-										return ( <
-											tr key = { 'menu' + this.props.type + i } >
-											<
-											td className = "or" > { data } < /td>		 <
-											td className = "data" >
-											<
-											img onClick = {
-												() => this.movv() }
-											className = "image"
-											src = { require("../../asset/MainBackground/minus.png") }
-											alt = "" / > { this.state.am[i] } <
-											img onClick = {
-												() => this.add(i) }
-											className = "image"
-											src = { require("../../asset/MainBackground/plus.png") }
-											alt = "" / >
-											<
-											/td>							 <
-											/tr>
-										);
-									})
-								} <
-								/tbody>
-						} <
-						/table>
-					)
+				{
+					!this.props.tableNum && this.props.data.name.map((data, i) => {
+						console.log(data)
+						return (
+							<tbody key={'menu' + this.props.type + i}>
+								<tr>
+									<td className="or" > {data} </td>
+									<td className="data">
+										<img onClick={() => this.props.addHandle(i)} className="image" src={require("../../asset/MainBackground/minus.png")} alt="" />
+										{this.props.data.amount[i]}
+										<img className="image" src={require("../../asset/MainBackground/plus.png")} alt="" />
+									</td>
+								</tr>
+							</tbody>
+						);
+					})
 				}
-			}
+			</table>
+		)
+	}
+}
 
 			// export default Table;
 
 
-			// const { type, data1, data2, data3, data4, data5
+			// const {type, data1, data2, data3, data4, data5
 			// 	, data6, data7, data8, data9, data10
 			// 	, data11, data12, data13, tableNum } = this.props
 

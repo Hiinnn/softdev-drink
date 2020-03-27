@@ -7,100 +7,120 @@ class Order extends React.Component {
 
 	constructor() {
 		super()
-		this.state = {
-			am: 0,
+		this.data = {
+			Food: {
+				name: [
+					'Onion rings',
+					'Papaya salad',
+					'lasagne',
+					'Porridge with fish',
+					'Tom Yum Kung',
+					'Crisp fried calamari',
+					'Chicken Green Curry',
+					'Jelly noodle soup',
+					'Apple crumble',
+					'Cheesecake',
+					'Sausage and mash',
+					'Crème brûlée'
+				],
+				amount: [
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+				],
+				type: 'FOOD'
+			},
+			Drink: {
+				name: [
+					'Cola',
+					'Lavender Lemonade',
+					'Punch',
+					'Açai Pome Blue Mojito',
+					'Winter Shandy',
+					'Shirley Ginger',
+					'Tahitian Coffee',
+					'Strawberry Field',
+					'Citrus Fizz',
+					'Mango Mule',
+					'Berry Burlesque',
+					'Hot Apple Cider'
+				],
+				amount: [
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+				],
+				type: 'DRINK'
+			}
 		}
+		this.state = [[...this.data.Food.amount], [...this.data.Drink.amount]]
+		console.log(this.state)
 	}
-	add = () => {
+
+	addOrder = (i) => {
 		this.setState({
-			am: this.state.am + 1,
+			
 		})
 	}
 
-
 	render() {
-		const data = {
-			Food: [
-				'Onion rings',
-				'Papaya salad',
-				'lasagne',
-				'Porridge with fish',
-				'Tom Yum Kung',
-				'Crisp fried calamari',
-				'Chicken Green Curry',
-				'Jelly noodle soup',
-				'Apple crumble',
-				'Cheesecake',
-				'Sausage and mash',
-				'Crème brûlée'
-			],
-			Drink: [
-				'cola',
-				'Lavender Lemonade',
-				'punch',
-				'Açai Pome Blue Mojito',
-				'Winter Shandy',
-				'Shirley Ginger',
-				'Tahitian Coffee',
-				'Strawberry Fields',
-				'Citrus Fizz',
-				'Mango Mule',
-				'Berry Burlesque',
-				'Hot Apple Cider'
-			],
-			Cart: [
-				'cola',
-				'Lavender Lemonade',
-				'punch',
-				'Açai Pome Blue Mojito',
-				'Winter Shandy',
-				'Shirley Ginger'
-			]
-		}
-		const am = data.Food.map(x => 0);
-
 
 		return (
 
-			<
-			div >
-			<
-			Navbar / >
-			<
-			div className = "order-container" >
-			<
-			div className = "food" > < Table type = 'FOOD'
-			amount = { this.state.am }
-			data = { data.Food }
-			/></div >
-			<
-			div className = "food" > < Table type = 'DRINK'
-			amount = { this.state.am }
-			data = { data.Drink }
-			/></div >
-			<
-			div className = "food" >
-			<
-			Table type = 'CART'
-			amount = { this.state.am }
-			data = { data.Cart }
-			/> <
-			br / >
-			<
-			Table type = 'TABLE'
-			amount = { this.state.am }
-			tableNum = '3' / >
-			<
-			br / > < button className = "button" > Order Now < /button> <
-			/div> <
-			/div> <
-			/div>
+			<div >
+				<Navbar />
+				<div className="order-container" >
+					<div className="food" > < Table type={this.data.Food.type} data={this.data.Food} addHandle={this.addOrder.bind(this)} /></div >
+					{/* <div className="food" > < Table type='DRINK' data={data.Drink}/></div > */}
+					{/* <div className="food" >
+						<Table type='CART' data={data.Cart} />
+						<br />
+						<Table type='TABLE' tableNum='3' />
+						<br />
+						<button className="button"> Order Now </button>
+					</div> */}
+				</div>
+			</div>
 		);
 	}
 }
 export default Order;
 
 
+// const data = {
+// 	Food: [
+// 		{ name: 'Onion rings', amount: 0 },
+// 		{ name: 'Papaya salad', amount: 0 },
+// 		{ name: 'lasagne', amount: 0 },
+// 		{ name: 'Porridge with fish', amount: 0 },
+// 		{ name: 'Tom Yum Kung', amount: 0 },
+// 		{ name: 'Crisp fried calamari', amount: 0 },
+// 		{ name: 'Chicken Green Curry', amount: 0 },
+// 		{ name: 'Jelly noodle soup', amount: 0 },
+// 		{ name: 'Apple crumble', amount: 0 },
+// 		{ name: 'Cheesecake', amount: 0 },
+// 		{ name: 'Sausage and mash', amount: 0 },
+// 		{ name: 'Crème brûlée', amount: 0 }
+// 	],
+// 	Drink: [
+// 		{ name: 'cola', amount: 0 },
+// 		{ name: 'Lavender Lemonade', amount: 0 },
+// 		{ name: 'punch', amount: 0 },
+// 		{ name: 'Açai Pome Blue Mojito', amount: 0 },
+// 		{ name: 'Winter Shandy', amount: 0 },
+// 		{ name: 'Shirley Ginger', amount: 0 },
+// 		{ name: 'Tahitian Coffee', amount: 0 },
+// 		{ name: 'Strawberry Fields', amount: 0 },
+// 		{ name: 'Citrus Fizz', amount: 0 },
+// 		{ name: 'Mango Mule', amount: 0 },
+// 		{ name: 'Berry Burlesque', amount: 0 },
+// 		{ name: 'Hot Apple Cider', amount: 0 }
+// 	],
+// 	Cart: [
+// 		{ name: 'cola', amount: 0 },
+// 		{ name: 'Lavender Lemonade', amount: 0 },
+// 		{ name: 'punch', amount: 0 },
+// 		{ name: 'Açai Pome Blue Mojito', amount: 0 },
+// 		{ name: 'Winter Shandy', amount: 0 },
+// 		{ name: 'Shirley Ginger', amount: 0 }
+// 	]
+// }
 
 
 {

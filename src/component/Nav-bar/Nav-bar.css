@@ -99,13 +99,12 @@
 
 .search-box-wrapper .search-icon-wrapper .search-icon {
 	width: 20px;
-	/* height: 20px; */
-	margin: auto;
-	/* position: relative; */
+	margin: 0px;
+	position: relative;
 
-	top: 50%;
+	bottom: 1px;
 	left: 50%;
-	transform: translate(-50%,-50%);
+	transform: translateX(-50%);
 }
 
 .search-icon-wrapper:hover {
