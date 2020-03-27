@@ -14,6 +14,13 @@
     border-radius: 4px;
 }
 
+.picandpro-container{
+    width:  62%;
+    height: 660px;
+    display: inline-block;
+    background-color: transparent;
+}
+
 .password-container{
     width: 530px;
     height: 285px;
@@ -29,10 +36,18 @@
     
 }
 
+.myfav-container{
+    width:  70%;
+    height: auto;
+    display: inline-block;
+    background-color: transparent;
+    padding: 12px 12px;
+}
+
 .textheader{
     width: 100%;
     height: 1px;
-    position: relative;
+    /*position: relative;*/
 
     top: 50%;
     transform: translateY(-50%);
@@ -148,8 +163,8 @@
 	font-size: 18px;
 	cursor: pointer;
 	border-radius: 5px;
-    margin-left: 68%;
-    margin-right: 225px;
+    margin-left: 72%;
+    margin-right: 7%;
 }
 
 .three-button:hover{
@@ -222,3 +237,7 @@
     -o-transform-origin: 100% 100%;
     transform-origin :100% 100%;
 }
+
+::placeholder {
+    color: #2e4b33;
+  }
