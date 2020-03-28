@@ -60,7 +60,7 @@ class UserProfile extends React.Component {
                             <label className="text" style={{ marginLeft: 20 }}> Description </label>
                             <br /><br />
 
-                            <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} > </textarea>
+                            <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} ></textarea>
                             <br /><br />
 
                             <div className="one-button" onClick={this.handleClick} > Save Profile </div>
@@ -70,7 +70,9 @@ class UserProfile extends React.Component {
 
                     </div>
 
-                    <div className="password-container" style={{ marginLeft: "38%" }}>
+                    <br /> <br /> <br />
+
+                    <div className="password-container" style={{ marginLeft: "50%" }}>
 
                         <label className="textheader" style={{ marginLeft: 20 }}> Password Reset </label>
                         <br /><br />
@@ -92,61 +94,82 @@ class UserProfile extends React.Component {
 
                     </div>
 
+                    <br />
 
-                    <div className="myfav-container" style={{ marginLeft: "15%" }}>
+                    <div className="myfav-container" >
 
-                        <div className="textheader" style={{ marginLeft: "7%" }}> My Favourite </div>
+                        <div className="textheader" style={{ marginLeft: "4%" }}> My Favourite </div>
 
-                        <img src={require('../../asset/Profile/line.png')} width="100%" height="100"></img>
+                        <img src={require('../../asset/Profile/line.png')} width="91%" height="100" style={{ marginLeft: "4%" }}></img>
 
-                        <img src={require('../../asset/Profile/1.jpg')} width="44%" height="35%" style={{ paddingLeft: "10%" }} align="left"></img>
-                        <div className="fav-container" style={{ paddingLeft: "2%" }} >
-                            <label className="textheader" style={{ marginLeft: 20 }} > Cafe's Name </label>
-                            <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
-                            <br /><br />
-                            <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
-                            <label className="text" style={{ marginLeft: 20 }} > open close </label>
-                            <label className="text" style={{ marginLeft: 20 }} > location </label>
-                            <label className="text" style={{ marginLeft: 20 }} > type </label>
-                            <label className="text" style={{ marginLeft: 20 }} > contact </label>
-                        </div><br />
+                        <div className="picandcafename-container">
 
-                        <img src={require('../../asset/Profile/line.png')} width="100%" height="100"></img>
+                            <img className="cafename-pic-container" src={require('../../asset/Profile/1.jpg')} width="320" height="220" align="left"></img>
 
-                        <img src={require('../../asset/Profile/1.jpg')} width="44%" height="35%" style={{ paddingLeft: "10%" }} align="left"></img>
-                        <div className="fav-container" style={{ paddingLeft: "2%" }} >
-                            <label className="textheader" style={{ marginLeft: 20 }} > Cafe's Name </label>
-                            <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
-                            <br /><br />
-                            <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
-                            <label className="text" style={{ marginLeft: 20 }} > open close </label>
-                            <label className="text" style={{ marginLeft: 20 }} > location </label>
-                            <label className="text" style={{ marginLeft: 20 }} > type </label>
-                            <label className="text" style={{ marginLeft: 20 }} > contact </label>
-                        </div><br />
+                            <div className="cafename-container">
+                                <label className="textheader" style={{ marginLeft: 20 }} > Cafe's Name </label>
+                                <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
+                                <br /><br />
+                                <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
+                                <label className="text" style={{ marginLeft: 20 }} > open close </label>
+                                <label className="text" style={{ marginLeft: 20 }} > location </label>
+                                <label className="text" style={{ marginLeft: 20 }} > type </label>
+                                <label className="text" style={{ marginLeft: 20 }} > contact </label>
+                            </div>
+                        </div>
 
-                        <img src={require('../../asset/Profile/line.png')} width="100%" height="100"></img>
+                        <br />
 
-                        <img src={require('../../asset/Profile/1.jpg')} width="44%" height="35%" style={{ paddingLeft: "10%" }} align="left"></img>
-                        <div className="fav-container" style={{ paddingLeft: "2%" }} >
-                            <label className="textheader" style={{ marginLeft: 20 }} > Cafe's Name </label>
-                            <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
-                            <br /><br />
-                            <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
-                            <label className="text" style={{ marginLeft: 20 }} > open close </label>
-                            <label className="text" style={{ marginLeft: 20 }} > location </label>
-                            <label className="text" style={{ marginLeft: 20 }} > type </label>
-                            <label className="text" style={{ marginLeft: 20 }} > contact </label>
-                        </div><br />
+                        <img src={require('../../asset/Profile/line.png')} width="91%" height="100" style={{ marginLeft: "4%" }}></img>
 
-                        <img src={require('../../asset/Profile/line.png')} width="100%" height="100"></img>
+                        <div className="picandcafename-container">
+
+                            <img className="cafename-pic-container" src={require('../../asset/Profile/1.jpg')} width="320" height="220" align="left"></img>
+
+                            <div className="cafename-container">
+                                <label className="textheader" style={{ marginLeft: 20 }} > Cafe's Name </label>
+                                <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
+                                <br /><br />
+                                <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
+                                <label className="text" style={{ marginLeft: 20 }} > open close </label>
+                                <label className="text" style={{ marginLeft: 20 }} > location </label>
+                                <label className="text" style={{ marginLeft: 20 }} > type </label>
+                                <label className="text" style={{ marginLeft: 20 }} > contact </label>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <img src={require('../../asset/Profile/line.png')} width="91%" height="100" style={{ marginLeft: "4%" }}></img>
+
+                        <div className="picandcafename-container">
+
+                            <img className="cafename-pic-container" src={require('../../asset/Profile/1.jpg')} width="320" height="220" align="left"></img>
+
+                            <div className="cafename-container">
+                                <label className="textheader" style={{ marginLeft: 20 }} > Cafe's Name </label>
+                                <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
+                                <br /><br />
+                                <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
+                                <label className="text" style={{ marginLeft: 20 }} > open close </label>
+                                <label className="text" style={{ marginLeft: 20 }} > location </label>
+                                <label className="text" style={{ marginLeft: 20 }} > type </label>
+                                <label className="text" style={{ marginLeft: 20 }} > contact </label>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <img src={require('../../asset/Profile/line.png')} width="91%" height="100" style={{ marginLeft: "4%" }}></img>
 
                         <div className="three-button" onClick={this.handleClick}> Save My Favourite </div>
                         <br /><br />
 
                     </div>
+                    
                 </div>
-            </body>
+
+            </body >
         );
     }
 }
