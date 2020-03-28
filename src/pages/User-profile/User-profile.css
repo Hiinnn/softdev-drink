@@ -1,3 +1,5 @@
+        /*--container--*/
+
 .main-content-container {
     width: 100%;
     height: auto;
@@ -36,7 +38,6 @@
     left: 50%;
     transform: translateX(-50%);
     /* margin-left: 25%; */
-    background-color: transparent;
 }
 
 .password-container{
@@ -46,21 +47,51 @@
     background-color: #5c5c5c;
     padding: 12px 12px;
     border-radius: 4px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.fav-container{
+.cafename-container{
     display: inline-block;
+    width: 400px;
+    height: 220px;
+    float: right;
+    /*margin-right: 7%;*/
+    padding: 2px 2px;
     background-color: transparent;
-    
 }
 
 .myfav-container{
-    width:  70%;
+    width:  810px;
     height: auto;
+    position: relative;
     display: inline-block;
-    background-color: transparent;
-    padding: 12px 12px;
+    
+    left: 50%;
+    transform: translateX(-50%);
+    /* margin-left: 25%; */
+
 }
+
+.picandcafename-container{
+    width:  735px;
+    height: 220px;
+    position: relative;
+    display: inline-block;
+    
+    left: 50%;
+    transform: translateX(-50%);
+    /* margin-left: 25%; */
+}
+
+.cafename-pic-container{
+    position: relative;
+    left: 21%;
+    float: left;
+    transform: translateX(-50%);
+}
+
+        /*--text--*/
 
 .textheader{
     width: 100%;
@@ -89,6 +120,8 @@
     vertical-align: middle;
     color: white;
 }
+
+        /*--input--*/
 
 .input[type=text] {
     width: 300px;
@@ -121,12 +154,14 @@
     border-radius: 4px;
     background-color: #999b9a;
     font-size: 16px;
-    resize: none; 
+    resize: none;
     cursor: auto;
     color: #2e4b33;
 }
-  
-.one-button {
+
+        /*--button--*/
+
+.one-button {   /*Save Profile*/
 	background-color: #38573d;
 	color: white;
 	border: none;
@@ -149,7 +184,7 @@
         0 0 20px blanchedalmond;
 }
 
-.two-button {
+.two-button {   /*Save Password*/
 	background-color: #38573d;
 	color: white;
 	border: none;
@@ -172,7 +207,7 @@
         0 0 20px blanchedalmond;
 }
 
-.three-button {
+.three-button {    /*Save My Favourite*/
 	background-color: #38573d;
 	color: white;
 	border: none;
@@ -182,7 +217,7 @@
 	cursor: pointer;
 	border-radius: 5px;
     margin-left: 72%;
-    margin-right: 7%;
+    margin-right: 5%;
 }
 
 .three-button:hover{
@@ -255,6 +290,7 @@
     -o-transform-origin: 100% 100%;
     transform-origin :100% 100%;
 }
+
 
 ::placeholder {
     color: #2e4b33;
