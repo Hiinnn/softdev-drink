@@ -6,13 +6,10 @@ import UserProfile from './pages/User-profile/User-profile';
 import TEST from './test'
 
 function App() {
-  return (
-    <div className="App" >
-      {/* <TEST/> */}
-      {/* <Order /> */}
-      {/* <UserHome/>  */}
-      <UserProfile />
-    </div>
-  );
+	return ( <
+		div className = "App" > { /* <TEST/> */ } <
+		Order / > { /* <UserHome/>  */ } { /*<UserProfile />*/ } <
+		/div>
+	);
 }
 export default App;
