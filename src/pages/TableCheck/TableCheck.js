@@ -11,49 +11,40 @@ class TableCheck extends React.Component {
 		}
 	}
 	render() {
-		return ( <
-			div >
-			<
-			Navbar / >
-			<
-			div className = "tableCheck-container" >
-			<
-			table className = "tbCheck" >
-			<
-			thead >
-			<
-			th className = "thCheck" > Table < /th> <
-			th className = "thCheck" > Menu < /th> <
-			th className = "thCheck" > Total < /th> <
-			th className = "thCheck" > Check < /th> <
-			th className = "thCheck" > Clear < /th> <
-			/thead> 
+		return (
+			<div >
+				<Navbar />
+				<div className="tableCheck-container" >
+					<table className="tbCheck" >
+						<thead >
+							<th className="thCheck" > Table </th>
+							<th className="thCheck" > Menu </th>
+							<th className="thCheck" > Total </th>
+							<th className="thCheck" > Check </th>
+							<th className="thCheck" > Clear </th>
+						</thead>
 
-			{
-				this.data.total.map((total, i) => {
-					return ( <
-						tbody key = { 'total' + i } >
-						<
-						tr className = "data" >
-						<
-						td style = {
-							{ padding: "3%" } } > { i + 1 } < /td> <
-						td > add < /td> <
-						td > { total } < /td> <
-						td > ✔ < /td> <
-						td > ✘ < /td> <
-						/tr> <
-						/tbody>	
-					);
-				})
-			} <
-			/table> <
-			img className = "imageplus"
-			src = { require("../../asset/MainBackground/plus.png") }
-			alt = "" / >
-			<
-			/div> <
-			/div>
+						{
+							this.data.total.map((total, i) => {
+								return (
+									<tbody key={'total' + i} >
+										<tr className="data" >
+											<td style={
+												{ padding: "3%" }} > {i + 1} </td>
+											<td className="add" > add </td>
+											<td> {total} </td> <td className="true" > ✔ </td>
+											<td className="false" > ✘ </td>
+										</tr>
+									</tbody>
+								);
+							})
+						}
+					</table>
+					<img className="imageplus"
+						src={require("../../asset/MainBackground/plus.png")}
+						alt="" />
+				</div>
+			</div>
 		);
 	}
 }
