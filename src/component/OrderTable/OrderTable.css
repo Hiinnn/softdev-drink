@@ -1,4 +1,26 @@
-.tably {
+#order-table tbody {
+    display:block;
+    max-height: 300px;
+    overflow:auto;
+}
+
+#order-table thead, #order-table tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;		/* even columns width , fix width of table too*/
+}
+
+#order-table tbody tr #menu-name {
+	border-width: 1px 0px 1px 1px;
+}
+
+#order-table tbody tr #menu-button {
+	border-width: 1px 1px 1px 0px;
+}
+
+
+
+/* .tably {
 	color: aliceblue;
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
@@ -59,4 +81,4 @@ thead.CART {
 thead.TABLE {
 	background-color: rgb(38, 38, 38);
 	border: 5px solid rgb(38, 38, 38);
-}
+} */
