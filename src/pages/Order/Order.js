@@ -1,6 +1,7 @@
 import React from 'react';
+import Table from 'react-bootstrap/Table';
 import Navbar from '../../component/Nav-bar/Nav-bar';
-import Table from '../../component/Table/Table';
+import OrderTable from '../../component/OrderTable/OrderTable';
 import './Order.css';
 
 class Order extends React.Component {
@@ -9,10 +10,11 @@ class Order extends React.Component {
 		super()
 		this.data = {
 			Food: {
+				type: 'FOOD',
 				name: [
 					'Onion rings',
 					'Papaya salad',
-					'lasagne',
+					'Lasagne',
 					'Porridge with fish',
 					'Tom Yum Kung',
 					'Crisp fried calamari',
@@ -22,13 +24,10 @@ class Order extends React.Component {
 					'Cheesecake',
 					'Sausage and mash',
 					'Crème brûlée'
-				],
-				amount: [
-					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-				],
-				type: 'FOOD'
+				]
 			},
 			Drink: {
+				type: 'DRINK',
 				name: [
 					'Cola',
 					'Lavender Lemonade',
@@ -42,39 +41,60 @@ class Order extends React.Component {
 					'Mango Mule',
 					'Berry Burlesque',
 					'Hot Apple Cider'
-				],
-				amount: [
-					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-				],
-				type: 'DRINK'
+				]
 			}
 		}
-		this.state = [[...this.data.Food.amount], [...this.data.Drink.amount]]
-		console.log(this.state)
+		this.state = {
+			order: null
+		}
 	}
 
-	addOrder = (i) => {
-		this.setState({
-			
-		})
+	cart_addOrder = (name) => {
+		console.log('function', name)
+		
+		if (this.state.order === null) {
+			this.setState({
+				order: [{ 
+					name: name, amount: 0 }]
+			})
+		}
+		// console.log('state', this.state)
+		else {
+			if (this.state.order.indexOf({ name: name, amount: 0 }) !== -1) {
+				// console.log
+				this.setState({
+					order: this.state.order.concat([{ name: name, amount: 0 }])
+				})
+			}
+		}
+	}
+
+	increaseOrder = () => {
+	}
+
+	decreaseOrder = () => {
+
 	}
 
 	render() {
-
 		return (
-
 			<div >
 				<Navbar />
 				<div className="order-container" >
-					<div className="food" > < Table type={this.data.Food.type} data={this.data.Food} addHandle={this.addOrder.bind(this)} /></div >
-					{/* <div className="food" > < Table type='DRINK' data={data.Drink}/></div > */}
-					{/* <div className="food" >
-						<Table type='CART' data={data.Cart} />
-						<br />
-						<Table type='TABLE' tableNum='3' />
-						<br />
-						<button className="button"> Order Now </button>
-					</div> */}
+					{
+						Object.keys(this.data).map((item) => {
+							console.log(this.data[item].type)
+							return (
+								<div key={this.data[item].type + " table"} className="table-conatiner">
+									<OrderTable type={this.data[item].type} name={this.data[item].name} addToCart={this.cart_addOrder.bind(this)} />
+								</div>
+							)
+						})
+					}
+
+					<div className="table-conatiner"> \
+						<CartTable order={this.state.order} />
+					</div>
 				</div>
 			</div>
 		);
@@ -82,6 +102,44 @@ class Order extends React.Component {
 }
 export default Order;
 
+class CartTable extends React.Component {
+	render() {
+		return (
+			<Table striped bordered responsive="sm" variant="dark" style={{ width: 300 }} id="order-cart">
+				<thead>
+					<tr>
+						<th colSpan="4" style={{ textAlign: 'center' }}>Your Order</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{this.props.order && Object.keys(this.props.order).map((name, i) => {
+						console.log(this.props.order[name], i)
+						return (
+							<tr>
+								<td width="60%" style={{ borderRight: '0px' }}>{this.props.order[name].name}</td>
+								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }} width="10%"> - </td>
+								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }} width="10%"> {this.props.order[name].amount} </td>
+								<td style={{ textAlign: "center", borderLeft: '0px' }} width="10%"> + </td>
+							</tr>
+						)
+					})}
+				</tbody>
+			</Table>
+		)
+	}
+}
+
+
+//  <div className="food"> <OrderTable type={this.data.Food.type} data={this.data.Food} amount={this.state.amount} subOrder={this.subOrder.bind(this)} addOrder={this.addOrder.bind(this)} /></div>
+// 					<div className="food"> <OrderTable type='DRINK' data={this.data.Drink} amount={this.state.amount} subOrder={this.subOrder.bind(this)} addOrder={this.addOrder.bind(this)} /></div>
+// 					<div className="food">
+// 						<OrderTable type='CART' data={this.data.Cart} amount={this.state.amount} />
+// 						<br />
+// 						<OrderTable type='TABLE' tableNum='3' />
+// 						<br />
+// 						<button className="order-button"> Order Now </button>
+// 					</div> 
 
 // const data = {
 // 	Food: [
