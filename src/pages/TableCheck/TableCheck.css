@@ -17,6 +17,9 @@
 		background-color: rgba(255, 255, 255, 0.247);
 		border-radius: 4%;
 		padding: 25px;
+		position: relative;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 	
 	.thCheck {
@@ -33,9 +36,40 @@
 	.imageplus {
 		max-width: 17px;
 		height: auto;
-		margin-left: 20px;
 		margin-right: 10px;
+		margin-left: 550px;
 		margin-bottom: 40px;
 		opacity: 0.7;
 		cursor: pointer;
+		position: relative;
+	}
+	
+	.imageplus:hover {
+		opacity: 2;
+	}
+	
+	.true {
+		font-size: larger;
+		cursor: pointer;
+	}
+	
+	.true:hover {
+		color: rgb(81, 206, 81);
+	}
+	
+	.false {
+		font-size: larger;
+		cursor: pointer;
+	}
+	
+	.false:hover {
+		color: rgb(212, 73, 73);
+	}
+	
+	.add {
+		cursor: pointer;
+	}
+	
+	.add:hover {
+		color: rgb(81, 206, 81);
 	}

@@ -38,10 +38,10 @@ class TableCheck extends React.Component {
 						<
 						td style = {
 							{ padding: "3%" } } > { i + 1 } < /td> <
-						td > add < /td> <
+						td className = "add" > add < /td> <
 						td > { total } < /td> <
-						td > ✔ < /td> <
-						td > ✘ < /td> <
+						td className = "true" > ✔ < /td> <
+						td className = "false" > ✘ < /td> <
 						/tr> <
 						/tbody>	
 					);
