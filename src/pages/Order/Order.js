@@ -50,50 +50,70 @@ class Order extends React.Component {
 	}
 
 	cart_addOrder = (name) => {
-		console.log('function', name)
-		
-		if (this.state.order === null) {
+		console.log('cart add', name)
+
+		if (this.state.order === null) {			// Initial cart order
 			this.setState({
-				order: [{ 
-					name: name, amount: 0 }]
+				order: [{
+					name: name, amount: 1
+				}]
 			})
 		}
-		// console.log('state', this.state)
 		else {
-			if (this.state.order.indexOf({ name: name, amount: 0 }) !== -1) {
-				// console.log
+			if (this.state.order.findIndex(i => i.name === name) === -1) {		// Check if order doesn't exist => add order to cart
 				this.setState({
-					order: this.state.order.concat([{ name: name, amount: 0 }])
+					order: this.state.order.concat([{ name: name, amount: 1 }])
 				})
 			}
 		}
 	}
 
-	increaseOrder = () => {
+	cart_deleteOrder = (name) => {
+
 	}
 
-	decreaseOrder = () => {
+	increaseOrder = (name) => {
+		let i = this.state.order.findIndex(i => i.name === name)
+		let newOrder = [...this.state.order]
+		if (newOrder[i].amount > 0) {
+			newOrder[i].amount += 1
+			this.setState({
+				order: newOrder
+			})
+		}
+	}
 
+	decreaseOrder = (name) => {
+		let i = this.state.order.findIndex(i => i.name === name)
+		let newOrder = [...this.state.order]
+		newOrder[i].amount -= 1
+		if (newOrder[i].amount <= 0) {
+			this.cart_deleteOrder(name)
+			return;
+		}
+		this.setState({
+			order: newOrder
+		})
 	}
 
 	render() {
 		return (
 			<div >
 				<Navbar />
-				<div className="order-container" >
+				<div className="order-container">
 					{
 						Object.keys(this.data).map((item) => {
 							console.log(this.data[item].type)
 							return (
-								<div key={this.data[item].type + " table"} className="table-conatiner">
+								<div key={this.data[item].type + " table"} className="table-container">
 									<OrderTable type={this.data[item].type} name={this.data[item].name} addToCart={this.cart_addOrder.bind(this)} />
 								</div>
 							)
 						})
 					}
 
-					<div className="table-conatiner"> \
-						<CartTable order={this.state.order} />
+					<div className="table-container">
+						<CartTable order={this.state.order} increase={this.increaseOrder.bind(this)} decrease={this.decreaseOrder.bind(this)} />
 					</div>
 				</div>
 			</div>
@@ -117,10 +137,23 @@ class CartTable extends React.Component {
 						console.log(this.props.order[name], i)
 						return (
 							<tr>
-								<td width="60%" style={{ borderRight: '0px' }}>{this.props.order[name].name}</td>
-								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }} width="10%"> - </td>
-								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }} width="10%"> {this.props.order[name].amount} </td>
-								<td style={{ textAlign: "center", borderLeft: '0px' }} width="10%"> + </td>
+								<td width="60%" style={{ borderRight: '0px' }}>
+									{this.props.order[name].name}
+								</td>
+								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }}
+									width="10%"
+									onClick={() => { this.props.decrease(this.props.order[name].name) }}>
+									-
+								</td>
+								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }}
+									width="10%">
+									{this.props.order[name].amount}
+								</td>
+								<td style={{ textAlign: "center", borderLeft: '0px' }}
+									width="10%"
+									onClick={() => { this.props.increase(this.props.order[name].name) }}>
+									+
+								</td>
 							</tr>
 						)
 					})}
