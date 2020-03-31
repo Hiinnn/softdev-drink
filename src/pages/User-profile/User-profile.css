@@ -51,46 +51,6 @@
     transform: translateX(-50%);
 }
 
-.cafename-container{
-    display: inline-block;
-    width: 400px;
-    height: 220px;
-    float: right;
-    /*margin-right: 7%;*/
-    padding: 2px 2px;
-    background-color: transparent;
-}
-
-.myfav-container{
-    width:  810px;
-    height: auto;
-    position: relative;
-    display: inline-block;
-    
-    left: 50%;
-    transform: translateX(-50%);
-    /* margin-left: 25%; */
-
-}
-
-.picandcafename-container{
-    width:  735px;
-    height: 220px;
-    position: relative;
-    display: inline-block;
-    
-    left: 50%;
-    transform: translateX(-50%);
-    /* margin-left: 25%; */
-}
-
-.cafename-pic-container{
-    position: relative;
-    left: 21%;
-    float: left;
-    transform: translateX(-50%);
-}
-
         /*--text--*/
 
 .textheader{
@@ -206,91 +166,6 @@
         0 0 10px #fff,
         0 0 20px blanchedalmond;
 }
-
-.three-button {    /*Save My Favourite*/
-	background-color: #38573d;
-	color: white;
-	border: none;
-	padding: 5px 1px;
-	text-align: center;
-	font-size: 18px;
-	cursor: pointer;
-	border-radius: 5px;
-    margin-left: 72%;
-    margin-right: 5%;
-}
-
-.three-button:hover{
-    cursor: pointer;
-
-    color: #fff;
-    box-shadow:
-        
-        0 0 10px #fff,
-        0 0 20px blanchedalmond;
-}
-
-.learn-button {
-    background-color: #2a2e2a;
-    border: 2px solid blanchedalmond;
-	color: white;
-	padding: 5px 1px;
-	text-align: center;
-	font-size: 16px;
-    cursor: pointer;
-    width: 350px;
-}
-
-.learn-button:hover{
-    cursor: pointer;
-
-    color: #fff;
-    box-shadow:
-        
-        0 0 10px #fff,
-        0 0 20px blanchedalmond;
-}
-
-.heart {
-    position: relative;
-    cursor: pointer;
-}
-
-.heart:before, .heart:after {
-    position: absolute;
-    content: "";
-    left: 18px; top: 0;
-    width: 18px;
-    height: 30px;
-    background: rgb(182, 177, 177);
-    -moz-border-radius: 50px 50px 0 0;
-    border-radius: 50px 50px 0 0;
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    -webkit-transform-origin: 0 100%;
-    -moz-transform-origin: 0 100%;
-    -ms-transform-origin: 0 100%;
-    -o-transform-origin: 0 100%;
-    transform-origin: 0 100%;
-}
-
-.heart:after {
-    left: 0;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin :100% 100%;
-}
-
 
 ::placeholder {
     color: #2e4b33;
