@@ -1,9 +1,9 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import Navbar from '../../component/Nav-bar/Nav-bar';
 import OrderTable from '../../component/OrderTable/OrderTable';
 import './Order.css';
-import Button from 'react-bootstrap/Button';
 
 class Order extends React.Component {
 
@@ -123,7 +123,7 @@ class Order extends React.Component {
 							<CartTable order={this.state.order} increase={this.increaseOrder.bind(this)} decrease={this.decreaseOrder.bind(this)} />
 						</div>
 						<br />
-						<Button style={{ display: 'block', float: 'right', width: "300px", fontSize: "20px" }} >eiei</Button>
+						<Button style={{ display: 'block', float: 'right', width: "300px", fontSize: "20px" }} >Order now</Button>
 					</div>
 				</div>
 			</div>

@@ -29,30 +29,3 @@ export default class OrderTable extends Component {
 		)
 	}
 }
-
-{/* <table className="tably" >
-	<thead className={this.props.type} >
-		<tr>
-			<th className="col1" >{this.props.type}</th>
-			{this.props.tableNum && <th className="col2">{this.props.tableNum}</th>}
-			{!this.props.tableNum && <th className="col2">AMOUNT</th>}
-		</tr>
-	</thead>
-
-	{
-		!this.props.tableNum && this.props.data.name.map((data, i) => {
-			return (
-				<tbody key={'menu' + this.props.type + i}>
-					<tr>
-						<td className="or" > {data} </td>
-						<td className="data" key={this.props.amount[i]}>
-							<img onClick={() => this.props.subOrder(i)} className="image" src={require("../../asset/MainBackground/minus.png")} alt="" />
-							{this.props.amount[i]}
-							<img onClick={() => this.props.addOrder(i)} className="image" src={require("../../asset/MainBackground/plus.png")} alt="" />
-						</td>
-					</tr>
-				</tbody>
-			);
-		})
-	}
-</table> */}
