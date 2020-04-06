@@ -1,11 +1,13 @@
 .recommended-container {
-    width: 60%;
-    margin-top: 20px;
-    margin-left: 20%;
-    margin-right: 20%;
+    width: 1200px;
+	z-index: 0;
+    margin-top: 100px;
     margin-bottom: 100px;
 
-    overflow: hidden;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    /* overflow: hidden; */
     box-sizing: border-box;
 }
 
@@ -20,6 +22,7 @@
 
 /* Detail container */
 .rec-cafe-container {
+	/* z-index: 0; */
     height: 550px;      /*! 600px for 1920x1080, 400px for 1336x768, */
     position: relative;
     display: inline-flex;

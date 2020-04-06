@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button, Jumbotron } from 'react-bootstrap';
 import './SignUp-form.css';
 
 export default class SignUp extends React.Component {
@@ -34,15 +34,16 @@ export default class SignUp extends React.Component {
         let condition = <a href="#">condition</a>
 
         return (
-            <div className="sign-up-wrapper">
-                <Form className="sign-up-form-container">
+            <div className="sign-up-form-container">
+                <Form className="sign-up-wrapper">
+                    <h2>Sign up</h2>
+                    <br/>
                     {
                         // Loop create form
                         Object.keys(this.form).map((key) => {
                             let formControl;
 
-                            // check for Gender
-                            if (key === 'Gender') {
+                            if (key === 'Gender') {     // check for Gender
                                 formControl =
                                     <Col>
                                         <Form.Check type='radio' label='Male' inline={true} style={yMiddleStyle} name='genderRadio' />
@@ -51,8 +52,7 @@ export default class SignUp extends React.Component {
                                         <img src={require('../../asset/SignUp/female.svg')} width="15px" height="15px" style={{ marginTop: '10px' }} />
                                     </Col>
                             }
-                            // else -> normal form
-                            else {
+                            else {                      // else -> normal form
                                 formControl =
                                     <Col>
                                         <Form.Control as='input' type={this.form[key][0]} placeholder={this.form[key][1]} pattern={this.form[key][2]} />
