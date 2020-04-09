@@ -8,16 +8,10 @@ import LoginPage from './pages/Login-Signup/Login';
 import SignUp from './pages/Login-Signup/Sign-up';
 
 function App() {
-  return (
-    <div className="App" >
-      {/* <TEST/> */}
-      {/* <Order /> */}
-      {/* <TableCheck/> */}
-      {/* <UserHome/>  */}
-      {/* <UserProfile /> */}
-      <LoginPage/>
-      {/* <SignUp/> */}
-    </div>
-  );
+	return ( <
+		div className = "App" > { /* <TEST/> */ } { /*<Order /> */ } <
+		TableCheck / > { /* <UserHome/>  */ } { /* <UserProfile /> */ } { /*<LoginPage/>*/ } { /* <SignUp/> */ } <
+		/div>
+	);
 }
 export default App;
