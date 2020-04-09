@@ -6,6 +6,7 @@ import UserProfile from './pages/User-profile/User-profile';
 import TableCheck from './pages/TableCheck/TableCheck';
 import LoginPage from './pages/Login-Signup/Login';
 import SignUp from './pages/Login-Signup/Sign-up';
+import UserBill from './pages/User-bill/User-bill'
 
 function App() {
   return (
@@ -13,10 +14,11 @@ function App() {
       {/* <TEST/> */}
       {/* <TableCheck/> */}
       {/* <UserProfile /> */}
-      {/* <Order /> */}
-      <UserHome/> 
+      <Order />
+      {/* <UserHome/>  */}
       {/* <LoginPage/> */}
       {/* <SignUp/> */}
+      {/* <UserBill/> */}
     </div>
   );
 }

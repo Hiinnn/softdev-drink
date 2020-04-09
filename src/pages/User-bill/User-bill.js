@@ -2,6 +2,7 @@ import React from 'react';
 import BillBar from '../../component/Bill-bar/Bill-bar';
 import Table from 'react-bootstrap/Table'; 		//className = "table"
 import './User-bill.css';
+
 class UserBill extends React.Component {
 
     handleClick = () => {
