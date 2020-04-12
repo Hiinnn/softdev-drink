@@ -10,7 +10,7 @@ class CheckTable extends React.Component {
 	}
 	render() {
 		return ( <
-			div className = "tableCheck-container" >
+			div >
 			<
 			table className = "tbCheck" >
 			<

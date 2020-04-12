@@ -1,0 +1,22 @@
+.table-shop-owner {
+	width: 1000px;
+	height: 500px;
+	position: relative;
+	display: inline-block;
+	color: aliceblue;
+	font-family: arial, sans-serif;
+	/*border-collapse: collapse;*/
+	background-color: rgba(255, 255, 255, 0.247);
+	border-radius: 2%;
+	padding-bottom: 25px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	overflow: auto;
+}
+
+.imgshop {
+	width: 600px;
+	height: 200px;
+	border-radius: 10%;
+}
