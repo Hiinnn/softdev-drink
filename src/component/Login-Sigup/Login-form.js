@@ -18,7 +18,7 @@ export default class LoginForm extends React.Component {
                         <Form.Label column sm="3">
                             Username
                         </Form.Label>
-                        <Col column>
+                        <Col>
                             <Form.Control type="text" placeholder="eiei" />
                         </Col>
                     </Form.Group>
@@ -27,13 +27,13 @@ export default class LoginForm extends React.Component {
                         <Form.Label column sm="3">
                             Password
                         </Form.Label>
-                        <Col column>
+                        <Col>
                             <Form.Control type="text" placeholder="eiei" />
                         </Col>
                     </Form.Group>
 
                     <Form.Check type="checkbox" inline={true} label="Remember me" />
-                    <a href="#" style={{ display: 'inline', float: 'right' }}>Forgot your password ?</a>
+                    <a href="eiei" style={{ display: 'inline', float: 'right' }}>Forgot your password ?</a>
                     <br />
                     <br />
 
@@ -44,7 +44,7 @@ export default class LoginForm extends React.Component {
                     <br />
                     <div style={xMid}>
                         <div style={{ display: 'inline' }}>Don't have an account?&nbsp;</div>
-                        <a href="#" style={{ display: 'inline' }}>Create Account</a>
+                        <a href="eiei" style={{ display: 'inline' }}>Create Account</a>
                     </div>
                 </Form>
             </div>

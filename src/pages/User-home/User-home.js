@@ -8,7 +8,7 @@ class UserHome extends React.Component {
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar isLogin="false"/>
                 <Slideshow />
                 <Recommended />
             </div>

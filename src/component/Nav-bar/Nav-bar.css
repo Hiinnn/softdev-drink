@@ -11,10 +11,13 @@
 .nav-bar-button {
 	width: 85px;
 	height: 40%;
+	float: right;
+	margin-left: 5px;
+
 	position: relative;
 	top: 50%;
-	float: right;
 	transform: translateY(-50%);
+
 	font-size: 18px;
 	text-align: center;
 	vertical-align: middle;
@@ -59,18 +62,15 @@
 	user-select: none;				/* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.drink-logo:hover {
-	cursor: pointer;
-}
-
 .search-box-wrapper {
-	width: 15%;
-	height: 40%;
+	width: 250px;
+	height: 24px;
+
 	float: right;
 	position: relative;
-	display: inline-block;
 	top: 50%;
 	transform: translateY(-50%);
+
 	border-radius: 3px 0px 0px 3px;
 	background-color: transparent;
 }
@@ -114,11 +114,28 @@
 	cursor: pointer;
 }
 
+.search-box::placeholder {
+	color: rgb(160, 155, 155);
+}
+
 .search-box:focus {
 	background-color: rgb(85, 85, 85);
-	color: rgb(194, 192, 186);
 }
 
 .search-box:focus::placeholder {
 	color: rgb(194, 192, 186);
+}
+
+.nav-profile-pic {
+	width: 30px;
+	height: 30px;
+	float: right;
+
+	margin-left: 5px;
+	margin-right: 5px;
+
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	border-radius: 100%;
 }
