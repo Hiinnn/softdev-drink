@@ -1,0 +1,43 @@
+.table-shop-owner {
+	width: 1200px;
+	height: 530px;
+	position: relative;
+	display: inline-block;
+	color: aliceblue;
+	font-family: arial, sans-serif;
+	/*border-collapse: collapse;*/
+	background-color: rgba(255, 255, 255, 0.37);
+	border-radius: 1%;
+	padding: 25px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	overflow: auto;
+}
+
+.imgshop {
+	width: 650px;
+	height: 110px;
+	border-radius: 2%;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-left: 50px;
+	margin-right: 50px;
+	cursor: pointer;
+}
+
+.nameAddress {
+	margin-right: 20px;
+	max-width: 400px;
+}
+
+.name {
+	margin-top: 15px;
+	text-shadow: 2px 2px 3px black;
+	cursor: pointer;
+}
+
+.address {
+	margin-bottom: 10px;
+	text-shadow: 2px 2px 3px black;
+}

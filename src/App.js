@@ -8,19 +8,21 @@ import LoginPage from './pages/Login-Signup/Login';
 import SignUp from './pages/Login-Signup/Sign-up';
 import UserBill from './pages/User-bill/User-bill'
 import ResetPassword from './pages/Login-Signup/Reset-password-page';
+import OwnerHome from './pages/Owner-home/Owner-home';
 
 function App() {
   return (
     <div className="App" >
       {/* <TEST/> */}
-      {/* <TableCheck/> */}
+      <TableCheck/>
       {/* <UserProfile /> */}
       {/* <Order /> */}
       {/* <UserHome/>  */}
       {/* <LoginPage/> */}
       {/* <SignUp/> */}
       {/* <UserBill/> */}
-      <ResetPassword/>
+      {/* <ResetPassword/> */}
+      {/* <OwnerHome/> */}
     </div>
   );
 }

@@ -9,7 +9,9 @@ class TableCheck extends React.Component {
 		return (
 			<div >
 				<Navbar />
-				<CheckTable />
+				<div className="tableCheck-container" >
+					<CheckTable />
+				</div>
 			</div>
 		);
 	}
