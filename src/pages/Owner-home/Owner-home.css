@@ -1,8 +1,8 @@
 .ownerhome-container {
 	width: 100%;
 	height: 740px;
-	background-image: url('../../asset/MainBackground/bgor1.jpg');
+	background-image: url('../../asset/MainBackground/Owner-home2.jpeg');
+	background-size: 100% 900px;
 	background-repeat: no-repeat;
-	background-size: cover;
 	padding-top: 90px;
 }

@@ -18,7 +18,11 @@ class ShopOwnerTable extends Component {
 						alt = { shop.name }
 						/></td >
 						<
-						td > { shop.name } < br / > { shop.details } < /td> <
+						td className = "nameAddress" >
+						<
+						h4 className = "name" > { shop.name } < /h4> <
+						p className = "address" > { shop.details } < /p> <
+						/td> <
 						/tr>
 					)
 				})
