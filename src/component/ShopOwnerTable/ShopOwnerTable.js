@@ -6,7 +6,7 @@ class ShopOwnerTable extends Component {
 
 	render() {
 		return ( <
-			div >
+			div className = " ownerhome-container" >
 			<
 			table className = "table-shop-owner" > {
 				shops.map((shop) => {

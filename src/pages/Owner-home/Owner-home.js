@@ -10,11 +10,8 @@ class OwnerHome extends React.Component {
 			<
 			Navbar / >
 			<
-			div className = "ownerhome-container" >
-			<
 			ShopOwnerTable / >
 			<
-			/div> <
 			/div>
 		);
 	}

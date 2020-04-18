@@ -7,11 +7,12 @@ import TableCheck from './pages/TableCheck/TableCheck';
 import LoginPage from './pages/Login-Signup/Login';
 import SignUp from './pages/Login-Signup/Sign-up';
 import OwnerHome from './pages/Owner-home/Owner-home';
+import SearchResult from './pages/Search-result/Search-result';
 
 function App() {
 	return ( <
 		div className = "App" > { /* <TEST/> */ } { /*<Order /> */ } { /*<TableCheck/>*/ } <
-		OwnerHome / > { /* <UserHome/>  */ } { /* <UserProfile /> */ } { /*<LoginPage/>*/ } { /* <SignUp/> */ } <
+		SearchResult / > { /*} <OwnerHome/> */ } { /* <UserHome/>  */ } { /* <UserProfile /> */ } { /*<LoginPage/>*/ } { /* <SignUp/> */ } <
 		/div>
 	);
 }

@@ -11,11 +11,8 @@ class TableCheck extends React.Component {
 			<
 			Navbar / >
 			<
-			div className = "tableCheck-container" >
-			<
 			CheckTable / >
 			<
-			/div> <
 			/div>
 		);
 	}

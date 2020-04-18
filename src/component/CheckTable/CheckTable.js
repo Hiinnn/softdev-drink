@@ -10,7 +10,7 @@ class CheckTable extends React.Component {
 	}
 	render() {
 		return ( <
-			div >
+			div className = "tableCheck-container" >
 			<
 			table className = "tbCheck" >
 			<
@@ -43,7 +43,7 @@ class CheckTable extends React.Component {
 			} <
 			/table> <
 			img className = "imageplus"
-			src = { require("../../asset/MainBackground/plus.png") }
+			src = { require("../../asset/icon/plus.png") }
 			alt = "" / >
 			<
 			/div>
