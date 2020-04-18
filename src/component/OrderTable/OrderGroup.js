@@ -1,69 +1,34 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import Navbar from '../../component/Nav-bar/Nav-bar';
-import OrderTable from '../../component/OrderTable/OrderTable';
-import './Order.css';
+import OrderTable from './OrderTable';
+import OrderData from '../../data/OrderData';
+import './OrderGroup.css';
 
 class Order extends React.Component {
 
 	constructor() {
 		super()
-		this.data = {
-			Food: {
-				type: 'FOOD',
-				name: [
-					'Onion rings',
-					'Papaya salad',
-					'Lasagne',
-					'Porridge with fish',
-					'Tom Yum Kung',
-					'Crisp fried calamari',
-					'Chicken Green Curry',
-					'Jelly noodle soup',
-					'Apple crumble',
-					'Cheesecake',
-					'Sausage and mash',
-					'Crème brûlée'
-				]
-			},
-			Drink: {
-				type: 'DRINK',
-				name: [
-					'Cola',
-					'Lavender Lemonade',
-					'Punch',
-					'Açai Pome Blue Mojito',
-					'Winter Shandy',
-					'Shirley Ginger',
-					'Tahitian Coffee',
-					'Strawberry Field',
-					'Citrus Fizz',
-					'Mango Mule',
-					'Berry Burlesque',
-					'Hot Apple Cider'
-				]
-			}
-		}
+		this.data = OrderData
 		this.state = {
 			order: null
 		}
 	}
 
 	cart_addOrder = (name) => {
-		console.log('cart add', name)
 
 		if (this.state.order === null) {			// Initial cart order
+			console.log('init')
 			this.setState({
 				order: [{
-					name: name, amount: 1
+					name: name[0], amount: 1
 				}]
 			})
 		}
 		else {
-			if (this.state.order.findIndex(i => i.name === name) === -1) {		// Check if order doesn't exist => add order to cart
+			if (this.state.order.findIndex(i => i.name === name[0]) === -1) {		// Check if order doesn't exist => add order to cart
 				this.setState({
-					order: this.state.order.concat([{ name: name, amount: 1 }])
+					order: this.state.order.concat([{ name: name[0], amount: 1 }])
 				})
 			}
 		}
@@ -104,27 +69,23 @@ class Order extends React.Component {
 
 	render() {
 		return (
-			<div >
-				<Navbar />
-				<div className="order-container">
-					<div className="order-table-container">
-						{
-							Object.keys(this.data).map((item) => {
-								console.log(this.data[item].type)
-								return (
-									<div key={this.data[item].type + " table"} className="order-table">
-										<OrderTable type={this.data[item].type} name={this.data[item].name} addToCart={this.cart_addOrder.bind(this)} />
-									</div>
-								)
-							})
-						}
+			<div className="order-container">
+				<div className="order-table-container">
+					{
+						Object.keys(this.data).map((item) => {
+							return (
+								<div key={this.data[item].type + " table"} className="order-table">
+									<OrderTable type={this.data[item].type} name={this.data[item].name} addToCart={this.cart_addOrder.bind(this)} width="400"/>
+								</div>
+							)
+						})
+					}
 
-						<div className="order-table" style={{ marginRight: '0px' }}>
-							<CartTable order={this.state.order} increase={this.increaseOrder.bind(this)} decrease={this.decreaseOrder.bind(this)} />
-						</div>
-						<br />
-						<Button style={{ display: 'block', float: 'right', width: "300px", fontSize: "20px" }} >Order now</Button>
+					<div className="order-table" style={{ marginRight: '0px' }}>
+						<CartTable order={this.state.order} increase={this.increaseOrder.bind(this)} decrease={this.decreaseOrder.bind(this)} />
 					</div>
+					<br />
+					<Button style={{ display: 'block', float: 'right', width: "300px", fontSize: "20px" }} >Order now</Button>
 				</div>
 			</div>
 		);
@@ -143,7 +104,6 @@ class CartTable extends React.Component {
 				</thead>
 				<tbody>
 					{this.props.order && Object.keys(this.props.order).map((name, i) => {
-						console.log(this.props.order[name], i)
 						return (
 							<tr key={'cart' + i}>
 								<td width="60%" style={{ borderRight: '0px' }}>
@@ -154,8 +114,8 @@ class CartTable extends React.Component {
 									onClick={() => { this.props.decrease(this.props.order[name].name) }}>
 									-
 								</td>
-								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }}
-									width="10%">
+								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px'}}
+									width="20%">
 									{this.props.order[name].amount}
 								</td>
 								<td style={{ textAlign: "center", borderLeft: '0px' }}

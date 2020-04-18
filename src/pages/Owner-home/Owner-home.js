@@ -5,17 +5,13 @@ import './Owner-home.css';
 
 class OwnerHome extends React.Component {
 	render() {
-		return ( <
-			div >
-			<
-			Navbar / >
-			<
-			div className = "ownerhome-container" >
-			<
-			ShopOwnerTable / >
-			<
-			/div> <
-			/div>
+		return (
+			<div>
+				<Navbar />
+				<div className="ownerhome-container">
+					<ShopOwnerTable />
+				</div>
+			</div>
 		);
 	}
 }
