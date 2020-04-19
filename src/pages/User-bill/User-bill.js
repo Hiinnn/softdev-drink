@@ -79,9 +79,11 @@ class UserBill extends React.Component {
 
                 <div className="total-table">
                     <Table striped bordered hover responsive variant="dark" id="Total">
-                        <tr>
-                            <td >Total</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td >Total</td>
+                            </tr>
+                        </tbody>
                     </Table>
                 </div>
 

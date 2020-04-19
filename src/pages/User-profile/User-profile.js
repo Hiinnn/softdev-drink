@@ -12,7 +12,7 @@ class UserProfile extends React.Component {
 
         return (
 
-            <body>
+            <div>
 
                 <Probar />
 
@@ -92,8 +92,8 @@ class UserProfile extends React.Component {
                     <Myfav />
 
                 </div>
-                
-            </body >
+
+            </div>
         );
     }
 }

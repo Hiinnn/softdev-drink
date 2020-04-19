@@ -6,11 +6,9 @@ import './Owner-home.css';
 class OwnerHome extends React.Component {
 	render() {
 		return (
-			<div>
+			<div >
 				<Navbar />
-				<div className="ownerhome-container">
-					<ShopOwnerTable />
-				</div>
+				<ShopOwnerTable />
 			</div>
 		);
 	}

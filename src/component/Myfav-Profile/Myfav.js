@@ -27,8 +27,8 @@ export default class Myfav extends Component {
                 {
                     CafeName.map((cafe, i) => {
                         return (
-                            <div>
-                                <div className="picandcafename-container" key={i}>
+                            <div key={i}>
+                                <div className="picandcafename-container">
 
                                     <img className="cafename-pic-container" src={cafe.url} width="320" height="220" align="left"></img>
 

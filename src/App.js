@@ -12,6 +12,7 @@ import UserProfile from './pages/User-profile/User-profile';
 import UserViewBranch from './pages/ํ๊User-view-branch/User-view-branch';
 
 import OwnerHome from './pages/Owner-home/Owner-home';
+import SearchResult from './pages/Search-result/Search-result';
 
 import TableCheck from './pages/TableCheck/TableCheck';
 
@@ -28,6 +29,7 @@ function App() {
       {/* <ResetPassword/> */}
       {/* <OwnerHome/> */}
       <UserViewBranch/>
+      <SearchResult/>
       
     </div>
   );

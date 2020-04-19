@@ -8,6 +8,7 @@ const serviceTime = {
     partySize: 10,
 }
 
+
 export default class BookingTime extends React.Component {
     constructor(props) {
         super(props);
@@ -76,41 +77,43 @@ export default class BookingTime extends React.Component {
     render() {
         let working = (this.serviceTime.day.indexOf(this.Date.getUTCDay()) !== -1)   // check that today is open
 
+        let sm = this.props.sm === true ? '-sm' : '';
+
+        console.log(sm);
+
+
         return (
             <BookingContainer onSubmit={this.submit}>
-                <div className="header"> Booking </div>                 {/** Header */}
-                <div className="party-size-container">                  {/** Select party size */}
-                    <a /*href=""*/ onClick={() => this.changePartySize('-')}><img className="size-button" src="https://image.flaticon.com/icons/svg/271/271220.svg" /></a>
-                    <div className="party-size">{this.state.size} คน</div>
-                    <a /*href=""*/ onClick={() => this.changePartySize('+')}><img className="size-button" src="https://image.flaticon.com/icons/svg/271/271228.svg" /></a>
-                </div>
-                <div className="form-inline">                          {/** Select time */}
-                    {
-                        (working)
-                            ?
-                            <>
-                                <select className="custom-select my-1 mr-sm-2 form-control-lg"
-                                    id="inlineFormCustomSelectPref"
-                                    disabled={!working}>
-                                    <option>Time</option>
-                                    {
-                                        this.timeArray.map((num, i) => {
-                                            return (
-                                                <option value={i} key={i}>{
-                                                    ((Math.round(num * 100) / 100)).toFixed(2)
-                                                }</option>
-                                            )
-                                        })
-                                    }
-                                </select>
-                            </>
-                            :
-                            <>
+                {/** Header */}
+                <div className={"header" + sm}> Booking </div>
 
-                            </>
-                    }
+                {/** Select party size */}
+                <div className={"party-size-container" + sm}>
+                    <a /*href=""*/ className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('-')}><img className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271220.svg" /></a>
+                    <div className={"party-size" + sm}>{this.state.size} คน</div>
+                    <a /*href=""*/ className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('+')}><img className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271228.svg" /></a>
                 </div>
-                <FormColumn>                                            {/** Privact radio check */}
+
+                {/** Select time */}
+                <div className="form-inline" id={'form' + sm}>
+                    <select className="custom-select my-1 mr-sm-2 form-control-lg"
+                        id="inlineFormCustomSelectPref"
+                        disabled={!working}>
+                        <option>Time</option>
+                        {
+                            this.timeArray.map((num, i) => {
+                                return (
+                                    <option value={i} key={i}>{
+                                        ((Math.round(num * 100) / 100)).toFixed(2)
+                                    }</option>
+                                )
+                            })
+                        }
+                    </select>
+                </div>
+
+                {/** Privacy radio check */}
+                <FormColumn>
                     <div className="form-check" id="check">
                         <input className="form-check-input" type="radio" name="partyType" id="private" value="option1" />
                         <label className="form-check-label" htmlFor="exampleRadios2">
@@ -124,8 +127,12 @@ export default class BookingTime extends React.Component {
                             </label>
                     </div>
                 </FormColumn>
-                <input className="party-name" type="text" name="partyName" placeholder="Party name" value={this.state.partyName || ""} onChange={this.handlePartyName} />         {/** Party name*/}
-                <div className="drink-bt" >Drink!</div>
+
+                {/** Party name*/}
+                <input className={"party-name" + sm} type="text" name="partyName" placeholder="Party name" value={this.state.partyName || ""} onChange={this.handlePartyName} />
+
+                {/** Drink button*/}
+                <div className={"drink-bt" + sm} >Drink!</div>
             </BookingContainer>
         )
     }
@@ -153,8 +160,9 @@ const BookingContainer = styled.form`
                 padding: 15px;
                 padding-left: 20px;
                 padding-bottom: 25px;
-                border-bottom: solid red 2px;
+                border-bottom: solid #7a7a7a 1px;
 
+                /*********************** Normal ***********************/
                 .header {
                     flex: 1 100%;
                     font-size: 20px;
@@ -183,10 +191,25 @@ const BookingContainer = styled.form`
                     background-color: white;
                 }
 
+                .size-button-wrapper {
+                    width: 30px;
+                    height: 30px;
+
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    border-radius: 100%;
+                    background-color: white;
+
+                }
+
                 .size-button {
                     width: 20px;
                     height: 20px;
                     display: flex;
+                    cursor: pointer;
                 }
 
                 .party-name {
@@ -197,11 +220,11 @@ const BookingContainer = styled.form`
 
                     display: flex;
 
-                    border: 1px gray;
+                    border: 1px #7a7a7a;
                     background-color: white;   
                 }
 
-                .party-name::placeholder {
+                .party-name::placeholder {  
                     color: gray;
                 }
 
@@ -233,5 +256,101 @@ const BookingContainer = styled.form`
                 
                 .form-inline {
                     margin-right: 30px;
+                }
+                
+                /********************* small ***********************/
+                .header-sm {
+                    flex: 1 100%;
+                    font-size: 18px;
+                    text-align: left;
+                }
+
+                .party-size-container-sm {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .party-size-sm {
+                    display: flex;
+                    width: 60px;
+                    height: 35px;
+                    margin-left: 5px;
+                    margin-right: 5px;
+                    
+                    text-align: center;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    color: black;
+                    border-radius: 5px 5px 5px 5px;
+                    background-color: white;
+                }
+
+                .size-button-wrapper-sm {
+                    width: 15px;
+                    height: 15px;
+
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    border-radius: 100%;
+                    background-color: white;
+
+                }
+
+                .size-button-sm {
+                    width: 10px;
+                    height: 10px;
+                    display: flex;
+                    cursor: pointer;
+                }
+
+                .party-name-sm {
+                    width: 200px;
+                    height: 30px;
+                    margin-top: 5px;
+                    padding-left: 10px;
+
+                    display: flex;
+
+                    border: 1px #7a7a7a;
+                    background-color: white;   
+                }
+
+                .party-name-sm::placeholder {
+                    color: gray;
+                }
+
+                .drink-bt-sm {
+                    width: 60px;
+                    height: 30px;
+                    margin-top: 5px;
+                    margin-left: 25px;
+                    
+                    display:flex;
+                    align-items: center;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    color: white;
+                    border-radius: 5px;
+                    border: gold solid 1px;
+                    background-color: black;
+                }
+
+                .drink-bt-sm:hover {
+                    cursor: pointer;
+                    box-shadow: 
+                        0 0 5px wheat,
+                        0 0 10px wheat,
+                        0 0 20px wheat,
+                        0 0 21px wheat;
+                }
+                
+                #form-sm {
+                    margin-left: 15px;
+                    margin-right: 15px;
                 }
             `

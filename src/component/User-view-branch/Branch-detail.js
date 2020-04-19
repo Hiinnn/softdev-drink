@@ -101,15 +101,18 @@ export default class BranchDetail extends React.Component {
                 <BranchDetailContainer>
                     {/* Left Column */}
                     <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginRight: '1%' }}>
+
                         {/* Branch name */}
                         <div className="name-wrapper" disabled={this.state.editable}>
                             <div className="branch-name">{this.shopData.name}</div>
                             <a className="fav-wrapper" href="" ><img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="fav-icon" width="30px" height="30px" /></a>
                         </div>
+                        
                         {/* Branch description */}
                         <div className="description" disabled={this.state.editable}>
                             {this.shopData.details.description}
                         </div>
+                        
                         {/* Branch detail (location, time, tel ...) */}
                         <div className="details" disabled={this.state.editable}>
                             {this.shopData.details.location}
@@ -134,6 +137,7 @@ export default class BranchDetail extends React.Component {
 
                     {/* Right Column */}
                     <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginLeft: '1%' }}>
+
                         {/* Slidshow pic (subPic) */}
                         <Carousel>
                             {this.shopData.details.photos.subPic.map((url, i) => {
@@ -159,9 +163,12 @@ export default class BranchDetail extends React.Component {
                             })}
                         </div>
 
+                        {/** Booking time tap */}
                         <BookingTime />
+
+                        {/** Current Party in cafe */}
                         {Object.keys(partyData).map((i) => {
-                            return (<PartyList partyData={partyData[i]} key={i}/>)
+                            return (<PartyList partyData={partyData[i]} key={i} />)
                         })}
                     </div>
                 </BranchDetailContainer>
@@ -196,10 +203,10 @@ const BranchDetailContainer = styled.div`
                     font-size: 30px;
                     padding-left: 20px;
                     
-                    /* border: grey solid; */
-                    border: red solid;
-                    border-width: 0px 0px 2px 0px;
-                    background-color: rgba(255,255,255,0.5);
+                    color: white;
+                    border: #7a7a7a solid;
+                    border-width: 0px 0px 1px 0px;
+                    /* background-color: rgba(255,255,255,0.5); */
                 }
 
                 .branch-name {
@@ -231,7 +238,9 @@ const BranchDetailContainer = styled.div`
 
                 .description {
                     width: 100%;
-                    height: 300px;
+                    overflow: auto;
+                    min-height: 150px;
+                    max-height: 300px;
                     
                     display: flex;
 
@@ -240,9 +249,9 @@ const BranchDetailContainer = styled.div`
                     padding-left: 20px;
                     padding-right: 10px;
                     
-                    border: red solid;
-                    border-width: 0px 0px 2px 0px;
-                    background-color: rgba(255,255,255,0.5);
+                    color: white;
+                    border: #7a7a7a solid;
+                    border-width: 0px 0px 1px 0px;
                 }
 
                 .details {
@@ -257,9 +266,10 @@ const BranchDetailContainer = styled.div`
                     padding-left: 20px;
                     margin-bottom: 20px;
                     
-                    border: red solid;
-                    border-width: 0px 0px 2px 0px;
-                    background-color: rgba(255,255,255,0.5);
+                    color: white;
+                    border: #7a7a7a solid;
+                    border-width: 0px 0px 1px 0px;
+                    /* background-color: rgba(255,255,255,0.5); */
                 }
 
                 .sub-pic {
@@ -279,8 +289,8 @@ const BranchDetailContainer = styled.div`
                     flex-wrap: wrap;
                     flex-direction: row;
 
-                    border: red solid;
-                    border-width: 0px 0px 2px 0px;
+                    border: #7a7a7a solid;
+                    border-width: 0px 0px 1px 0px;
                 }
 
                 .mini-pic {

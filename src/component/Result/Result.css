@@ -1,0 +1,73 @@
+.main-container {
+	width: 100%;
+	background-image: url('../../asset/MainBackground/bgResult.jpeg');
+	background-size: 100% 50%;
+	background-repeat: repeat;
+	padding-top: 40px;
+}
+
+.result-container {
+	width: 825px;
+	height: auto;
+	position: relative;
+	display: inline-block;
+	color: aliceblue;
+	text-align: center;
+	font-family: arial, sans-serif;
+	padding-bottom: 60px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.hrcss {
+	color: #434343;
+	border-top: 1.5px solid #434343;
+}
+
+.imgShop {
+	width: 450px;
+	height: 225px;
+	border: 1px solid #7a7a7a;
+	margin-top: 6px;
+	margin-bottom: 10px;
+}
+
+.left-container {
+	/*background-color: rgba(137, 43, 226, 0.205);*/
+	height: auto;
+	width: auto;
+	float: left;
+	padding-top: 25px;
+}
+
+.right-container {
+	/*background-color: rgba(0, 255, 255, 0.226);*/
+	height: auto;
+	width: 360px;
+	float: left;
+	padding-top: 25px;
+	margin-left: 15px;
+}
+
+.right-container>div,
+.left-container>div {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	/*background-color: DodgerBlue;*/
+	text-align: left;
+}
+
+.learnBox {
+	align-items: center;
+	border: 1px solid #9b8a75;
+	color: #9b8a75;
+	background-color: #262626;
+	font-size: 14px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.detailShop {
+	font-size: 12px;
+}

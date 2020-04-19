@@ -4,20 +4,19 @@ import styled from 'styled-components';
 export default class PartyList extends React.Component {
     constructor(props) {
         super(props);
-
     }
 
     render() {
-        console.log(this.props.partyData)
+        let sm = this.props.sm === true ? '-sm' : '';
         return (
             <Party>
-                <div className="party-name">{this.props.partyData.name}</div>
-                <div className="profile-pic-container">
+                <div className={"party-name" + sm}>{this.props.partyData.name}</div>
+                <div className={"profile-pic-container" + sm}>
                     {Object.keys(this.props.partyData.member).map((i) => {
-                        return (<img className="party-profile-pic" key={i} src={this.props.partyData.member[i].profile}/>)
+                        return (<img className={"party-profile-pic" + sm} key={i} src={this.props.partyData.member[i].profile} />)
                     })}
                 </div>
-                <div className="join-bt">Join</div>
+                <div className={"join-bt" + sm}>Join</div>
             </Party>
         )
     }
@@ -29,11 +28,13 @@ const Party = styled.div`
 
                     display: flex;
                     flex-wrap: wrap;
+                    flex-direction: row;
 
-                    border: solid red;
+                    border: solid #7a7a7a;
                     padding: 10px 15px 25px 10px;
-                    border-width: 0px 0px 2px 0px;
-
+                    border-width: 0px 0px 1px 0px;
+                    
+                    /********************** Normal ***********************/
                     .party-name {
                         height: 40px;
 
@@ -93,6 +94,73 @@ const Party = styled.div`
                     }
 
                     .join-bt:hover {
+                        cursor: pointer;
+                        box-shadow: 
+                            0 0 5px wheat,
+                            0 0 10px wheat,
+                            0 0 20px wheat,
+                            0 0 21px wheat;
+                    }
+
+                    /********************** Small ***********************/
+                    .party-name-sm {
+                        height: 40px;
+
+                        flex: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+
+                        color: white;
+                        font-size: 18px;
+                        padding-left: 10px;
+                    }
+
+                    .profile-pic-container-sm {
+                        width: 210px;
+                        min-height: 40px;
+                        max-height: 80px;
+                        overflow: auto;
+
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: left;
+                    }
+
+                    .profile-pic-container-sm::-webkit-scrollbar {
+                        width: 10px;
+                        background-color: white;
+                    }
+
+                    .profile-pic-container-sm::-webkit-scrollbar-thumb {
+                        width: 10px;
+                        background-color: red;
+                    }
+
+                    .party-profile-pic-sm {
+                        width: 30px;
+                        height: 30px;
+                        margin: 5px;
+                        border-radius: 100%;
+                    }
+
+                    .join-bt-sm {
+                        width: 60px;
+                        height: 30px;
+                        margin-left: 25px;
+                        
+                        display: flex;
+                        align-items: center;
+                        flex-direction: column;
+                        justify-content: center;
+
+                        color: white;
+                        border-radius: 5px;
+                        border: gold solid 1px;
+                        background-color: black;
+                    }
+
+                    .join-bt-sm:hover {
                         cursor: pointer;
                         box-shadow: 
                             0 0 5px wheat,
