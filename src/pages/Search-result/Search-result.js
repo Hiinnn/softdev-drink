@@ -4,15 +4,13 @@ import Result from '../../component/Result/Result';
 import './Search-result.css';
 
 class SearchResult extends React.Component {
+
 	render() {
-		return ( <
-			div >
-			<
-			Navbar / >
-			<
-			Result / >
-			<
-			/div>
+		return (
+			<div >
+				<Navbar />
+				<Result />
+			</div>
 		);
 	}
 }

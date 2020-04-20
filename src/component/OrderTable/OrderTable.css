@@ -1,7 +1,24 @@
 #order-table tbody {
     display:block;
+    /* max-height: none; */
     max-height: 300px;
     overflow:auto;
+}
+
+#order-table tbody::-webkit-scrollbar {
+    width: 10px;
+}
+
+#order-table tbody::-webkit-scrollbar {
+	width: 10px;
+}
+
+#order-table tbody::-webkit-scrollbar-thumb {
+	background-color: lightslategray;
+}
+
+#order-table tbody::-webkit-scrollbar-track {
+	background-color: dimgray;
 }
 
 #order-table thead, #order-table tbody tr {
@@ -11,74 +28,19 @@
 }
 
 #order-table tbody tr #menu-name {
+    font-weight: bold;
+    font-size: 18px;
 	border-width: 1px 0px 1px 1px;
 }
 
 #order-table tbody tr #menu-button {
+    margin: 0px;
+    vertical-align: middle;
 	border-width: 1px 1px 1px 0px;
 }
 
-
-
-/* .tably {
-	color: aliceblue;
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	background-color: rgba(0, 0, 0, 0.438);
+#menu-price {
+    font-weight: lighter;
+    font-size: 16px;
+	border-width: 1px 0px 1px 0px;
 }
-
-th.col1 {
-	width: 60%;
-	padding-bottom: 6px;
-	padding-top: 6px;
-	text-align: center;
-}
-
-.image {
-	max-width: 17px;
-	height: auto;
-	margin-left: 10px;
-	margin-right: 10px;
-	opacity: 0.4;
-	cursor: pointer;
-}
-
-.image:hover {
-	opacity: 10;
-}
-
-th.col2 {
-	width: 130px;
-	text-align: center;
-}
-
-.or {
-	text-align: left;
-	padding: 5px;
-	border: 1px solid #dddddd;
-}
-
-td.data {
-	text-align: center;
-	border: 1px solid #dddddd;
-}
-
-thead.FOOD {
-	background-color: #38573d;
-	border: 5px solid #38573d;
-}
-
-thead.DRINK {
-	background-color: #8c6e4b;
-	border: 5px solid #8c6e4b;
-}
-
-thead.CART {
-	background-color: rgb(38, 38, 38);
-	border: 5px solid rgb(38, 38, 38);
-}
-
-thead.TABLE {
-	background-color: rgb(38, 38, 38);
-	border: 5px solid rgb(38, 38, 38);
-} */

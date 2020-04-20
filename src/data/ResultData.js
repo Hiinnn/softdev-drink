@@ -6,7 +6,8 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	},
 	{
 		name: 'Starbucks',
@@ -16,7 +17,8 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	},
 	{
 		name: 'Amazon',
@@ -26,7 +28,8 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	},
 	{
 		name: 'RPG',
@@ -36,7 +39,8 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	},
 	{
 		name: 'Society',
@@ -46,7 +50,8 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	},
 	{
 		name: 'Paradox',
@@ -56,7 +61,8 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	},
 	{
 		name: 'Chill',
@@ -66,7 +72,8 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	},
 	{
 		name: 'Rimsaun',
@@ -76,6 +83,7 @@ export const Results = [{
 		open_close: 'ทุกวัน 16:00-23:00',
 		location: '89/70 ถนนพญาไท เขตราชเทวี กรุงเทพมหานคร 10400',
 		type: 'bar',
-		contact: '0856656514'
+		contact: '0856656514',
+		like: true
 	}
 ]

@@ -6,14 +6,11 @@ import CheckTable from '../../component/CheckTable/CheckTable';
 class TableCheck extends React.Component {
 
 	render() {
-		return ( <
-			div >
-			<
-			Navbar / >
-			<
-			CheckTable / >
-			<
-			/div>
+		return (
+			<div >
+				<Navbar />
+				<CheckTable />
+			</div>
 		);
 	}
 }

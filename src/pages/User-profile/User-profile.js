@@ -12,7 +12,7 @@ class UserProfile extends React.Component {
 
         return (
 
-            <body>
+            <div>
 
                 <Probar />
 
@@ -22,7 +22,7 @@ class UserProfile extends React.Component {
                     <div className="picandpro-container">
 
                         <div className="profile-pic-container">
-                            <img className="profile-pic" src={require('../../asset/Profile/UserIcon.png')} width="200" height="200" align="left"></img>
+                            <img className="profile-pic" src={require('../../asset/Profile/UserIcon.png')} width="200" height="200" align="left" alt=""></img>
                         </div>
 
                         <div className="profile-container">
@@ -92,8 +92,8 @@ class UserProfile extends React.Component {
                     <Myfav />
 
                 </div>
-                
-            </body >
+
+            </div>
         );
     }
 }

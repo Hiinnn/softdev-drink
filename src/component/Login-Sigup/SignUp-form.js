@@ -30,29 +30,29 @@ export default class SignUp extends React.Component {
             marginRight: '5px'
         }
 
-        let term = <a href="#">term</a>
-        let condition = <a href="#">condition</a>
+        let term = <a href="eiei">term</a>
+        let condition = <a href="eiei">condition</a>
 
         return (
-            <div className="sign-up-wrapper">
-                <Form className="sign-up-form-container">
+            <div className="sign-up-form-container">
+                <Form className="sign-up-wrapper">
+                    <h2>Sign up</h2>
+                    <br/>
                     {
                         // Loop create form
-                        Object.keys(this.form).map((key) => {
+                        Object.keys(this.form).map((key,i) => {
                             let formControl;
 
-                            // check for Gender
-                            if (key === 'Gender') {
-                                formControl =
+                            if (key === 'Gender') {     // check for Gender
+                                formControl = 
                                     <Col>
-                                        <Form.Check type='radio' label='Male' inline={true} style={yMiddleStyle} name='genderRadio' />
-                                        <img src={require('../../asset/SignUp/male.svg')} width="15px" height="15px" style={{ marginTop: '10px', marginRight: '10px' }} />
-                                        <Form.Check type='radio' label='Female' inline={true} style={yMiddleStyle} name='genderRadio' />
-                                        <img src={require('../../asset/SignUp/female.svg')} width="15px" height="15px" style={{ marginTop: '10px' }} />
+                                        <Form.Check type='radio' label='Male' inline={true} style={yMiddleStyle} name='genderRadio' id="radio-male"/>
+                                        <img src={require('../../asset/SignUp/male.svg')} width="15px" height="15px" style={{ marginTop: '10px', marginRight: '10px' }} alt=""/>
+                                        <Form.Check type='radio' label='Female' inline={true} style={yMiddleStyle} name='genderRadio'id="radio-female"/>
+                                        <img src={require('../../asset/SignUp/female.svg')} width="15px" height="15px" style={{ marginTop: '10px' }} alt="" />
                                     </Col>
                             }
-                            // else -> normal form
-                            else {
+                            else {                      // else -> normal form
                                 formControl =
                                     <Col>
                                         <Form.Control as='input' type={this.form[key][0]} placeholder={this.form[key][1]} pattern={this.form[key][2]} />
@@ -60,7 +60,7 @@ export default class SignUp extends React.Component {
                             }
 
                             return (
-                                <Form.Group as={Row} controlId={"form" + key} className="test">
+                                <Form.Group as={Row} key={"form" + key} controlId={"form" + key} className="test">
                                     <Form.Label column sm={3}>{key}</Form.Label>
                                     {formControl}
                                 </Form.Group>

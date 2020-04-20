@@ -6,13 +6,23 @@ class Result extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { toggle: true };
+		this.state = this.createLike();
 	}
 
-	likeClick = () => {
-		this.setState(state => ({
-			toggle: !state.toggle
-		}));
+	createLike = () => {
+		let temp = []
+		for (let i = 0; i < Results.length; i++) {
+			temp.push(Results[i].like)
+		}
+		return temp;
+	}
+
+	likeClick = (i) => {
+		const ar = this.state;
+		ar[i] = !ar[i]
+		this.setState({
+			this: ar
+		})
 	}
 
 	render() {
@@ -23,42 +33,44 @@ class Result extends Component {
 			<
 			h5 style = {
 				{ marginBottom: "10px" } } > Result < /h5> {
-				Results.map((result) => {
+				Object.keys(Results).map((i) => {
+					console.log(this.state[i])
 					return ( <
 						div >
 						<
 						div className = "left-container" >
 						<
 						img className = "imgShop"
-						src = { result.url }
-						alt = { result.name }
+						src = { Results[i].url }
+						alt = { Results[i].name }
 						align = "left" / >
 						<
 						br / >
 						<
 						div style = {
-							{ clear: "both", width: "450px", height: "110px", fontSize: "12px" } } > { result.about } < /div> <
+							{ clear: "both", width: "450px", height: "110px", fontSize: "12px" } } > { Results[i].about } < /div> <
 						div className = "learnBox" > LEARN MORE < /div> <
-						div className = "detailShop" > open - close: { result.open_close } < /div> <
-						div className = "detailShop" > location: { result.location } < /div> <
-						div className = "detailShop" > type: { result.type } < /div> <
-						div className = "detailShop" > contact: { result.contact } < /div> <
+						div className = "detailShop" > open - close: { Results[i].open_close } < /div> <
+						div className = "detailShop" > location: { Results[i].location } < /div> <
+						div className = "detailShop" > type: { Results[i].type } < /div> <
+						div className = "detailShop" > contact: { Results[i].contact } < /div> <
 						/div>
 
 						<
 						div className = "right-container" >
 						<
 						div style = {
-							{ width: "315px", float: "left", fontSize: "18px", marginTop: "5px" } } > { result.name } <
+							{ width: "315px", float: "left", fontSize: "18px", marginTop: "5px" } } > { Results[i].name } <
 						/div> <
 						div style = {
 							{ height: "50px" } } >
 						<
-						img src = { this.state.toggle ? require("../../asset/icon/heart.png") : require("../../asset/icon/heart2.png") }
-						onClick = { this.likeClick }
+						img src = { this.state[i] ? require("../../asset/icon/heart.png") : require("../../asset/icon/heart2.png") }
+						onClick = {
+							() => this.likeClick(i) }
 						alt = "heart"
 						style = {
-							{ width: "35px", height: "35px", float: "left", marginTop: "5px" } }
+							{ width: "35px", height: "35px", float: "left", marginTop: "5px", cursor: "pointer" } }
 						/> <
 						/div> <
 						hr style = {

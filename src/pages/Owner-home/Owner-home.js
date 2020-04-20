@@ -5,14 +5,11 @@ import './Owner-home.css';
 
 class OwnerHome extends React.Component {
 	render() {
-		return ( <
-			div >
-			<
-			Navbar / >
-			<
-			ShopOwnerTable / >
-			<
-			/div>
+		return (
+			<div >
+				<Navbar />
+				<ShopOwnerTable />
+			</div>
 		);
 	}
 }
