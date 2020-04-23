@@ -5,28 +5,24 @@
     background-image: url('../../asset/MainBackground/bgor1.jpg');
 }
 
-#Menu td{
-    font-size: 18px ;
-}
-
-#Menu td, #Menu th {
+#Menu td {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#Total td{
-    border: 1px solid #ddd;
-    padding: 10px;
+#Menu th {
+    border: 2px solid #ddd;
+    padding: 8px;
 }
 
-/*#Menu tr:nth-child(even){background-color: #f2f2f2;}
-
-#Menu tr:nth-child(odd){background-color: #38573d;}*/
-
-/*#Menu tr:hover {background-color: #ddd;}*/
+#Menu td{
+    font-size: 18px;
+    /*width: 300px;*/
+    /*width: 100%;*/
+    width: 500px;
+}
 
 #Menu th {
-    
     vertical-align: bottom;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -34,6 +30,31 @@
     color: white;
     font-size: 20px ;
     text-align: center;
+}
+
+#Menu tbody{
+    max-height: 400px;
+    /*overflow-y:auto;*/
+    display: block;
+    overflow-y: scroll;
+    width: 102.1%;
+}
+
+#Menu thead{
+    width: 100%;
+}
+
+#Menu thead, Menu tbody {
+    display:table;
+    /*width: 100%;*/
+    /*table-layout:fixed;*/  	/* even columns width , fix width of table too*/
+    
+}
+
+
+#Total td{
+    border: 1px solid #ddd;
+    padding: 10px;
 }
 
 /*button*/
@@ -65,12 +86,19 @@
     height: auto;
     left: 50%;
     transform: translateX(-50%);
-	position: relative;
-	/*display: inline-block;*/
+    position: relative;
+    
+    /*max-height: 300px;
+    overflow:auto;
+    display:block;*/
+
+    /*display: inline-block;*/
+    
+    
 }
 
 .total-table {
-    width: 12%;
+    width: 13%;
     height: auto;
     left: 77.2%;
     transform: translateX(-50%);
@@ -78,3 +106,9 @@
     text-align: center;
 	/*display: inline-block;*/
 }
+
+/*#Menu tr:nth-child(even){background-color: #f2f2f2;}
+
+#Menu tr:nth-child(odd){background-color: #38573d;}*/
+
+/*#Menu tr:hover {background-color: #ddd;}*/
