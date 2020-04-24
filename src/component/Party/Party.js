@@ -1,28 +1,51 @@
 import React from 'react';
 import styled from 'styled-components';
+import Invite from '../Invite/Invite';
 
 export default class PartyList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+		constructor(props) {
+			super(props);
+		}
 
-    render() {
-        let sm = this.props.sm === true ? '-sm' : '';
-        return (
-            <Party>
-                <div className={"party-name" + sm}>{this.props.partyData.name}</div>
-                <div className={"profile-pic-container" + sm}>
-                    {Object.keys(this.props.partyData.member).map((i) => {
-                        return (<img className={"party-profile-pic" + sm} key={i} src={this.props.partyData.member[i].profile} />)
-                    })}
-                </div>
-                <div className={"join-bt" + sm}>Join</div>
-            </Party>
-        )
-    }
-}
+		render() {
+				let sm = this.props.sm === true ? '-sm' : '';
+				return ( <
+						Party > { this.props.partyUser ? < div className = { sm }
+							style = {
+								{ float: 'left', width: '360px', fontSize: '20px', textAlign: 'left' } } > { this.props.partyData.name } < /div> : <div className = { "party-name" + sm }> { this.props.partyData.name } </div > } {
+							this.props.partyUser && this.props.host && < div style = {
+								{ clear: 'right', fontSize: '14px' } } > you 're the host </div> }
 
-const Party = styled.div`
+
+							<
+							div className = { "profile-pic-container" + sm } > {
+									Object.keys(this.props.partyData.member).map((i) => {
+											return ( < div style = {
+													{ position: 'relative' } } >
+												<
+												img className = { "party-profile-pic" + sm }
+												key = { i }
+												src = { this.props.partyData.member[i].profile }
+												/> {
+													i > 0 && this.props.host && < div className = 'cross-delete' > X < /div>}
+
+													<
+													/div>)
+												})
+										} <
+										/div> 
+
+
+										{
+											this.props.host && this.props.partyUser && < div className = { "join-bt" + sm } > CLOSE < /div> } {
+												!this.props.host && this.props.partyUser && < div className = { "join-bt" + sm } > QUIT < /div> } {
+													!this.props.partyUser && < div className = { "join-bt" + sm } > Join < /div> } <
+														/Party>
+												);
+											}
+										}
+
+										const Party = styled.div `
                     width: 100%;
                     height: auto;
 
@@ -167,5 +190,18 @@ const Party = styled.div`
                             0 0 10px wheat,
                             0 0 20px wheat,
                             0 0 21px wheat;
+                    }
+
+                    .cross-delete{
+                        position:absolute;
+                        display:block;	
+                        bottom:0px;
+                        right:10px;
+                        z-index:999;
+                        cursor : pointer;	
+                    }
+
+                    .cross-delete:hover{
+                        text-shadow: white 0em 0em 0.5em,white 0em 0em 0.5em;
                     }
                 `

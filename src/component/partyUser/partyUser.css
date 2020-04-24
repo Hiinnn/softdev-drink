@@ -1,0 +1,18 @@
+.partyUser-container {
+	width: 550px;
+	height: auto;
+	display: inline-block;
+	color: aliceblue;
+	text-align: left;
+	font-family: arial, sans-serif;
+	padding-bottom: 60px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-top: 50px;
+}
+
+.textCurrent {
+	margin-left: 40px;
+	margin-bottom: 10px;
+}

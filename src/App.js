@@ -15,23 +15,15 @@ import OwnerHome from './pages/Owner-home/Owner-home';
 import SearchResult from './pages/Search-result/Search-result';
 
 import TableCheck from './pages/TableCheck/TableCheck';
+import UserParty from './pages/User-party/User-party';
 
 function App() {
-  return (
-    <div className="App" >
-      {/* <TableCheck/> */}
-      {/* <UserProfile /> */}
-      {/* <UserOrder /> */}
-      {/* <UserHome/>  */}
-      {/* <LoginPage/> */}
-      {/* <SignUp/> */}
-      {/* <UserBill/> */}
-      {/* <ResetPassword/> */}
-      {/* <OwnerHome/> */}
-      <UserViewBranch/>
-      <SearchResult/>
-      
-    </div>
-  );
+	return ( <
+		div className = "App" > { /* <TableCheck/> */ } { /* <UserProfile /> */ } { /* <UserOrder /> */ } { /* <UserHome/>  */ } { /* <LoginPage/> */ } { /* <SignUp/> */ } { /* <UserBill/> */ } { /* <ResetPassword/> */ } { /* <OwnerHome/> */ } { /*<UserViewBranch/>*/ } { /*<SearchResult/>*/ } <
+		UserParty / >
+
+		<
+		/div>
+	);
 }
 export default App;
