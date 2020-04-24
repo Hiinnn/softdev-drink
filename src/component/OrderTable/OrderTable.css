@@ -27,20 +27,34 @@
     table-layout:fixed;		/* even columns width , fix width of table too*/
 }
 
-#order-table tbody tr #menu-name {
-    font-weight: bold;
+.menu-name {
     font-size: 18px;
-	border-width: 1px 0px 1px 1px;
+    font-weight: bold;
+    border-width: 1px 0px 1px 1px;
+    transition:  cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s;
 }
 
-#order-table tbody tr #menu-button {
+.menu-name:disabled {
+    border: 0px;
+    color: white;
+    background-color: transparent;
+}
+
+#order-table tbody tr .menu-button {
     margin: 0px;
     vertical-align: middle;
 	border-width: 1px 1px 1px 0px;
 }
 
-#menu-price {
-    font-weight: lighter;
+.menu-price {
     font-size: 16px;
+    font-weight: lighter;
 	border-width: 1px 0px 1px 0px;
+    transition:  cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s;
+}
+
+.menu-price:disabled {
+    border: 0px;
+    color: white;
+    background-color: transparent;
 }

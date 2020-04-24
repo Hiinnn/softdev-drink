@@ -12,7 +12,6 @@ export default class ViewBranch extends React.Component {
     render(){
         return(
             <>
-                <div className="view-branch-big-pic"/>
                 <BranchDetail/>
             </>
         )

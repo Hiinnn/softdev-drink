@@ -33,9 +33,10 @@ function App() {
         // * <LoginPage />
         // * <UserViewBranch />
       }
-      <LoginPage />
-      <OwnerHome />
-      <UserOrder />
+      {/* <SignUp/> */}
+      {/* <LoginPage /> */}
+      {/* <OwnerHome /> */}
+      {/* <UserOrder /> */}
       <UserViewBranch />
     </div>
   );

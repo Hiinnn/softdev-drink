@@ -2,38 +2,56 @@ import React from 'react';
 import styled from 'styled-components';
 import { Carousel, Form } from 'react-bootstrap';
 
-import data from '../../data/OrderData';
+import { orderData } from '../../data/NEW/Order';
 
 import PartyList from '../Party/Party';
 import BookingTime from '../Party/BookingTime';
 import OrderTable from '../OrderTable/OrderTable';
 
-const userData = {
-
-}
-
 const shopData = {
-    name: 'Rimsaun',
-    description: 'Starbuck ที่พาซิโอ อ่อนนุชลาดกระบัง จอดรถสะดวกสบาย ที่นั่งสองชั้น บรรยากาศชิวๆยามเช้า eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-    location: 'สุขุมวิท คลองตันเหนือ ,วัฒนา , กรุงเทพมหานคร',
-    tel: '094-414-9266',
-    time: 'ทุกวัน: 18:00-02:00',
-    type: 'ผับ/เที่ยวกลางคืน , กึ่งผับ/ร้านเหล้า/บาร์',
-    picture: {
-        mainPic: '',
-        subPic: [require('../../asset/Slider/Slider1.png'),
-        require('../../asset/Slider/Slider1.png'),
-        require('../../asset/Slider/Slider1.png'),
-        require('../../asset/Slider/Slider1.png'),
-        ],
-        miniPic: [require('../../asset/Slider/Slider1.png'),
-        require('../../asset/Slider/Slider1.png'),
-        require('../../asset/Slider/Slider1.png'),
-        require('../../asset/Slider/Slider1.png'),
-        require('../../asset/Slider/Slider1.png'),
-        ]
-    },
-    party: [
+    "shop_id": 1,
+    "shop_name": "Chill Bar BKK",
+    "max_seat": 50,
+    "created": "2020-04-23T13:52:24.817347Z",
+    "address": "ไม่บอกหรออยู่บนโลกนี้แน่นอนนอนนอนอ",
+    "phone_number": "+66882673235",
+    "detail": "Starbuck ที่พาซิโอ อ่อนนุชลาดกระบัง จอดรถสะดวกสบาย ที่นั่งสองชั้น บรรยากาศชิวๆยามเช้า eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "updated": "2020-04-23T13:52:24.817347Z",
+    "officeday": [],
+    "picture_main": require('../../asset/MainBackground/bgor.jpeg'),
+    "picture_sub": [
+        {
+            "pk": 1,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 2,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+    ],
+    "picture_mini": [
+        {
+            "pk": 1,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 2,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 3,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 4,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 5,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+    ],
+    "party": [
         {
             name: 'Big\'s Party',
             member: [
@@ -83,8 +101,11 @@ const shopData = {
 export default class BranchDetail extends React.Component {
     constructor(props) {
         super(props);
-        this.userData = null;
-        this.orderData = data;
+        this.userRole = 'sm';   // dk, ow, sm
+        this.orderData = orderData;
+
+        shopData.phone_number = this.formatPhoneNumber(shopData.phone_number)
+
         this.state = {
             editable: false,
             shopData: shopData
@@ -92,20 +113,54 @@ export default class BranchDetail extends React.Component {
 
         this.edit = this.edit.bind(this)
         this.addPic = this.addPic.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    formatPhoneNumber = (phone_number) => {
+        if (phone_number[0] === '+') {
+            phone_number = phone_number.slice(3);
+            return phone_number.replace(/(\d{2})(\d{3})(\d{4})/, "0$1-$2-$3");
+        }
+
+        return phone_number.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+    }
+
+    handleChange = (e) => {
+        e.preventDefault();
+        const name = e.target.name;
+        let value = e.target.value;
+        const shop_data = { ...this.state.shopData };
+
+        if (name === "phone_number") {
+            value = value.slice(4);
+            value = this.formatPhoneNumber(value);
+        }
+
+        shop_data[name] = value;
+
+        this.setState({
+            shopData: shop_data
+        })
     }
 
     edit = () => {
+
         if (this.state.editable === true) {
             //do smth
+
         }
+
         this.setState(() => {
             return { editable: !this.state.editable }
         })
 
     }
 
-    addPic = () => {
-
+    addPic = (e) => {
+        const reader = new FileReader();
+        reader.onloadend = reader.result;
+        reader.readAsText(e.target.file);
+        console.log(reader);
     }
 
     removePic = () => {
@@ -115,6 +170,15 @@ export default class BranchDetail extends React.Component {
     render() {
         return (
             <>
+                <img src={this.state.shopData.picture_main}
+                    alt="eiei"
+                    style={{
+                        width: '100%',
+                        height: '600px',
+                        top: '110',
+                        display: 'flex',
+                        objectFit: 'cover'
+                    }} />
                 <BranchDetailContainer>
                     {/********************** Left Column ***********************/}
 
@@ -123,43 +187,82 @@ export default class BranchDetail extends React.Component {
                         {/* Branch name */}
                         <div className="name-wrapper">
                             <div className="branch-name">
-                                <input disabled={!this.state.editable} value={this.state.shopData.name} spellCheck="false" />
+                                <input name="shop_name"
+                                    disabled={!this.state.editable}
+                                    value={this.state.shopData.shop_name}
+                                    spellCheck="false"
+                                    onChange={this.handleChange} />
                             </div>
                             <a className="fav-wrapper" href="" ><img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="fav-icon" width="30px" height="30px" /></a>
                         </div>
 
                         {/* Branch description */}
                         <div className="description">
-                            <textarea disabled={!this.state.editable} value={this.state.shopData.description} spellCheck="false" />
+                            <textarea name="detail"
+                                disabled={!this.state.editable}
+                                value={this.state.shopData.detail}
+                                spellCheck="false"
+                                onChange={this.handleChange} />
                         </div>
 
                         {/* Branch detail (location, time, tel, etc.) */}
                         <div className="details">
-                            <input disabled={!this.state.editable} value={this.state.shopData.location} spellCheck="false" />
-                            <input disabled={!this.state.editable} value={'เปิดให้บริการ ' + this.state.shopData.time} spellCheck="false" />
-                            <input disabled={!this.state.editable} value={'โทร ' + this.state.shopData.tel} spellCheck="false" />
+                            <div className="form-group form-inline">
+                                <label style={{ marginBottom: 0 }} >Address :&nbsp;&nbsp;</label>
+                                <input name="address"
+                                    disabled={!this.state.editable}
+                                    value={this.state.shopData.address}
+                                    spellCheck="false"
+                                    onChange={this.handleChange}
+                                    style={{ width: '79.5%', }} />
+                            </div>
+
+                            <div className="form-group form-inline">
+                                <label style={{ marginBottom: 0 }} >Open :&nbsp;&nbsp;</label>
+                                <input name=""
+                                    disabled={!this.state.editable}
+                                    value={this.state.shopData.time || 'kuyyyyyy'}
+                                    spellCheck="false"
+                                    onChange={this.handleChange}
+                                    style={{ width: '84.5%', }} />
+                            </div>
+
+                            <div className="form-group form-inline">
+                                <label style={{ marginBottom: 0 }} >โทร :&nbsp;&nbsp;</label>
+                                <input name="phone_number"
+                                    disabled={!this.state.editable}
+                                    value={this.state.shopData.phone_number}
+                                    spellCheck="false"
+                                    onChange={this.handleChange}
+                                    style={{ width: '88.5%', }} />
+                            </div>
                         </div>
 
                         {/** Edit button */}
-                        <button className="edit-bt" onClick={this.edit} enebled>
-                            {this.state.editable === true ? 'Confirm' : 'Edit'}
-                        </button>
-
                         {
-                            // Food and Drink menu
-                            Object.keys(this.orderData).map((item) => {
-                                return (
-                                    <div key={this.orderData[item].type + " table"}>
-                                        <OrderTable
-                                            type={this.orderData[item].type}
-                                            name={this.orderData[item].name}
-                                            width={400}
-                                            disabledBt={this.userData !== null} // if role === owner or manager -> disable button
-                                        />
-                                    </div>
-                                )
-                            })
+                            (this.userRole === 'sm' || this.userRole === 'ow') &&
+                            <button className="edit-bt" onClick={this.edit}>
+                                {this.state.editable === true ? 'Confirm' : 'Edit'}
+                            </button>
                         }
+
+
+                        {/* Food and Drink menu */}
+                        <OrderTable
+                            type={'food'}
+                            width={400}
+                            role={this.userRole}
+                            edit={this.state.editable}
+                            disabledBt={this.userRole === 'dk'} // if role === owner or manager -> disable button
+                        />
+                        <OrderTable
+                            type={'drink'}
+                            width={400}
+                            role={this.userRole}
+                            edit={this.state.editable}
+                            disabledBt={this.userRole === 'dk'} // if role === owner or manager -> disable button
+                        />
+
                     </div>
 
                     {/*********************** Right Column ***********************/}
@@ -167,32 +270,51 @@ export default class BranchDetail extends React.Component {
                     <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginLeft: '1%' }}>
 
                         {/* Slidshow pic (subPic) */}
-
                         <div className="add-rm-container">
                             <Carousel>
-                                {this.state.shopData.picture.subPic.map((url, i) => {
+                                {this.state.shopData.picture_sub.map((item, i) => {
+                                    console.log('url', item.url);
+
                                     return (
-                                        <Carousel.Item key={i}>
-                                            <img src={url}
+                                        <Carousel.Item key={item + i}>
+                                            <img src={item.url}
                                                 className="sub-pic"
                                                 alt="" />
+                                            {
+                                                this.userRole === 'sm' &&
+                                                <>
+                                                    <a href="#" name="" className="add-rm-pic">
+                                                        <div style={{ fontSize: '30px' }}>
+                                                            🞦<input type="file"
+                                                                style={{
+                                                                    opacity: 0.0,
+                                                                    position: 'absolute',
+                                                                    top: 0, left: 0, bottom: 0, right: 0,
+                                                                    width: '100%',
+                                                                    height: '100%'
+                                                                }}
+                                                                accept={"image/*"}
+                                                                onChange={this.addPic} />
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" name="" className="add-rm-pic">
+                                                        <div style={{ fontSize: '30px' }}>🞮
+                                                        </div>
+                                                    </a>
+                                                </>
+                                            }
                                         </Carousel.Item>
+
                                     )
+
                                 })}
                             </Carousel>
-                            {
-                                this.userData === null &&
-                                <>
-                                    <a href="#" name="" className="add-rm-pic"><div style={{ fontSize: '30px' }}>🞦<input type="file" style={{ opacity: 0.0, position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%' }} /></div></a>
-                                    <a href="#" name="" className="add-rm-pic"><div style={{ fontSize: '30px' }}>🞮</div></a>
-                                </>
-                            }
                         </div>
 
 
 
                         {/* miniPic */}
-                        <div className="mini-pic-wrapper">
+                        {/* <div className="mini-pic-wrapper">
                             {this.state.shopData.picture.miniPic.map((url, i) => {
                                 let width;
                                 if (i < 2) width = { width: '50%' };
@@ -206,28 +328,28 @@ export default class BranchDetail extends React.Component {
                                             // style={{cursor: 'pointer'}}
                                             draggable={false} />
                                         {
-                                            this.userData === null &&
+                                            this.userData === 'sm' &&
                                             <>
-                                                <a href="#" name="" className="add-rm-pic add-rm-pic-sm"><div>🞦</div></a>
+                                                <a href="#" name="" className="add-rm-pic add-rm-pic-sm"><div>🞦<input type="file" style={{ opacity: 0.0, position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%' }} /></div></a>
                                                 <a href="#" name="" className="add-rm-pic add-rm-pic-sm"><div>🞮</div></a>
                                             </>
                                         }
                                     </div>
                                 )
                             })}
-                        </div>
+                        </div> */}
 
                         {/** Booking time tap */}
-                        <BookingTime disabledBt={true && this.userData === null} /> {/** disable button when role is owner or manager */}
+                        {/* <BookingTime disabledBt={this.userRole !== 'dk'} /> * disable button when role is owner or manager */}
 
                         {/** Current Party in cafe */}
-                        {Object.keys(this.state.shopData.party).map((i) => {
-                            /** disable button when role is owner or manager */
-                            return (<PartyList
+                        {/* {Object.keys(this.state.shopData.party).map((i) => { */}
+                        {/* /** disable button when role is owner or manager */}
+                        {/* return (<PartyList
                                 key={i}
                                 partyData={this.state.shopData.party[i]}
-                                disabledBt={true && this.userData === null} />)
-                        })}
+                                disabledBt={this.userRole !== 'dk'} />)
+                        })} */}
                     </div>
                 </BranchDetailContainer>
             </>
@@ -259,7 +381,7 @@ const BranchDetailContainer = styled.div`
                     display: flex;
 
                     font-size: 30px;
-                    padding-left: 20px;
+                    padding-left: 5px;
                     
                     color: white;
                     border: #7a7a7a solid;
@@ -291,7 +413,7 @@ const BranchDetailContainer = styled.div`
                     top: 50%;
                     transform: translateY(-50%);
 
-                    background-color: black;
+                    background-color: white;
                 }
 
                 .description {
@@ -307,11 +429,12 @@ const BranchDetailContainer = styled.div`
 
                     font-size: 20px;
                     padding-top: 10px;
-                    padding-left: 20px;
+                    padding-left: 5px;
                     
                     color: white;
                     border: #7a7a7a solid;
                     border-width: 0px 0px 1px 0px;
+                    transition:  cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s;
                 }
 
                 .details {
@@ -324,22 +447,28 @@ const BranchDetailContainer = styled.div`
                     justify-content: center;
 
                     font-size: 20px;
-                    padding-top: 10px;
-                    padding-left: 20px;
+                    padding-top: 20px;
+                    padding-left: 5px;
                     margin-bottom: 20px;
-                    padding-bottom: 20px;
+                    padding-bottom: 0px;
                     
                     color: white;
                     border: #7a7a7a solid;
                     border-width: 0px 0px 1px 0px;
                 }
 
+                .branch-name input,
+                .description textarea,
+                .details div input {
+                    transition:  cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s;
+                }
+
                 .sub-pic {
                     width: 100%;
                     height: 300px;
-
-	                background-size: cover;
-	                background-repeat: no-repeat;
+                    
+                    display: flex;
+                    object-fit: cover
                 }
 
                 .mini-pic-wrapper {
