@@ -112,7 +112,7 @@ class Result extends Component {
 
 										<BookingTime sm={true} />
 
-										<div style={{ maxHeight: '240px', overflow: 'auto' }}>
+										<div className="party-list-container">
 											{Object.keys(partyData).map((i) => {
 												return (<PartyList partyData={partyData[i]} key={i} sm={true} />)
 											})}

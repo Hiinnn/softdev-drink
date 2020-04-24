@@ -1,6 +1,6 @@
 .main-container {
 	width: 100%;
-	background-image: url('../../asset/MainBackground/bgResult.jpeg');
+	/* background-image: url('../../asset/MainBackground/bgResult.jpeg'); */
 	background-size: 100% 50%;
 	background-repeat: repeat;
 	padding-top: 40px;
@@ -59,15 +59,35 @@
 }
 
 .learnBox {
+	display: flex;
 	align-items: center;
-	border: 1px solid #9b8a75;
-	color: #9b8a75;
-	background-color: #262626;
+	justify-content: center;
+
 	font-size: 14px;
-	margin-bottom: 10px;
+	color: #9b8a75;
+	border: 1px solid #9b8a75;
+	background-color: #262626;
+
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .detailShop {
 	font-size: 12px;
+}
+
+.party-list-container {
+	max-height: 240px;
+	overflow: auto;
+}
+
+.party-list-container::-webkit-scrollbar {
+	width: 10px;
+	border-radius: 10px;
+	background-color: rgb(34, 28, 28);
+}
+
+.party-list-container::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	background-image: linear-gradient(rgb(255, 251, 0),rgb(247, 0, 255));
 }

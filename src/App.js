@@ -19,18 +19,24 @@ import TableCheck from './pages/TableCheck/TableCheck';
 function App() {
   return (
     <div className="App" >
-      {/* <TableCheck/> */}
-      {/* <UserProfile /> */}
-      {/* <UserOrder /> */}
-      {/* <UserHome/>  */}
-      {/* <LoginPage/> */}
-      {/* <SignUp/> */}
-      {/* <UserBill/> */}
-      {/* <ResetPassword/> */}
-      {/* <OwnerHome/> */}
-      <UserViewBranch/>
-      <SearchResult/>
-      
+      {
+        // ? <TableCheck />
+        // ? <UserProfile />
+        // ? <UserBill />
+        // ? <OwnerHome />
+        // ? <SearchResult />
+        // ? <UserHome />
+        // ? <UserOrder />
+        // ? <ResetPassword />
+        
+        // * <SignUp/>
+        // * <LoginPage />
+        // * <UserViewBranch />
+      }
+      <LoginPage />
+      <OwnerHome />
+      <UserOrder />
+      <UserViewBranch />
     </div>
   );
 }

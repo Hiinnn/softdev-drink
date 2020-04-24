@@ -16,9 +16,7 @@ class Order extends React.Component {
 	}
 
 	cart_addOrder = (name) => {
-
 		if (this.state.order === null) {			// Initial cart order
-			console.log('init')
 			this.setState({
 				order: [{
 					name: name[0], amount: 1
@@ -67,6 +65,10 @@ class Order extends React.Component {
 		})
 	}
 
+	letsOrder() {
+
+	}
+
 	render() {
 		return (
 			<div className="order-container">
@@ -109,16 +111,16 @@ class CartTable extends React.Component {
 								<td width="60%" style={{ borderRight: '0px' }}>
 									{this.props.order[name].name}
 								</td>
-								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px' }}
+								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px', userSelect: "none", cursor: "pointer"}}
 									width="10%"
 									onClick={() => { this.props.decrease(this.props.order[name].name) }}>
 									-
 								</td>
-								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px'}}
+								<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px', userSelect: "none"}}
 									width="20%">
 									{this.props.order[name].amount}
 								</td>
-								<td style={{ textAlign: "center", borderLeft: '0px' }}
+								<td style={{ textAlign: "center", borderLeft: '0px', userSelect: "none", cursor: "pointer" }}
 									width="10%"
 									onClick={() => { this.props.increase(this.props.order[name].name) }}>
 									+

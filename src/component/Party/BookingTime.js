@@ -75,11 +75,8 @@ export default class BookingTime extends React.Component {
 
 
     render() {
-        let working = (this.serviceTime.day.indexOf(this.Date.getUTCDay()) !== -1)   // check that today is open
-
         let sm = this.props.sm === true ? '-sm' : '';
-
-        console.log(sm);
+        let working = (this.serviceTime.day.indexOf(this.Date.getUTCDay()) !== -1)   // check that today is open
 
 
         return (
@@ -132,7 +129,7 @@ export default class BookingTime extends React.Component {
                 <input className={"party-name" + sm} type="text" name="partyName" placeholder="Party name" value={this.state.partyName || ""} onChange={this.handlePartyName} />
 
                 {/** Drink button*/}
-                <div className={"drink-bt" + sm} >Drink!</div>
+                <div className={`drink-bt + ${sm} + ${this.props.disabledBt === true ? " disabled-bt" : ""}`} >Drink!</div>
             </BookingContainer>
         )
     }
@@ -256,6 +253,11 @@ const BookingContainer = styled.form`
                 
                 .form-inline {
                     margin-right: 30px;
+                }
+
+                .disabled-bt {   
+                    pointer-events: none;
+                    opacity: 0.4;
                 }
                 
                 /********************* small ***********************/

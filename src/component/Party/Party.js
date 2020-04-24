@@ -16,7 +16,7 @@ export default class PartyList extends React.Component {
                         return (<img className={"party-profile-pic" + sm} key={i} src={this.props.partyData.member[i].profile} />)
                     })}
                 </div>
-                <div className={"join-bt" + sm}>Join</div>
+                <div className={`join-bt + ${sm} + ${this.props.disabledBt === true ? " disabled-bt" : ""}`}>Join</div>
             </Party>
         )
     }
@@ -61,12 +61,13 @@ const Party = styled.div`
 
                     .profile-pic-container::-webkit-scrollbar {
                         width: 10px;
-                        background-color: white;
+                        border-radius: 10px;
+                        background-color: red;
                     }
 
                     .profile-pic-container::-webkit-scrollbar-thumb {
-                        width: 10px;
-                        background-color: red;
+                        border-radius: 10px;
+                        background-color: rgb(34, 28, 28);
                     }
 
                     .party-profile-pic {
@@ -102,6 +103,11 @@ const Party = styled.div`
                             0 0 21px wheat;
                     }
 
+                    .disabled-bt {   
+                        pointer-events: none;
+                        opacity: 0.4;
+                    }
+
                     /********************** Small ***********************/
                     .party-name-sm {
                         height: 40px;
@@ -129,12 +135,13 @@ const Party = styled.div`
 
                     .profile-pic-container-sm::-webkit-scrollbar {
                         width: 10px;
-                        background-color: white;
+                        border-radius: 10px;
+                        background-color: rgb(34, 28, 28);
                     }
 
                     .profile-pic-container-sm::-webkit-scrollbar-thumb {
-                        width: 10px;
-                        background-color: red;
+                        border-radius: 10px;
+	                    background-image: linear-gradient(rgb(255, 251, 0),rgb(247, 0, 255));
                     }
 
                     .party-profile-pic-sm {
