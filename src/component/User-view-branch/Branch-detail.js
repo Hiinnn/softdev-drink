@@ -12,14 +12,15 @@ import OrderTable from '../OrderTable/OrderTable';
 export default class BranchDetail extends React.Component {
     constructor(props) {
         super(props);
-        this.userRole = 'sm';   // dk, ow, sm
+        let userRole = 'dk';   // dk, ow, sm
         this.orderData = orderData;
 
         shopData.phone_number = this.formatPhoneNumber(shopData.phone_number)
 
         this.state = {
             editable: false,
-            shopData: shopData
+            shopData: shopData,
+            role: userRole,
         }
 
         this.edit = this.edit.bind(this)
@@ -175,7 +176,7 @@ export default class BranchDetail extends React.Component {
 
                         {/** Edit button */}
                         {
-                            (this.userRole === 'sm' || this.userRole === 'ow') &&
+                            (this.state.role === 'sm' || this.state.role === 'ow') &&
                             <button className="edit-bt" onClick={this.edit}>
                                 {this.state.editable === true ? 'Confirm' : 'Edit'}
                             </button>
@@ -186,16 +187,16 @@ export default class BranchDetail extends React.Component {
                         <OrderTable
                             type={'food'}
                             width={400}
-                            role={this.userRole}
+                            role={this.state.role}
                             edit={this.state.editable}
-                            disabledBt={this.userRole === 'dk'} // if role === owner or manager -> disable button
+                            disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
                         />
                         <OrderTable
                             type={'drink'}
                             width={400}
-                            role={this.userRole}
+                            role={this.state.role}
                             edit={this.state.editable}
-                            disabledBt={this.userRole === 'dk'} // if role === owner or manager -> disable button
+                            disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
                         />
 
                     </div>
@@ -214,7 +215,7 @@ export default class BranchDetail extends React.Component {
                                                 className="sub-pic"
                                                 alt="" />
                                             {
-                                                this.userRole === 'sm' &&
+                                                this.state.role === 'sm' &&
                                                 <>
                                                     <a href="#" name="" className="add-rm-pic">
                                                         <div style={{ fontSize: '30px' }}>
@@ -258,7 +259,7 @@ export default class BranchDetail extends React.Component {
                                             className="mini-pic"
                                             alt="" />
                                         {
-                                            this.userRole === 'sm' &&
+                                            this.state.role === 'sm' &&
                                             <>
                                                 <a href="#"
                                                     className="add-rm-pic"
@@ -293,7 +294,7 @@ export default class BranchDetail extends React.Component {
                         </div>
 
                         {/** Booking time tap */}
-                        <BookingTime disabledBt={this.userRole !== 'dk'} /> {/* disable button when role is owner or manager*/}
+                        <BookingTime disabledBt={this.state.role !== 'dk'} /> {/* disable button when role is owner or manager*/}
 
                         {/** Current Party in cafe */}
                         {/* {Object.keys(this.state.shopData.party).map((i) => { */}
@@ -301,7 +302,7 @@ export default class BranchDetail extends React.Component {
                         {/* return (<PartyList
                                 key={i}
                                 partyData={this.state.shopData.party[i]}
-                                disabledBt={this.userRole !== 'dk'} />)
+                                disabledBt={this.state.role !== 'dk'} />)
                         })} */}
                     </div>
                 </BranchDetailContainer>

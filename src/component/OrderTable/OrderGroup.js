@@ -16,7 +16,7 @@ class Order extends React.Component {
 	}
 
 	cart_addOrder = (name) => {
-		if (this.state.order === null) {			// Initial cart order
+		if (this.state.order === null) {	// Initial cart order		
 			this.setState({
 				order: [{
 					name: name[0], amount: 1

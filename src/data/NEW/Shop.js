@@ -7,41 +7,42 @@ const shopData = {
     "phone_number": "+66882673235",
     "detail": "Starbuck ที่พาซิโอ อ่อนนุชลาดกระบัง จอดรถสะดวกสบาย ที่นั่งสองชั้น บรรยากาศชิวๆยามเช้า eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     "updated": "2020-04-23T13:52:24.817347Z",
-    "officeday": [
+    "like": '',
+    "officeday": [  // sun(0) -> sat(6)
         {
             "weekday": 0,
             "open_time": "2020-04-24T16:15:30Z",
-            "close_time": "2020-04-24T16:1532Z",
+            "close_time": "2020-04-24T16:15:32Z",
         },
         {
             "weekday": 1,
             "open_time": "2020-04-24T16:15:30Z",
-            "close_time": "2020-04-24T16:1532Z",
+            "close_time": "2020-04-24T16:15:32Z",
         },
         {
             "weekday": 2,
             "open_time": "2020-04-24T16:15:30Z",
-            "close_time": "2020-04-24T16:1532Z",
+            "close_time": "2020-04-24T16:15:32Z",
         },
         {
             "weekday": 3,
             "open_time": "2020-04-24T16:15:30Z",
-            "close_time": "2020-04-24T16:1532Z",
+            "close_time": "2020-04-24T16:15:32Z",
         },
         {
             "weekday": 4,
             "open_time": "2020-04-24T16:15:30Z",
-            "close_time": "2020-04-24T16:1532Z",
+            "close_time": "2020-04-24T16:15:32Z",
         },
         {
             "weekday": 5,
             "open_time": "2020-04-24T16:15:30Z",
-            "close_time": "2020-04-24T16:1532Z",
+            "close_time": "2020-04-24T16:15:32Z",
         },
         {
             "weekday": 6,
-            "open_time": "2020-04-24T16:15:30Z",
-            "close_time": "2020-04-24T16:1532Z",
+            "open_time": "2020-04-24T16:30:30Z",
+            "close_time": "2020-04-24T02:00:32Z",
         },
     ],
     "picture_main": require('../../asset/MainBackground/bgor.jpeg'),
@@ -121,8 +122,7 @@ const shopData = {
             ]
         },
 
-    ],
-    "like": '',
+    ]
 }
 
 export default shopData;

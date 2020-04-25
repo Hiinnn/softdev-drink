@@ -38,7 +38,6 @@ function App() {
 
         // order sm ใช้ได้
       }
-      
       <UserViewBranch />
       
     </div>
