@@ -90,12 +90,12 @@ export default class LoginForm extends React.Component {
             <div className="login-form-container">
                 <Form className="login-form-wrapper" onSubmit={this.submit}>
                     <h2 style={xMid}>DRINK</h2>
-
                     <Form.Group as={Row} controlId="formUsername">
                         <Form.Label column sm="3">
                             Username
                         </Form.Label>
                         <Col>
+
                             <Form.Control
                                 type="text"
                                 name="username"
@@ -103,10 +103,14 @@ export default class LoginForm extends React.Component {
                                 value={this.state.username}
                                 isInvalid={this.state.error.username}
                             />
+
                             <Form.Control.Feedback type="valid">{this.state.error.username}</Form.Control.Feedback>
                             <Form.Control.Feedback type="invalid">{this.state.error.username}</Form.Control.Feedback>
                         </Col>
                     </Form.Group>
+
+
+
 
                     <Form.Group as={Row} controlId="formPassword">
                         <Form.Label column sm="3">

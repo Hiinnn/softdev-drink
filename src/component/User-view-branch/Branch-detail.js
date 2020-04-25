@@ -3,100 +3,11 @@ import styled from 'styled-components';
 import { Carousel, Form } from 'react-bootstrap';
 
 import { orderData } from '../../data/NEW/Order';
+import shopData from '../../data/NEW/Shop';
 
 import PartyList from '../Party/Party';
 import BookingTime from '../Party/BookingTime';
 import OrderTable from '../OrderTable/OrderTable';
-
-const shopData = {
-    "shop_id": 1,
-    "shop_name": "Chill Bar BKK",
-    "max_seat": 50,
-    "created": "2020-04-23T13:52:24.817347Z",
-    "address": "ไม่บอกหรออยู่บนโลกนี้แน่นอนนอนนอนอ",
-    "phone_number": "+66882673235",
-    "detail": "Starbuck ที่พาซิโอ อ่อนนุชลาดกระบัง จอดรถสะดวกสบาย ที่นั่งสองชั้น บรรยากาศชิวๆยามเช้า eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-    "updated": "2020-04-23T13:52:24.817347Z",
-    "officeday": [],
-    "picture_main": require('../../asset/MainBackground/bgor.jpeg'),
-    "picture_sub": [
-        {
-            "pk": 1,
-            "url": require('../../asset/MainBackground/bgor.jpeg'),
-        },
-        {
-            "pk": 2,
-            "url": require('../../asset/MainBackground/bgor.jpeg'),
-        },
-    ],
-    "picture_mini": [
-        {
-            "pk": 1,
-            "url": require('../../asset/MainBackground/bgor.jpeg'),
-        },
-        {
-            "pk": 2,
-            "url": require('../../asset/MainBackground/bgor.jpeg'),
-        },
-        {
-            "pk": 3,
-            "url": require('../../asset/MainBackground/bgor.jpeg'),
-        },
-        {
-            "pk": 4,
-            "url": require('../../asset/MainBackground/bgor.jpeg'),
-        },
-        {
-            "pk": 5,
-            "url": require('../../asset/MainBackground/bgor.jpeg'),
-        },
-    ],
-    "party": [
-        {
-            name: 'Big\'s Party',
-            member: [
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-            ]
-        },
-        {
-            name: 'Zeer O\'s',
-            member: [
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-            ]
-        },
-        {
-            name: 'Wachira',
-            member: [
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-            ]
-        },
-
-    ]
-}
 
 export default class BranchDetail extends React.Component {
     constructor(props) {
@@ -146,10 +57,8 @@ export default class BranchDetail extends React.Component {
     edit = () => {
 
         if (this.state.editable === true) {
-            //do smth
-
+            //send data to back-end
         }
-
         this.setState(() => {
             return { editable: !this.state.editable }
         })
@@ -157,14 +66,27 @@ export default class BranchDetail extends React.Component {
     }
 
     addPic = (e) => {
-        const reader = new FileReader();
-        reader.onloadend = reader.result;
-        reader.readAsText(e.target.file);
-        console.log(reader);
+        const name = e.target.name;
+        const file = e.target.files[0];
+        const shop_data = { ...this.state.shopData };
+
+        shopData.picture_sub[e.target.name] = file
+
+        // upload file to server
+        //  then
+        //  get shop_data again and refresh pages
     }
 
-    removePic = () => {
+    removePic = (e) => {
+        const name = e.target.name;
+        const file = e.target.files[0];
+        const shop_data = { ...this.state.shopData };
 
+        shopData.picture_sub[e.target.name] = file
+
+        // delete file from server
+        //  then
+        //  get shop_data again and refresh pages
     }
 
     render() {
@@ -228,7 +150,7 @@ export default class BranchDetail extends React.Component {
                             </div>
 
                             <div className="form-group form-inline">
-                                <label style={{ marginBottom: 0 }} >โทร :&nbsp;&nbsp;</label>
+                                <label style={{ marginBottom: 0 }} >Tel. :&nbsp;&nbsp;</label>
                                 <input name="phone_number"
                                     disabled={!this.state.editable}
                                     value={this.state.shopData.phone_number}
@@ -236,6 +158,19 @@ export default class BranchDetail extends React.Component {
                                     onChange={this.handleChange}
                                     style={{ width: '88.5%', }} />
                             </div>
+
+                            {
+                                this.state.editable &&
+                                <div className="form-group form-inline">
+                                    <label style={{ marginBottom: 0 }} >Max seat :&nbsp;&nbsp;</label>
+                                    <input name="max_seat"
+                                        disabled={!this.state.editable}
+                                        value={this.state.shopData.max_seat}
+                                        spellCheck="false"
+                                        onChange={this.handleChange}
+                                        style={{ width: '77.5%', }} />
+                                </div>
+                            }
                         </div>
 
                         {/** Edit button */}
@@ -273,8 +208,6 @@ export default class BranchDetail extends React.Component {
                         <div className="add-rm-container">
                             <Carousel>
                                 {this.state.shopData.picture_sub.map((item, i) => {
-                                    console.log('url', item.url);
-
                                     return (
                                         <Carousel.Item key={item + i}>
                                             <img src={item.url}
@@ -293,6 +226,7 @@ export default class BranchDetail extends React.Component {
                                                                     width: '100%',
                                                                     height: '100%'
                                                                 }}
+                                                                name={i}
                                                                 accept={"image/*"}
                                                                 onChange={this.addPic} />
                                                         </div>
@@ -304,9 +238,7 @@ export default class BranchDetail extends React.Component {
                                                 </>
                                             }
                                         </Carousel.Item>
-
                                     )
-
                                 })}
                             </Carousel>
                         </div>
@@ -314,33 +246,54 @@ export default class BranchDetail extends React.Component {
 
 
                         {/* miniPic */}
-                        {/* <div className="mini-pic-wrapper">
-                            {this.state.shopData.picture.miniPic.map((url, i) => {
+                        <div className="mini-pic-wrapper">
+                            {this.state.shopData.picture_mini.map((item, i) => {
                                 let width;
                                 if (i < 2) width = { width: '50%' };
                                 else width = { width: '33.3333%' };
 
                                 return (
                                     <div className="add-rm-container" style={width} key={i}>
-                                        <img src={url}
+                                        <img src={item.url}
                                             className="mini-pic"
-                                            alt=""
-                                            // style={{cursor: 'pointer'}}
-                                            draggable={false} />
+                                            alt="" />
                                         {
-                                            this.userData === 'sm' &&
+                                            this.userRole === 'sm' &&
                                             <>
-                                                <a href="#" name="" className="add-rm-pic add-rm-pic-sm"><div>🞦<input type="file" style={{ opacity: 0.0, position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%' }} /></div></a>
-                                                <a href="#" name="" className="add-rm-pic add-rm-pic-sm"><div>🞮</div></a>
+                                                <a href="#"
+                                                    className="add-rm-pic"
+                                                    style={{ width: '30px', height: '30px' }}>
+                                                    <div style={{ fontSize: '20px' }}>
+                                                        🞦<input type="file"
+                                                            style={{
+                                                                opacity: 0.0,
+                                                                position: 'absolute',
+                                                                top: 0, left: 0, bottom: 0, right: 0,
+                                                                width: '100%',
+                                                                height: '100%'
+                                                            }}
+                                                            name={i}
+                                                            accept={"image/*"}
+                                                            onChange={this.addPic} />
+                                                    </div>
+                                                </a>
+                                                <a href="#"
+                                                    className="add-rm-pic"
+                                                    style={{ width: '30px', height: '30px' }}>
+                                                    <div style={{ fontSize: '20px' }}
+                                                        onChange={this.removePic}>
+                                                        🞮
+                                                    </div>
+                                                </a>
                                             </>
                                         }
                                     </div>
                                 )
                             })}
-                        </div> */}
+                        </div>
 
                         {/** Booking time tap */}
-                        {/* <BookingTime disabledBt={this.userRole !== 'dk'} /> * disable button when role is owner or manager */}
+                        <BookingTime disabledBt={this.userRole !== 'dk'} /> {/* disable button when role is owner or manager*/}
 
                         {/** Current Party in cafe */}
                         {/* {Object.keys(this.state.shopData.party).map((i) => { */}

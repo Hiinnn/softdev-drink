@@ -15,29 +15,32 @@ import OwnerHome from './pages/Owner-home/Owner-home';
 import SearchResult from './pages/Search-result/Search-result';
 
 import TableCheck from './pages/TableCheck/TableCheck';
+import UserParty from './pages/User-party/User-party';
 
 function App() {
   return (
     <div className="App" >
       {
+        // ? <UserParty/>
         // ? <TableCheck />
+        // ? <SearchResult />
+        // ? <UserOrder />
+
         // ? <UserProfile />
         // ? <UserBill />
         // ? <OwnerHome />
-        // ? <SearchResult />
+
         // ? <UserHome />
-        // ? <UserOrder />
-        // ? <ResetPassword />
-        
         // * <SignUp/>
         // * <LoginPage />
         // * <UserViewBranch />
+        // * <ResetPassword />
+
+        // order sm ใช้ได้
       }
-      {/* <SignUp/> */}
-      {/* <LoginPage /> */}
-      {/* <OwnerHome /> */}
-      {/* <UserOrder /> */}
+      
       <UserViewBranch />
+      
     </div>
   );
 }

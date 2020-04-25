@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import shopData from '../../data/NEW/Shop';
 
 const serviceTime = {
     day: [1, 2, 3, 4, 5, 6, 7],
@@ -8,23 +9,37 @@ const serviceTime = {
     partySize: 10,
 }
 
-
 export default class BookingTime extends React.Component {
     constructor(props) {
         super(props);
         this.Date = new Date();
 
         this.serviceTime = serviceTime;
-        this.maxParty = this.serviceTime.partySize
-        this.timeArray = this.createBranchTime(this.serviceTime);
+        this.maxParty = this.serviceTime.partySizeว
 
-        this.state = { size: 0 }
-        this.handlePartyName = this.handlePartyName.bind(this);
+        this.timeArray = this.createBranchTime;
+
+        this.state = {
+            shopData: shopData,
+            partySize: 0,
+        }
+        
         this.submit = this.submit.bind(this);
+        this.handlePartyName = this.handlePartyName.bind(this);
+        this.createBranchTime = this.createBranchTime.bind(this);
     }
 
-    createBranchTime = (serviceTime) => {
-        let time = [];
+    createBranchTime(){
+        let time = [0,0,0];
+        let working = false;
+        let date = new Date();
+
+        console.log('kuttttttttttttt');
+        
+        console.log(date.getDay());
+        
+        console.log(this.state.shopData.officeday);
+
         let open = parseFloat(serviceTime.open);
         let close = parseFloat(serviceTime.close);
         if (close < open) close += 24
@@ -53,13 +68,13 @@ export default class BookingTime extends React.Component {
 
     changePartySize = (op) => {
         // check that party is empty or max
-        if ((this.state.size === 0 && op === "-") || (this.state.size === this.maxParty && op === "+")) return;
+        if ((this.state.partySize === 0 && op === "-") || (this.state.partySize === this.maxParty && op === "+")) return;
 
         // add or sub
         let temp = op === "+" ? 1 : -1;
         this.setState(() => {
             return {
-                size: this.state.size + temp
+                partySize: this.state.partySize + temp
             }
         })
     }
@@ -87,7 +102,7 @@ export default class BookingTime extends React.Component {
                 {/** Select party size */}
                 <div className={"party-size-container" + sm}>
                     <a /*href=""*/ className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('-')}><img className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271220.svg" /></a>
-                    <div className={"party-size" + sm}>{this.state.size} คน</div>
+                    <div className={"party-size" + sm}>{this.state.partySize} คน</div>
                     <a /*href=""*/ className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('+')}><img className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271228.svg" /></a>
                 </div>
 
@@ -98,13 +113,13 @@ export default class BookingTime extends React.Component {
                         disabled={!working}>
                         <option>Time</option>
                         {
-                            this.timeArray.map((num, i) => {
-                                return (
-                                    <option value={i} key={i}>{
-                                        ((Math.round(num * 100) / 100)).toFixed(2)
-                                    }</option>
-                                )
-                            })
+                            // this.timeArray.map((num, i) => {
+                            //     return (
+                            //         <option value={i} key={i}>{
+                            //             ((Math.round(num * 100) / 100)).toFixed(2)
+                            //         }</option>
+                            //     )
+                            // })
                         }
                     </select>
                 </div>

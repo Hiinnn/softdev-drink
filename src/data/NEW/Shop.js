@@ -5,16 +5,77 @@ const shopData = {
     "created": "2020-04-23T13:52:24.817347Z",
     "address": "ไม่บอกหรออยู่บนโลกนี้แน่นอนนอนนอนอ",
     "phone_number": "+66882673235",
-    "detail": "ร้านนั่งชิล",
+    "detail": "Starbuck ที่พาซิโอ อ่อนนุชลาดกระบัง จอดรถสะดวกสบาย ที่นั่งสองชั้น บรรยากาศชิวๆยามเช้า eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     "updated": "2020-04-23T13:52:24.817347Z",
-    "officeday": [],
-    "picture_main": null,
-    "picture_sub": [],
+    "officeday": [
+        {
+            "weekday": 0,
+            "open_time": "2020-04-24T16:15:30Z",
+            "close_time": "2020-04-24T16:1532Z",
+        },
+        {
+            "weekday": 1,
+            "open_time": "2020-04-24T16:15:30Z",
+            "close_time": "2020-04-24T16:1532Z",
+        },
+        {
+            "weekday": 2,
+            "open_time": "2020-04-24T16:15:30Z",
+            "close_time": "2020-04-24T16:1532Z",
+        },
+        {
+            "weekday": 3,
+            "open_time": "2020-04-24T16:15:30Z",
+            "close_time": "2020-04-24T16:1532Z",
+        },
+        {
+            "weekday": 4,
+            "open_time": "2020-04-24T16:15:30Z",
+            "close_time": "2020-04-24T16:1532Z",
+        },
+        {
+            "weekday": 5,
+            "open_time": "2020-04-24T16:15:30Z",
+            "close_time": "2020-04-24T16:1532Z",
+        },
+        {
+            "weekday": 6,
+            "open_time": "2020-04-24T16:15:30Z",
+            "close_time": "2020-04-24T16:1532Z",
+        },
+    ],
+    "picture_main": require('../../asset/MainBackground/bgor.jpeg'),
+    "picture_sub": [
+        {
+            "pk": 1,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 2,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+    ],
     "picture_mini": [
         {
             "pk": 1,
-            "url": "/media/shop_picture/cropped-1920-1080-587597.jpg"
-        }
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 2,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 3,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 4,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
+        {
+            "pk": 5,
+            "url": require('../../asset/MainBackground/bgor.jpeg'),
+        },
     ],
     "party": [
         {
@@ -60,5 +121,8 @@ const shopData = {
             ]
         },
 
-    ]
+    ],
+    "like": '',
 }
+
+export default shopData;

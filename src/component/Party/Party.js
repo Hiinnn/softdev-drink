@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Invite from '../Invite/Invite';
 
 export default class PartyList extends React.Component {
     constructor(props) {
@@ -10,15 +11,51 @@ export default class PartyList extends React.Component {
         let sm = this.props.sm === true ? '-sm' : '';
         return (
             <Party>
-                <div className={"party-name" + sm}>{this.props.partyData.name}</div>
-                <div className={"profile-pic-container" + sm}>
-                    {Object.keys(this.props.partyData.member).map((i) => {
-                        return (<img className={"party-profile-pic" + sm} key={i} src={this.props.partyData.member[i].profile} />)
-                    })}
+                {
+                    this.props.partyUser
+                        ? <div className={sm}
+                            style={{ float: 'left', width: '360px', fontSize: '20px', textAlign: 'left' }}>
+                            {this.props.partyData.name} </div>
+                        : <div className={"party-name" + sm}>
+                            {this.props.partyData.name} </div>
+                }
+                {
+                    this.props.partyUser && this.props.host &&
+                    <div style={{ clear: 'right', fontSize: '14px' }}>
+                        you 're the host
+                    </div>}
+
+
+                <div className={"profile-pic-container" + sm} > {
+                    Object.keys(this.props.partyData.member).map((i) => {
+                        return (
+                            <div style={{ position: 'relative' }}
+                                key={i}>
+                                <img className={"party-profile-pic" + sm}
+                                    src={this.props.partyData.member[i].profile} />
+                                {
+                                    i > 0 && this.props.host &&
+                                    <div className='cross-delete' > X </div>
+                                }
+
+                            </div>)
+                    })
+                }
                 </div>
-                <div className={`join-bt + ${sm} + ${this.props.disabledBt === true ? " disabled-bt" : ""}`}>Join</div>
+
+
+                {
+                    this.props.host && this.props.partyUser &&
+                    <div className={"join-bt" + sm} > CLOSE </div>}
+                {
+                    !this.props.host && this.props.partyUser &&
+                    <div className={"join-bt" + sm} > QUIT </div>
+                }
+                {
+                    !this.props.partyUser && < div className={"join-bt" + sm} > Join </div>
+                }
             </Party>
-        )
+        );
     }
 }
 
@@ -33,10 +70,10 @@ const Party = styled.div`
                     border: solid #7a7a7a;
                     padding: 10px 15px 25px 10px;
                     border-width: 0px 0px 1px 0px;
-                    
+
                     /********************** Normal ***********************/
                     .party-name {
-                        height: 40px;
+                                height: 40px;
 
                         flex: 100%;
                         display: flex;
@@ -49,7 +86,7 @@ const Party = styled.div`
                     }
 
                     .profile-pic-container {
-                        width: 370px;
+                                width: 370px;
                         min-height: 70px;
                         max-height: 140px;
                         overflow: auto;
@@ -60,7 +97,7 @@ const Party = styled.div`
                     }
 
                     .profile-pic-container::-webkit-scrollbar {
-                        width: 10px;
+                                width: 10px;
                         border-radius: 10px;
                         background-color: red;
                     }
@@ -71,18 +108,18 @@ const Party = styled.div`
                     }
 
                     .party-profile-pic {
-                        width: 50px;
+                                width: 50px;
                         height: 50px;
                         margin: 10px;
                         border-radius: 100%;
                     }
 
                     .join-bt {
-                        width: 60px;
+                                width: 60px;
                         height: 30px;
                         margin-top: 5px;
                         margin-left: 35px;
-                        
+
                         display:flex;
                         align-items: center;
                         flex-direction: column;
@@ -95,22 +132,22 @@ const Party = styled.div`
                     }
 
                     .join-bt:hover {
-                        cursor: pointer;
-                        box-shadow: 
+                                cursor: pointer;
+                        box-shadow:
                             0 0 5px wheat,
                             0 0 10px wheat,
                             0 0 20px wheat,
                             0 0 21px wheat;
                     }
 
-                    .disabled-bt {   
+                    .disabled-bt {
                         pointer-events: none;
                         opacity: 0.4;
                     }
 
                     /********************** Small ***********************/
                     .party-name-sm {
-                        height: 40px;
+                                height: 40px;
 
                         flex: 100%;
                         display: flex;
@@ -140,22 +177,22 @@ const Party = styled.div`
                     }
 
                     .profile-pic-container-sm::-webkit-scrollbar-thumb {
-                        border-radius: 10px;
+                                border-radius: 10px;
 	                    background-image: linear-gradient(rgb(255, 251, 0),rgb(247, 0, 255));
                     }
 
                     .party-profile-pic-sm {
-                        width: 30px;
+                                width: 30px;
                         height: 30px;
                         margin: 5px;
                         border-radius: 100%;
                     }
 
                     .join-bt-sm {
-                        width: 60px;
+                                width: 60px;
                         height: 30px;
                         margin-left: 25px;
-                        
+
                         display: flex;
                         align-items: center;
                         flex-direction: column;
@@ -168,11 +205,24 @@ const Party = styled.div`
                     }
 
                     .join-bt-sm:hover {
-                        cursor: pointer;
-                        box-shadow: 
+                                cursor: pointer;
+                        box-shadow:
                             0 0 5px wheat,
                             0 0 10px wheat,
                             0 0 20px wheat,
                             0 0 21px wheat;
+                    }
+
+                    .cross-delete{
+                        position:absolute;
+                        display: block;
+                        bottom: 0px;
+                        right: 10px;
+                        z-index: 10;
+                        cursor : pointer;
+                    }
+
+                    .cross-delete:hover{
+                        text-shadow: white 0em 0em 0.5em,white 0em 0em 0.5em;
                     }
                 `

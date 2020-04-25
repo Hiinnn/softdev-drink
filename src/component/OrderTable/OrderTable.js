@@ -117,8 +117,6 @@ export default class OrderTable extends Component {
 					< tbody style={{ maxHeight: this.props.maxHeight }}>
 						{	// Loop create item in table
 							this.state.order[this.props.type].map((data, i) => {
-								console.log('data', data);
-
 								return (
 									<tr key={i}>
 										{
