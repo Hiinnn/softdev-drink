@@ -17,7 +17,7 @@
     height: 660px;
     float: right;
     display: inline-block;
-    background-color: #5c5c5c;
+    background-color: hsl(0, 0%, 36%, 0.4);
     padding: 12px 12px;
     border-radius: 4px;
 }
