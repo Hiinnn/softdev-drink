@@ -12,7 +12,7 @@ import OrderTable from '../OrderTable/OrderTable';
 export default class BranchDetail extends React.Component {
     constructor(props) {
         super(props);
-        let userRole = 'dk';   // dk, ow, sm
+        let userRole = 'sm';   // dk, ow, sm
         this.orderData = orderData;
 
         shopData.phone_number = this.formatPhoneNumber(shopData.phone_number)
@@ -21,6 +21,7 @@ export default class BranchDetail extends React.Component {
             editable: false,
             shopData: shopData,
             role: userRole,
+            day: new Date().getDay(),
         }
 
         this.edit = this.edit.bind(this)
@@ -34,6 +35,10 @@ export default class BranchDetail extends React.Component {
             return phone_number.replace(/(\d{2})(\d{3})(\d{4})/, "0$1-$2-$3");
         }
 
+        if (phone_number.length < 10) {
+            return phone_number;
+        }
+
         return phone_number.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
     }
 
@@ -44,7 +49,6 @@ export default class BranchDetail extends React.Component {
         const shop_data = { ...this.state.shopData };
 
         if (name === "phone_number") {
-            value = value.slice(4);
             value = this.formatPhoneNumber(value);
         }
 
@@ -144,7 +148,7 @@ export default class BranchDetail extends React.Component {
                                 <label style={{ marginBottom: 0 }} >Open :&nbsp;&nbsp;</label>
                                 <input name=""
                                     disabled={!this.state.editable}
-                                    value={this.state.shopData.time || 'kuyyyyyy'}
+                                    value={this.state.shopData.officeday[0]}
                                     spellCheck="false"
                                     onChange={this.handleChange}
                                     style={{ width: '84.5%', }} />
