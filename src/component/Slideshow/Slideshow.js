@@ -13,11 +13,13 @@ export default class SlideShow extends Component {
                             photos.map((photo, i) => {
                                 return (
                                     <Carousel.Item key={photo + i}>
-                                        <img
-                                            className="d-block w-100 h-50"
-                                            src={photo.url}
-                                            alt={photo.name}
-                                        />
+                                        <a href="">
+                                            <img
+                                                className="d-block w-100 h-50"
+                                                src={photo.url}
+                                                alt={photo.name}
+                                            />
+                                        </a>
                                     </Carousel.Item>
                                 )
                             })

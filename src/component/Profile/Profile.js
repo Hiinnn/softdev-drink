@@ -33,14 +33,14 @@ export default class Profile extends Component {
 
         e.preventDefault();
 
-        let value = e.target.value;
+        const name = e.target.name;
+        const value = e.target.value;
+        const newData = {...this.state.userData};
 
-        const user_Data = { ...this.state.userData };
-
-        user_Data = value;
+        newData[name] = value;
 
         this.setState({
-            userData: user_Data
+            userData: newData
         })
     }
 
@@ -53,75 +53,39 @@ export default class Profile extends Component {
                 </div>
 
                 <div className="profile-container">
-                    {
-                    this.state.editable === false &&
                         <div>
                             <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
                             <br /><br />
 
                             <label className="text" style={{ marginLeft: 20 }}> Name
-                            <label style={{ marginLeft: 92 }}> {this.state.userData.username}</label>
+                            <input className="input" type="text" style={{ marginLeft: 89 }}
+                                    name="new_name"
+                                    disabled={!this.state.editable}
+                                    value={this.state.userData.username}
+                                    onChange={this.handleChange} />
                             </label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> E-mail
-                            <label style={{ marginLeft: 85 }}> {this.state.userData.email}</label>
-                            </label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Mobile
-                            <label style={{ marginLeft: 85 }}> {this.state.userData.phone_number}</label>
-                            </label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Date of birth
-                            <label style={{ marginLeft: 33 }}> {this.state.userData.birth_date}</label>
-                            </label>
-                            <br /><br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Description
-                            </label>
-                            <br /><br />
-
-                            <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} ></textarea>
-                            <br /><br />
-                        </div>
-                    }
-
-                    {
-                       this.state.editable &&
-                        <div>
-                            <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Name < input className="input" type="text" style={{ marginLeft: 89 }} 
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.username}
-                            onChange={this.handleChange}
-                            >
-                            </input></label>
                             <br /><br />
 
                             <label className="text" style={{ marginLeft: 20 }}> E-mail <input className="input" type="text" style={{ marginLeft: 82 }}
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.email}
-                            onChange={this.handleChange}
+                                /*disabled={!this.state.editable}*/
+                                value={this.state.userData.email}
+                                onChange={this.handleChange}
                             >
                             </input></label>
                             <br /><br />
 
                             <label className="text" style={{ marginLeft: 20 }}> Mobile <input className="input" type="text" style={{ marginLeft: 82 }}
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.phone_number}
-                            onChange={this.handleChange}
+                                /*disabled={!this.state.editable}*/
+                                value={this.state.userData.phone_number}
+                                onChange={this.handleChange}
                             >
                             </input> </label>
                             <br /><br />
 
                             <label className="text" style={{ marginLeft: 20 }}> Date of birth <input className="input" type="text" style={{ marginLeft: 30 }}
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.birth_date}
-                            onChange={this.handleChange}
+                                /*disabled={!this.state.editable}*/
+                                value={this.state.userData.birth_date}
+                                onChange={this.handleChange}
                             >
                             </input></label>
                             <br /><br /><br />
@@ -132,8 +96,6 @@ export default class Profile extends Component {
                             <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} ></textarea>
                             <br /><br />
                         </div>
-                    }
-
                     <div className="one-button" onClick={this.edit} >
                         {this.state.editable === true ? 'Save Profile' : 'Edit'}
                     </div>

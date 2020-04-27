@@ -80,48 +80,77 @@ const shopData = {
     ],
     "party": [
         {
-            name: 'Big\'s Party',
-            member: [
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
+            "id": 1,
+            "shop_id": 1,
+            "party_id": 3,
+            "party_name": "manager test booking1",
+            "member_max": 10,
+            "is_join": true,
+            "is_active": true,
+            "start_datetime": "2020-04-25T16:30:00Z",
+            "end_datetime": "2020-04-25T17:00:00Z",
+            "member_now": 1,
+            "invite_num": 0,
+            "full": false,
+            "member_list": [
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
             ]
         },
         {
-            name: 'Zeer O\'s',
-            member: [
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
+            "id": 1,
+            "shop_id": 1,
+            "party_id": 3,
+            "party_name": "manager test booking2",
+            "member_max": 10,
+            "is_join": true,
+            "is_active": true,
+            "start_datetime": "2020-04-25T16:30:00Z",
+            "end_datetime": "2020-04-25T17:00:00Z",
+            "member_now": 1,
+            "invite_num": 0,
+            "full": false,
+            "member_list": [
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
+                {
+                    "name": "b",
+                    "picture": "/media/drinker_picture/1_AAwZBED.jpg"
+                },
             ]
         },
-        {
-            name: 'Wachira',
-            member: [
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-                { profile: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' },
-            ]
-        },
-
     ]
 }
 

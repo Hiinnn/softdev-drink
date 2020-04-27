@@ -5,6 +5,7 @@ import Invite from '../Invite/Invite';
 export default class PartyList extends React.Component {
     constructor(props) {
         super(props);
+        console.log('Party',this.props);
     }
 
     render() {
@@ -37,7 +38,6 @@ export default class PartyList extends React.Component {
                                     i > 0 && this.props.host &&
                                     <div className='cross-delete' > X </div>
                                 }
-
                             </div>)
                     })
                 }

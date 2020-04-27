@@ -2,9 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Carousel, Form } from 'react-bootstrap';
 
-import { orderData } from '../../data/NEW/Order';
+// data
 import shopData from '../../data/NEW/Shop';
+import { orderData } from '../../data/NEW/Order';
 
+// Component
 import PartyList from '../Party/Party';
 import BookingTime from '../Party/BookingTime';
 import OrderTable from '../OrderTable/OrderTable';
@@ -18,10 +20,11 @@ export default class BranchDetail extends React.Component {
         shopData.phone_number = this.formatPhoneNumber(shopData.phone_number)
 
         this.state = {
-            editable: false,
-            shopData: shopData,
             role: userRole,
+            editable: false,
             day: new Date().getDay(),
+
+            shopData: shopData,
         }
 
         this.edit = this.edit.bind(this)
@@ -248,8 +251,6 @@ export default class BranchDetail extends React.Component {
                             </Carousel>
                         </div>
 
-
-
                         {/* miniPic */}
                         <div className="mini-pic-wrapper">
                             {this.state.shopData.picture_mini.map((item, i) => {
@@ -301,12 +302,12 @@ export default class BranchDetail extends React.Component {
                         <BookingTime disabledBt={this.state.role !== 'dk'} /> {/* disable button when role is owner or manager*/}
 
                         {/** Current Party in cafe */}
-                        {/* {Object.keys(this.state.shopData.party).map((i) => { */}
-                        {/* /** disable button when role is owner or manager */}
-                        {/* return (<PartyList
+                        {/* {Object.keys(this.state.shopData.party).map((i) => {
+                            console.log(this.state.shopData.party[i])
+                            return (<PartyList
                                 key={i}
                                 partyData={this.state.shopData.party[i]}
-                                disabledBt={this.state.role !== 'dk'} />)
+                                disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
                         })} */}
                     </div>
                 </BranchDetailContainer>

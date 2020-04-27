@@ -3,7 +3,7 @@
 .profile-pic-container {
     width: 300px;
     height: 100%;
-    display: inline-block;
+    play: inline-block;
 }
 
 .profile-pic {
@@ -71,6 +71,13 @@
     cursor: auto;
     color: #2e4b33;
     border-radius: 4px;
+}
+
+.input:disabled {
+    color: white;
+    resize: none;
+    border: 0 transparent;
+    background-color: transparent;
 }
 
 .textarea {

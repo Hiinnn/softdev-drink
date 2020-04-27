@@ -107,7 +107,6 @@ export default class OrderTable extends Component {
 				<thead>
 					<tr>
 						<th style={{ textAlign: 'center', borderRight: '0px', fontSize: 20 }}>{this.props.type.toUpperCase()}</th>
-						{/* <th colSpan={thCol3} style={{ textAlign: 'center', borderLeft: '0px', paddingLeft: '0px', paddingRight: '0px' }}>Amount</th> */}
 					</tr>
 				</thead>
 
@@ -134,7 +133,7 @@ export default class OrderTable extends Component {
 															onClick={() => { this.props.addToCart() }}
 															block>
 															+
-													</Button>
+														</Button>
 													</td>
 												</>
 												:
