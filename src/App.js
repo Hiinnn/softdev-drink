@@ -18,29 +18,31 @@ import TableCheck from './pages/TableCheck/TableCheck';
 import UserParty from './pages/User-party/User-party';
 
 function App() {
-  return (
-    <div className="App" >
-      {
-        // ? <UserParty/>
-        // ? <TableCheck />
-        // ? <SearchResult />
-        // ? <UserOrder />
+	return ( <
+		div className = "App" > {
+			// ? <SearchResult /> heart
+			// ? <UserParty/> total
+			// ? <UserOrder /> function
+			// ? <TableCheck />
 
-        // ? <UserProfile />
-        // ? <UserBill />
-        // ? <OwnerHome />
+			// ? <UserProfile />
+			// ? <UserBill />
+			// ? <OwnerHome />
 
-        // ? <UserHome />
-        // * <SignUp/>
-        // * <LoginPage />
-        // * <UserViewBranch />
-        // * <ResetPassword />
+			// ? <UserHome />
+			// * <SignUp/>
+			// * <LoginPage />
+			// * <UserViewBranch />
+			// * <ResetPassword />
 
-        // order sm ใช้ได้
-      }
-      <UserViewBranch />
-      
-    </div>
-  );
+			// order sm ใช้ได้
+		}
+
+
+		{ /* <UserViewBranch /> */ }
+
+		<
+		/div>
+	);
 }
 export default App;
