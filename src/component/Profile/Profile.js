@@ -14,6 +14,7 @@ export default class Profile extends Component {
             editable: false,
             userData: userData
         };
+
         this.edit = this.edit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -23,6 +24,7 @@ export default class Profile extends Component {
         if (this.state.editable === true) {
             //send data to back-end
         }
+
         this.setState(() => {
             return { editable: !this.state.editable }
         })
@@ -31,17 +33,21 @@ export default class Profile extends Component {
 
     handleChange = (e) => {
 
-        e.preventDefault();
+        // e.preventDefault();
 
-        let value = e.target.value;
+        const name = e.target.name;
+        const value = e.target.value;
+        const newData = {...this.state.userData};
 
-        const user_Data = { ...this.state.userData };
+        newData[name] = value;
 
-        user_Data = value;
+        console.log(name,value)
 
         this.setState({
-            userData: user_Data
+            userData : newData
         })
+
+        console.log(this.state)
     }
 
     render() {
@@ -53,86 +59,62 @@ export default class Profile extends Component {
                 </div>
 
                 <div className="profile-container">
-                    {
-                    this.state.editable === false &&
-                        <div>
-                            <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
-                            <br /><br />
 
-                            <label className="text" style={{ marginLeft: 20 }}> Name
-                            <label style={{ marginLeft: 92 }}> {this.state.userData.username}</label>
+                    <div>
+                        <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
+                        <br /><br />
+
+                        <label className="text" style={{ marginLeft: 20 }}> Name
+                            < input className="input-text" type="text" style={{ marginLeft: 89 }}
+                                name = "username"
+                                disabled={!this.state.editable}
+                                value={this.state.userData.username}
+                                onChange={this.handleChange}
+                            >
+                            </input>
                             </label>
-                            <br /><br />
+                        <br /><br />
 
-                            <label className="text" style={{ marginLeft: 20 }}> E-mail
-                            <label style={{ marginLeft: 85 }}> {this.state.userData.email}</label>
-                            </label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Mobile
-                            <label style={{ marginLeft: 85 }}> {this.state.userData.phone_number}</label>
-                            </label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Date of birth
-                            <label style={{ marginLeft: 33 }}> {this.state.userData.birth_date}</label>
-                            </label>
-                            <br /><br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Description
-                            </label>
-                            <br /><br />
-
-                            <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} ></textarea>
-                            <br /><br />
-                        </div>
-                    }
-
-                    {
-                       this.state.editable &&
-                        <div>
-                            <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Name < input className="input" type="text" style={{ marginLeft: 89 }} 
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.username}
-                            onChange={this.handleChange}
+                        <label className="text" style={{ marginLeft: 20 }}> E-mail
+                        <input className="input-text" type="text" style={{ marginLeft: 82 }}
+                                name = "email"
+                                disabled={!this.state.editable}
+                                value={this.state.userData.email}
+                                onChange={this.handleChange}
                             >
                             </input></label>
-                            <br /><br />
+                        <br /><br />
 
-                            <label className="text" style={{ marginLeft: 20 }}> E-mail <input className="input" type="text" style={{ marginLeft: 82 }}
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.email}
-                            onChange={this.handleChange}
-                            >
-                            </input></label>
-                            <br /><br />
-
-                            <label className="text" style={{ marginLeft: 20 }}> Mobile <input className="input" type="text" style={{ marginLeft: 82 }}
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.phone_number}
-                            onChange={this.handleChange}
+                        <label className="text" style={{ marginLeft: 20 }}> Mobile
+                        <input className="input-text" type="text" style={{ marginLeft: 82 }}
+                                name =  "phone_number"
+                                disabled={!this.state.editable}
+                                value={this.state.userData.phone_number}
+                                onChange={this.handleChange}
                             >
                             </input> </label>
-                            <br /><br />
+                        <br /><br />
 
-                            <label className="text" style={{ marginLeft: 20 }}> Date of birth <input className="input" type="text" style={{ marginLeft: 30 }}
-                            /*disabled={!this.state.editable}*/
-                            value={this.state.userData.birth_date}
-                            onChange={this.handleChange}
+                        <label className="text" style={{ marginLeft: 20 }}> Date of birth
+                        <input className="input-text" type="text" style={{ marginLeft: 30 }}
+                                name = "birth_date"
+                                disabled={!this.state.editable}
+                                value={this.state.userData.birth_date}
+                                onChange={this.handleChange}
                             >
                             </input></label>
-                            <br /><br /><br />
+                        <br /><br /><br />
 
-                            <label className="text" style={{ marginLeft: 20 }}> Description </label>
-                            <br /><br />
+                        <label className="text" style={{ marginLeft: 20 }}> Description </label>
+                        <br /><br />
 
-                            <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} ></textarea>
-                            <br /><br />
-                        </div>
-                    }
+                        <textarea className="textarea" style={{ marginLeft: 20 }} type="text" placeholder={"Description..."} 
+                            name = "description"
+                            disabled={!this.state.editable}
+                            onChange={this.handleChange}
+                        ></textarea>
+                        <br /><br />
+                    </div>
 
                     <div className="one-button" onClick={this.edit} >
                         {this.state.editable === true ? 'Save Profile' : 'Edit'}
