@@ -18,6 +18,7 @@ import TableCheck from './pages/TableCheck/TableCheck';
 import UserParty from './pages/User-party/User-party';
 
 function App() {
+<<<<<<< HEAD
   return (
     <div className="App" >
       {
@@ -41,5 +42,33 @@ function App() {
       <UserViewBranch />
     </div>
   );
+=======
+	return ( <
+		div className = "App" > {
+			// ? <SearchResult /> heart
+			// ? <UserParty/> total
+			// ? <UserOrder /> function
+			// ? <TableCheck />
+
+			// ? <UserProfile />
+			// ? <UserBill />
+			// ? <OwnerHome />
+
+			// ? <UserHome />
+			// * <SignUp/>
+			// * <LoginPage />
+			// * <UserViewBranch />
+			// * <ResetPassword />
+
+			// order sm ใช้ได้
+		}
+
+
+		{ /* <UserViewBranch /> */ }
+
+		<
+		/div>
+	);
+>>>>>>> 32e6da946b75907ebbc2cf59896934f5cf6ac722
 }
 export default App;

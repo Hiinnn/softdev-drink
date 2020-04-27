@@ -14,7 +14,7 @@
 
 .profile-container{
     width: 510px;
-    height: 660px;
+    height: 620px;
     float: right;
     display: inline-block;
     background-color: hsl(0, 0%, 36%, 0.4);
@@ -62,7 +62,7 @@
 
         /*--input--*/
 
-.input[type=text] {
+.input-text[type=text] {
     width: 300px;
     padding: 2px 12px;
     margin: 5px 0;
@@ -73,7 +73,11 @@
     border-radius: 4px;
 }
 
+<<<<<<< HEAD
 .input:disabled {
+=======
+.input-text:disabled{
+>>>>>>> 32e6da946b75907ebbc2cf59896934f5cf6ac722
     color: white;
     resize: none;
     border: 0 transparent;
@@ -92,6 +96,19 @@
     resize: none;
     cursor: auto;
     color: #2e4b33;
+}
+
+.textarea:disabled{
+    color: white;
+    resize: none;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: context-menu;
+}
+
+::placeholder {
+    color: rgb(114, 113, 113);
 }
 
     /*--button--*/
@@ -113,11 +130,6 @@
     cursor: pointer;
     color: #fff;
     box-shadow:
-        
         0 0 10px #fff,
         0 0 20px blanchedalmond;
 }
-
-::placeholder {
-    color: #2e4b33;
-    }
