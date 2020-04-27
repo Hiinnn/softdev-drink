@@ -33,7 +33,6 @@ const partyData = {
 		},
 	]
 }
-<<<<<<< HEAD
 
 const partyArray = [
     {
@@ -111,6 +110,3 @@ const partyArray = [
 ]
 
 export { partyData, partyArray};
-=======
-export default partyData;
->>>>>>> 32e6da946b75907ebbc2cf59896934f5cf6ac722

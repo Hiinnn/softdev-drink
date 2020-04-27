@@ -73,11 +73,7 @@
     border-radius: 4px;
 }
 
-<<<<<<< HEAD
-.input:disabled {
-=======
 .input-text:disabled{
->>>>>>> 32e6da946b75907ebbc2cf59896934f5cf6ac722
     color: white;
     resize: none;
     border: 0 transparent;

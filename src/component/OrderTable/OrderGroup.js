@@ -3,7 +3,8 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import OrderTable from './OrderTable';
 // import OrderData from '../../data/OrderData';
-import orderData from '../../data/NEW/Order';
+
+import { orderData } from '../../data/NEW/Order';
 import './OrderGroup.css';
 
 class Order extends React.Component {
@@ -13,39 +14,32 @@ class Order extends React.Component {
 		// this.data = orderData
 		this.state = {
 			data: orderData,
-			order: null
+			order: [],
 		}
 	}
 
-	cart_addOrder = (goods_name) => {
-		if (this.state.order === null) { // Initial cart order		
+	cart_addOrder = (type, index) => {
+
+		if (this.state.order.findIndex(i => i.goods_name === this.state.data[type][index].goods_name) === -1) { // Check if order doesn't exist => add order to cart		
 			this.setState({
-				order: [{
-					goods_name: goods_name[0],
-					amount: 1
-				}]
+				order: this.state.order.concat([{ goods_name: this.state.data[type][index].goods_name, amount: 1 }])
 			})
-		} else {
-			if (this.state.order.findIndex(i => i.goods_name === goods_name[0]) === -1) { // Check if order doesn't exist => add order to cart
-				this.setState({
-					order: this.state.order.concat([{ goods_name: goods_name, amount: 1 }])
-				})
-			}
 		}
 	}
 
-	cart_deleteOrder = (name) => {
-		let index = this.state.order.findIndex(i => i.name === name)
+	cart_deleteOrder = (index) => {
 		let newOrder = [...this.state.order]
+
 		newOrder = [...newOrder.slice(0, index), ...newOrder.slice(index + 1, newOrder.length)] // Slice order[index] out
+		
 		this.setState({
 			order: newOrder
 		})
 	}
 
-	increaseOrder = (name) => {
-		let index = this.state.order.findIndex(i => i.name === name)
+	increaseOrder = (index) => {
 		let newOrder = [...this.state.order]
+
 		if (newOrder[index].amount > 0) {
 			newOrder[index].amount += 1
 			this.setState({
@@ -54,14 +48,15 @@ class Order extends React.Component {
 		}
 	}
 
-	decreaseOrder = (name) => {
-		let i = this.state.order.findIndex(i => i.name === name)
+	decreaseOrder = (index) => {
 		let newOrder = [...this.state.order]
-		newOrder[i].amount -= 1
-		if (newOrder[i].amount <= 0) {
-			this.cart_deleteOrder(name)
+
+		if (newOrder[index].amount === 1){
+			this.cart_deleteOrder(index)
 			return;
 		}
+
+		newOrder[index].amount -= 1;
 		this.setState({
 			order: newOrder
 		})
@@ -92,8 +87,7 @@ class Order extends React.Component {
 					<div className="order-table"
 						style={
 							{ marginRight: '0px' }} >
-						<
-							CartTable order={this.state.order}
+						<CartTable order={this.state.order}
 							increase={this.increaseOrder.bind(this)}
 							decrease={this.decreaseOrder.bind(this)}
 						/>
@@ -125,30 +119,30 @@ class CartTable extends React.Component {
 				</thead>
 				<tbody >
 					{
-						this.props.order && Object.keys(this.props.order).map((name, i) => {
+						this.props.order && Object.keys(this.props.order).map((index) => {
+							console.log(index)
 							return (
-								<tr key={'cart' + i} >
+								<tr key={'cart' + index} >
 									<td width="60%"
 										style={
-											{ borderRight: '0px' }} > {this.props.order[name].name}
+											{ borderRight: '0px' }} > {this.props.order[index].goods_name}
 									</td>
 									<td style={{ textAlign: "center", borderLeft: '0px', borderRight: '0px', userSelect: "none", cursor: "pointer" }}
 										width="10%"
-										onClick={
-											() => { this.props.decrease(this.props.order[name].name) }} >
+										onClick={() => { this.props.decrease(index) }}>
 										-
-						</td>
+									</td>
 									<td style={
 										{ textAlign: "center", borderLeft: '0px', borderRight: '0px', userSelect: "none" }}
-										width="20%" > {this.props.order[name].amount}
+										width="20%" > {this.props.order[index].amount}
 									</td>
 									<td style={
 										{ textAlign: "center", borderLeft: '0px', userSelect: "none", cursor: "pointer" }}
 										width="10%"
 										onClick={
-											() => { this.props.increase(this.props.order[name].name) }} >
+											() => { this.props.increase(index) }} >
 										+
-						</td>
+									</td>
 								</tr>
 							)
 						})

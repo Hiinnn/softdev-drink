@@ -130,7 +130,7 @@ export default class OrderTable extends Component {
 													<td className="menu-button" width="15%">
 														<Button variant="info"
 															size="sm"
-															onClick={() => { this.props.addToCart() }}
+															onClick={() => { this.props.addToCart(this.props.type,i) }}
 															block>
 															+
 														</Button>
