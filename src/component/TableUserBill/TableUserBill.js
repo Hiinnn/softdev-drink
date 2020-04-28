@@ -1,9 +1,56 @@
 import React, { Component } from 'react';
 import './TableUserBill.css';
-import { listMenu } from '../../data/listMenu';
+//import { listMenu } from '../../data/listMenu';
 import Table from 'react-bootstrap/Table'; 		//className = "table"
+import partyOrder from '../../data/NEW/partyOrder';
 
 export default class TableUserBill extends Component {
+
+    constructor(props) {
+
+        super(props);
+
+        this.partyOrder = partyOrder;
+
+        this.state = {
+            editable: false,
+            partyOrder: partyOrder
+        };
+
+        this.edit = this.edit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    edit = () => {
+
+        if (this.state.editable === true) {
+            //send data to back-end
+        }
+
+        this.setState(() => {
+            return { editable: !this.state.editable }
+        })
+
+    }
+
+    handleChange = (e) => {
+
+        // e.preventDefault();
+
+        //const name = e.target.name;
+        //const value = e.target.value;
+        const partyOrder = { ...this.state.partyOrder };
+
+        //newOrder[name] = value;
+
+        //console.log(name,value)
+
+        this.setState({
+            partyOrder: partyOrder
+        })
+
+        console.log(this.state)
+    }
 
     handleClick = () => {
         alert('Print')
@@ -12,33 +59,37 @@ export default class TableUserBill extends Component {
     render() {
         return (
             <div>
-                <div className="table">
+                <table className="bill-table">
                     <Table striped bordered hover responsive variant="dark" id="Menu" /*style={{ marginLeft: "20%" }}*/>
-                        <thead>
+                        <thead >
                             <tr>
-                                <th style={{ width: "55%" }}>Menu</th>
-                                <th style={{ width: "15%" }}>Price</th>
-                                <th style={{ width: "15%" }}>Amount</th>
-                                <th style={{ width: "15%" }}>Total</th>
+                                <th className = "head-table" style={{ width: "55%" }}>Menu</th>
+                                <th className = "head-table" style={{ width: "15%" }}>Price</th>
+                                <th className = "head-table" style={{ width: "15%" }}>Amount</th>
+                                <th className = "head-table" style={{ width: "15%" }}>Total</th>
                             </tr>
                         </thead>
 
                         <tbody >
                             {
-                                listMenu.map((Menu, i) => {
+                                Object.keys(this.state.partyOrder.order_item).map((data, i) => {
                                     return (
-                                        <tr width="100%">
-                                            <td style={{ width: "55%" }}>{Menu.nameMenu}</td>
-                                            <td style={{ textAlign: "center" }}>{Menu.Price}</td>
-                                            <td style={{ textAlign: "center" }}>{Menu.Amount}</td>
-                                            <td style={{ textAlign: "center" }}>{Menu.Total}</td>
+                                        <tr key={i}>
+                                            <tr>
+                                                <td style={{width: "55%"}}>1{data.goods_name}</td>
+                                                <td style={{ textAlign: "center" }} >2{data.price_unit}</td>
+                                                <td style={{ textAlign: "center" }}>3{data.order_qty}</td>
+                                                <td style={{ textAlign: "center" }}>4{data.order_price}</td>
+                                            </tr>
                                         </tr>
                                     )
                                 })
                             }
                         </tbody>
                     </Table>
-                </div >
+                </table >
+                
+                <br /><br />
 
                 <div className="total-table">
                     <Table striped bordered hover responsive variant="dark" id="Total">
@@ -47,7 +98,7 @@ export default class TableUserBill extends Component {
                         </tr>
                     </Table>
                 </div>
-                
+
                 <br />
                 <div className="print-button" onClick={this.handleClick} > PRINT </div>
                 <br /><br />
