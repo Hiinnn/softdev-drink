@@ -3,7 +3,7 @@ import './Result.css';
 import { Results } from '../../data/ResultData';
 // import BookingTime from '../Party/BookingTime';
 import PartyList from '../Party/Party';
-import ShopDataArray from '../../data/NEW/ShopDataArray';
+import { shopArray } from '../../data/NEW/ShopArray';
 
 
 
@@ -11,33 +11,34 @@ class Result extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			shopData: ShopDataArray
+			shopData: shopArray,
+			createLike: this.createLike()
 		}
 	}
 
 	getTime = () => {
 		const date = new Date()
-		this.state.shopData.map((i) => {
+		this.state.shopArray.map((i) => {
 
 			// console.log(this.state.shopData[i].officeday.forEach(work => work.weekday === date.getDay()));
 		})
 	}
 
 	createLike = () => {
-		// let temp = []
-		// for (let i = 0; i < shopData.length; i++) {
-		// 	temp.push(shopData[i].like)
-		// }
+		let temp = []
+		for (let i = 0; i < shopArray.length; i++) {
+			temp.push(shopArray[i].like)
+		}
 
-		// return temp;
+		return temp;
 	}
 
 	likeClick = (i) => {
-		// const ar = this.state;
-		// ar[i] = !ar[i]
-		// this.setState({
-		// 	this: ar
-		// })
+		const ar = this.state.createLike;
+		ar[i] = !ar[i]
+		this.setState({
+			createLike: ar
+		})
 	}
 
 	render() {
@@ -76,7 +77,7 @@ class Result extends Component {
 						div style = {
 							{ height: "50px" } } >
 						<
-						img src = { this.state[i] ? require("../../asset/icon/heart.png") : require("../../asset/icon/heart2.png") }
+						img src = { this.state.createLike[i] ? require("../../asset/icon/heart2.png") : require("../../asset/icon/heart.png") }
 						onClick = {
 							() => this.likeClick(i) }
 						alt = "heart"

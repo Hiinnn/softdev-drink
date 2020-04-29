@@ -10,8 +10,7 @@
 .tbCheck {
 	width: 500px;
 	height: 300px;
-	position: relative;
-	display: inline-block;
+	display: block;
 	color: aliceblue;
 	font-family: arial, sans-serif;
 	/* border-collapse: collapse; */
@@ -42,12 +41,9 @@
 .imageplus {
 	max-width: 17px;
 	height: auto;
-	margin-right: 10px;
-	margin-left: 550px;
-	margin-bottom: 40px;
 	opacity: 0.7;
 	cursor: pointer;
-	position: relative;
+	margin-left: 10px;
 }
 
 .imageplus:hover {
