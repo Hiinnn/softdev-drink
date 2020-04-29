@@ -1,16 +1,17 @@
 import React from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import './SignUp-form.css';
+import Axios from 'axios';
+import IMX from '../../asset/HomeBG/bg1.jpg';
 
-const usernameRegex = RegExp(/(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}/)              // contain at least 1 uppercase and 1 lowercase
-const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,10}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number
+const usernameRegex = RegExp(/[a-zA-Z0-9]{8,}/)              // contain at least 1 uppercase and 1 lowercase
+const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number
 const nameRegex = RegExp(/^[a-zA-Z]+$/)                                         // contain name and surname (only english letter)
 const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)      // Email format -----@-----.---
 const phoneRegex = RegExp(/^[0-9]{8,}$/)                                           // Phone number contain only number
 
-const validateForm = ({ error, ...rest }) => {
+const validateForm = ({ error, form }) => {
     let valid = true;
-
 
     // validate form errors being empty
     Object.values(error).forEach(val => {
@@ -18,10 +19,9 @@ const validateForm = ({ error, ...rest }) => {
     });
 
     // validate the form was filled out
-    Object.values(rest).forEach(val => {
+    Object.values(form).forEach(val => {
         val.length === 0 && (valid = false);
     });
-
     return valid;
 };
 
@@ -30,43 +30,52 @@ export default class SignUp extends React.Component {
         super(props)
 
         this.form = {
-            username: ['Username', 'text', 'Enter Username'],
-            password: ['Password', 'password', 'Enter Password'],
-            comfirm: ['Confirm Password', 'password', 'Confirm Password'],
-            name: ['Name', 'text', 'Enter Name and Surname'],
-            birth: ['Birth Month', 'month', ''],
-            email: ['Email', 'email', 'Enter Email'],
-            phone: ['Phone', 'text', 'Enter Phone Number', '[0-9]{8,10}']
+            username: ['Username', 'text', ''],
+            password: ['Password', 'password', ''],
+            password_comfirm: ['Confirm Password', 'password', ''],
+            first_name: ['Name', 'text', ''],
+            nickname: ['Nickname', 'text', ''],
+            birth_date: ['Birth Month', 'month', ''],
+            email: ['Email', 'email', ''],
+            phone_number: ['Phone', 'text', '[0-9]{8,10}'],
         }
+
         this.state = {
-            username: '',
-            password: '',
-            comfirm: '',
-            name: '',
-            birth: '',
-            email: '',
-            phone: '',
-            check: false,
+            form: {
+                first_name: '',
+                last_name: '',
+                username: '',
+                password: '',
+                password_confirm: '',
+                birth_date: '',
+                phone_number: '',
+                nickname: '',
+            },
             error: {
                 username: '',
                 password: '',
-                comfirm: '',
-                name: '',
-                birth: '',
+                password_comfirm: '',
+                first_name: '',
+                last_name: '',
+                birth_date: '',
                 email: '',
-                phone: '',
-            }
+                phone_number: '',
+            },
+            role: 'dk',
+            check: true,
         }
 
-        this.submit = this.submit.bind(this)
-        this.handleCheck = this.handleCheck.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        this.submit = this.submit.bind(this);
+        this.handleCheck = this.handleCheck.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     }
 
     handleChange(e) {
         e.preventDefault();
         const name = e.target.name;
         let value = e.target.value;
+        const newForm = { ...this.state.form }
         const formError = { ...this.state.error }
 
         switch (name) {
@@ -74,7 +83,7 @@ export default class SignUp extends React.Component {
                 formError[name] =
                     usernameRegex.test(value)
                         ? ""
-                        : "Username must be longer than 8 characters and contain at least 1 uppercase letter(s).";
+                        : "Username must be longer than 8 characters.";
                 break;
             case "password":
                 formError[name] =
@@ -82,23 +91,26 @@ export default class SignUp extends React.Component {
                         ? ""
                         : "Password must be longer than 8 characters and contain at least 1 uppercase, 1 lower case and 1 number.";
                 break;
-            case "comfirm":
+            case "password_comfirm":
                 formError[name] =
-                    value === this.state.password
+                    value === this.state.form.password
                         ? ""
                         : "Password & Confirm password must be the same";
                 break;
-            case "name":
+            case "first_name":
                 let [Name, Surname] = value.split(' ')
                 formError[name] =
                     nameRegex.test(Name) && nameRegex.test(Surname) && Surname
                         ? ""
                         : "Invalid name or surname";
-                break;
-            case "birth":
-                let date = new Date()
-                let [year, month] = value.split('-')
 
+                newForm["first_name"] = Name;
+                newForm["lase_name"] = Surname;
+                break;
+            case "birth_date":
+                let date = new Date();
+                let [year, month] = value.split('-');
+                value = value.concat('-01');
                 formError[name] =
                     parseInt(year) <= parseInt(date.getFullYear()) && parseInt(month) <= parseInt(date.getMonth() + 1)
                         ? ""
@@ -110,42 +122,47 @@ export default class SignUp extends React.Component {
                         ? ""
                         : "Invalid Email";
                 break;
-            case "phone":
+            case "phone_number":
                 formError[name] =
                     phoneRegex.test(value) && value[0] === '0'
                         ? ""
                         : "Phone number must contain only number (only Thai phone number)";
-                if (value[0] === "0" && this.state.phone[0] !== "+") {
-                    value = '+66'.concat(this.state.phone.slice(1))
+                if (value[0] === "0" && this.state.form.phone_number[0] !== "+") {
+                    value = '+66'.concat(this.state.form.phone_number.slice(1))
                 }
-                break;
-            case "check":
-                formError[name] = value;
                 break;
             default:
                 break;
         }
 
+        newForm[name] = value;
+
         this.setState({
-            [name]: value,
+            form: newForm,
             error: formError
         });
-
-        console.log(this.state.phone);
-
     }
 
     handleCheck(e) {
         this.setState({
-            check: e.target.checked,
+            check: e.target.checked
         });
+    }
+
+    handleSelect(e) {
+        this.setState({
+            role: e.target.value
+        })
     }
 
     submit(event) {
         event.preventDefault();
 
         if (validateForm(this.state) && this.state.check) {
-            console.log('nice');
+            const sentForm = new FormData();            // change raw data to form
+            Object.keys(this.state.form).map((key) => {
+                sentForm.append(key, this.state.form[key]);
+            })
         }
         else {
             console.log('fuckr');
@@ -170,7 +187,6 @@ export default class SignUp extends React.Component {
                     {
                         // Loop create form
                         Object.keys(this.form).map((key, i) => {
-                            console.log(this.state.error[key]);
                             return (
                                 <Form.Group as={Row} key={"form" + key} controlId={"form" + key}>
                                     <Form.Label column sm={3}>{this.form[key][0]}</Form.Label>
@@ -178,13 +194,12 @@ export default class SignUp extends React.Component {
                                         <Form.Control as='input'
                                             name={key}
                                             type={this.form[key][1]}
-                                            // placeholder={this.form[key][2]}
-                                            pattern={this.form[key][3]}
+                                            pattern={this.form[key][2]}
                                             size="sm"
-                                            value={this.state[i]}
+                                            value={this.state.form[i]}
                                             onChange={this.handleChange}
-                                            isInvalid={this.state[key].length > 0 && this.state.error[key]}
-                                            isValid={this.state[key].length > 0 && !this.state.error[key]}
+                                            isInvalid={this.state.error[key]}
+                                            isValid={this.state.form[key] && !this.state.error[key]}
                                         />
                                         <Form.Control.Feedback type="valid">{this.state.error[key]}</Form.Control.Feedback>
                                         <Form.Control.Feedback type="invalid">{this.state.error[key]}</Form.Control.Feedback>
@@ -194,15 +209,31 @@ export default class SignUp extends React.Component {
                         })
                     }
 
+                    {/* Choose Role */}
+                    <Form.Group as={Row}>
+                        <Form.Label column sm={3}>Choose Role</Form.Label>
+                        <Col>
+                            <div className="form-inline" id={'form'}>
+                                <select className="custom-select my-1 mr-sm-2 form-control-lg"
+                                    id="inlineFormCustomSelectPref"
+                                    onChange={this.handleSelect}
+                                    style={{ textAlign: "center", textAalignLast: "center" }}>
+                                    <option value="dk">Drinker</option>
+                                    <option value="ow">Owner</option>
+                                </select>
+                            </div>
+                        </Col>
+                    </Form.Group>
+
+
                     {/* Checkbox term and condition */}
                     <Form.Group>
-                        {/* <Form.Check as="input" */}
                         <Form.Check
                             type='checkbox'
                             inline={true}
                             name="check"
                             onChange={this.handleCheck}
-                            checked={this.state.check}
+                            checked={this.state.form.check}
                         />
                         <div style={{ display: 'inline' }}>By signing I agree with {term} and {condition}</div>
                     </Form.Group>

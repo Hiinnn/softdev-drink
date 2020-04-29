@@ -24,3 +24,5 @@ const partyOrder = {
     ],
     "total": 5394.0
 }
+
+export default partyOrder;

@@ -10,6 +10,7 @@ import { orderData } from '../../data/NEW/Order';
 import PartyList from '../Party/Party';
 import BookingTime from '../Party/BookingTime';
 import OrderTable from '../OrderTable/OrderTable';
+import Axios from 'axios';
 
 export default class BranchDetail extends React.Component {
     constructor(props) {
@@ -92,6 +93,7 @@ export default class BranchDetail extends React.Component {
 
         shopData.picture_sub[e.target.name] = file
 
+        
         // delete file from server
         //  then
         //  get shop_data again and refresh pages
@@ -302,13 +304,13 @@ export default class BranchDetail extends React.Component {
                         <BookingTime disabledBt={this.state.role !== 'dk'} /> {/* disable button when role is owner or manager*/}
 
                         {/** Current Party in cafe */}
-                        {/* {Object.keys(this.state.shopData.party).map((i) => {
-                            console.log(this.state.shopData.party[i])
+                        {Object.keys(this.state.shopData.party).map((i) => {
+                            console.log(i,this.state.shopData.party[i])
                             return (<PartyList
                                 key={i}
                                 partyData={this.state.shopData.party[i]}
                                 disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
-                        })} */}
+                        })}
                     </div>
                 </BranchDetailContainer>
             </>

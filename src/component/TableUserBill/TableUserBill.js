@@ -10,7 +10,7 @@ export default class TableUserBill extends Component {
 
         super(props);
 
-        this.partyOrder = partyOrder;
+        // this.partyOrder = partyOrder;
 
         this.state = {
             editable: false,
@@ -59,7 +59,7 @@ export default class TableUserBill extends Component {
     render() {
         return (
             <div>
-                <table className="bill-table">
+                <div className="bill-table">
                     <Table striped bordered hover responsive variant="dark" id="Menu" /*style={{ marginLeft: "20%" }}*/>
                         <thead >
                             <tr>
@@ -87,8 +87,18 @@ export default class TableUserBill extends Component {
                             }
                         </tbody>
                     </Table>
-                </table >
+                </div >
                 
+
+                        <table>
+                            <thead>
+                                <tr></tr> or <td></td>
+                            </thead>
+                            <tbody>
+                                <tr></tr> or <td></td>
+                            </tbody>
+                        </table>
+
                 <br /><br />
 
                 <div className="total-table">
