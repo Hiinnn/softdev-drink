@@ -1,7 +1,9 @@
 import React from 'react';
 import './App.css';
 
-import SignUp from './pages/Login-Signup/Sign-up';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+
+// import SignUp from './pages/Login-Signup/Sign-up';
 import LoginPage from './pages/Login-Signup/Login';
 import ResetPassword from './pages/Login-Signup/Reset-password-page';
 
@@ -16,6 +18,23 @@ import SearchResult from './pages/Search-result/Search-result';
 
 import TableCheck from './pages/TableCheck/TableCheck';
 import UserParty from './pages/User-party/User-party';
+
+// ! Component ************************************
+import Navbar from './component/Nav-bar/Nav-bar';
+
+// * Signup
+import SignUp from './component/Login-Sigup/SignUp-form';
+
+// * Login
+import LoginForm from './component/Login-Sigup/Login-form';
+
+// * Usermain
+import Slideshow from './component/Slideshow/Slideshow';
+import Recommended from './component/Recommended/Recommended';
+
+const WebContext = React.createContext({
+	link: 'http://f0e930d0.ngrok.io'
+});
 
 function App() {
 	return ( <
@@ -44,3 +63,8 @@ function App() {
 	);
 }
 export default App;
+
+
+const home = () => < > < Slideshow / > < Recommended / > < />
+const login = () => < LoginForm / >
+	const signup = () => < SignUp / >

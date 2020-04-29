@@ -17,8 +17,8 @@ export default class TableUserBill extends Component {
 			partyOrder: partyOrder
 		};
 
-		this.edit = this.edit.bind(this)
-		this.handleChange = this.handleChange.bind(this)
+		//this.edit = this.edit.bind(this)
+		//this.handleChange = this.handleChange.bind(this)
 	}
 
 	edit = () => {
@@ -60,7 +60,7 @@ export default class TableUserBill extends Component {
 		return ( <
 			div >
 			<
-			table className = "bill-table" >
+			div className = "bill-table" >
 			<
 			Table striped bordered hover responsive variant = "dark"
 			id = "Menu" /*style={{ marginLeft: "20%" }}*/ >
@@ -69,45 +69,28 @@ export default class TableUserBill extends Component {
 			<
 			tr >
 			<
-			th className = "head-table"
-			style = {
-				{ width: "55%" } } > Menu < /th> <
-			th className = "head-table"
-			style = {
-				{ width: "15%" } } > Price < /th> <
-			th className = "head-table"
-			style = {
-				{ width: "15%" } } > Amount < /th> <
-			th className = "head-table"
-			style = {
-				{ width: "15%" } } > Total < /th> <
+			th className = "menu-head" > Menu < /th> <
+			th className = "price-head" > Price < /th> <
+			th className = "amount-head" > Amount < /th> <
+			th className = "total-head" > Total < /th> <
 			/tr> <
-			/thead>
-
-			<
+			/thead> <
 			tbody > {
-				Object.keys(this.state.partyOrder.order_item).map((data, i) => {
+				this.state.partyOrder.order_item.map((data, i) => {
 					return ( <
 						tr key = { i } >
 						<
-						tr >
-						<
-						td style = {
-							{ width: "55%" } } > 1 { data.goods_name } < /td> <
-						td style = {
-							{ textAlign: "center" } } > 2 { data.price_unit } < /td> <
-						td style = {
-							{ textAlign: "center" } } > 3 { data.order_qty } < /td> <
-						td style = {
-							{ textAlign: "center" } } > 4 { data.order_price } < /td> <
-						/tr> <
+						td className = "menu" > { data.goods_name } < /td> <
+						td className = "price" > { data.price_unit } < /td> <
+						td className = "amount" > { data.order_qty } < /td> <
+						td className = "total" > { data.order_price } < /td> <
 						/tr>
-					)
+					);
 				})
 			} <
 			/tbody> <
-			/Table> <
-			/table >
+			/Table > <
+			/div >
 
 			<
 			br / > < br / >
@@ -118,10 +101,14 @@ export default class TableUserBill extends Component {
 			Table striped bordered hover responsive variant = "dark"
 			id = "Total" >
 			<
+			thead >
+			<
 			tr >
 			<
 			td > Total < /td> <
+			td > { partyOrder.total } < /td> <
 			/tr> <
+			/thead> <
 			/Table> <
 			/div>
 
@@ -132,7 +119,7 @@ export default class TableUserBill extends Component {
 			onClick = { this.handleClick } > PRINT < /div> <
 			br / > < br / >
 			<
-			/div>
+			/div >
 		);
 	}
 }
