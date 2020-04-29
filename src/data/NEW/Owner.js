@@ -9,10 +9,13 @@ const ownerData = {
             "shop_id": 1,
             "shop_name": "Chill Bar BKK",
             "max_seat": 50,
-            "created": "2020-04-23T13:52:24.817347Z"
+            "created": "2020-04-23T13:52:24.817347Z",
+            "shop_picture" : require('../../asset/ShopOwner/ShopOwner1.jpg'),
+            "shop_address":"xxx"
         }
     ],
     "picture": "/media/owner_picture/Party_designnew.png",
     "phone_number": "+66882673233",
     "created": "2020-04-23T13:46:36.314674Z"
 }
+export default ownerData;
