@@ -1,4 +1,4 @@
-const partyOrder = {
+const partyOrder = { 
     "party_id": 1,
     "party_name": "manager test booking1",
     "start_datetime": "2020-04-28T08:00:00Z",
@@ -7,6 +7,7 @@ const partyOrder = {
     "order_item": [
         {
             "goods_id": 1,
+            "goods_name": "xxx",
             "order_qty": 5,
             "price_unit": "899.00",
             "order_price": "4495.00",
@@ -15,6 +16,7 @@ const partyOrder = {
         },
         {
             "goods_id": 2,
+            "goods_name": "yyy",
             "order_qty": 1,
             "price_unit": "899.00",
             "order_price": "899.00",
@@ -22,7 +24,6 @@ const partyOrder = {
             "created": "2020-04-28T08:04:33.267690Z"
         }
     ],
-    "total": 5394.0
+    "total": "5394.00"
 }
-
 export default partyOrder;
