@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import './ShopOwnerTable.css';
-import { shops } from '../../data/ShopOwnerData.js';
+//import { shops } from '../../data/ShopOwnerData.js';
+import ownerData from '../../data/NEW/Owner';
 
 class ShopOwnerTable extends Component {
+
+	constructor(props) {
+
+		super(props);
+
+		this.ownerData = ownerData;
+
+		this.state = {
+			ownerData: ownerData
+		};
+
+	}
 
 	render() {
 		return (
@@ -11,17 +24,17 @@ class ShopOwnerTable extends Component {
 					<tbody>
 
 						{
-							shops.map((shop,i) => {
+							this.state.ownerData.related_shop.map((shop, i) => {
 								return (
 									<tr key={i}>
 										<td > < img className="imgshop"
-											src={shop.url}
+											src={shop.shop_picture}
 											alt={shop.name}
 										/>
 										</td >
 										<td className="nameAddress" >
-											<h4 className="name"> {shop.name} </h4>
-											<p className="address"> {shop.details} </p>
+											<h4 className="name"> {shop.shop_name} </h4>
+											<p className="address"> {shop.shop_address} </p>
 										</td>
 									</tr>
 								)
@@ -32,8 +45,5 @@ class ShopOwnerTable extends Component {
 			</div>
 		);
 	}
-
-
-
 }
 export default ShopOwnerTable;
