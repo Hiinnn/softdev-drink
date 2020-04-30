@@ -3,7 +3,7 @@
 .profile-pic-container {
     width: 300px;
     height: 100%;
-    play: inline-block;
+    display: inline-block;
 }
 
 .profile-pic {

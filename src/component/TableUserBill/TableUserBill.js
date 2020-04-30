@@ -10,17 +10,17 @@ export default class TableUserBill extends Component {
 
         super(props);
 
-        // this.partyOrder = partyOrder;
+        this.partyOrder = partyOrder;
 
         this.state = {
             editable: false,
             partyOrder: partyOrder
         };
 
-        this.edit = this.edit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        //this.edit = this.edit.bind(this)
+        //this.handleChange = this.handleChange.bind(this)
     }
-
+    
     edit = () => {
 
         if (this.state.editable === true) {
@@ -32,7 +32,7 @@ export default class TableUserBill extends Component {
         })
 
     }
-
+    
     handleChange = (e) => {
 
         // e.preventDefault();
@@ -61,58 +61,48 @@ export default class TableUserBill extends Component {
             <div>
                 <div className="bill-table">
                     <Table striped bordered hover responsive variant="dark" id="Menu" /*style={{ marginLeft: "20%" }}*/>
-                        <thead >
+                        <thead>
                             <tr>
-                                <th className = "head-table" style={{ width: "55%" }}>Menu</th>
-                                <th className = "head-table" style={{ width: "15%" }}>Price</th>
-                                <th className = "head-table" style={{ width: "15%" }}>Amount</th>
-                                <th className = "head-table" style={{ width: "15%" }}>Total</th>
+                                <th className="menu-head" >Menu</th>
+                                <th className="price-head">Price</th>
+                                <th className="amount-head">Amount</th>
+                                <th className="total-head">Total</th>
                             </tr>
                         </thead>
-
-                        <tbody >
+                        <tbody>
                             {
-                                Object.keys(this.state.partyOrder.order_item).map((data, i) => {
+                                this.state.partyOrder.order_item.map((data,i) => {
                                     return (
                                         <tr key={i}>
-                                            <tr>
-                                                <td style={{width: "55%"}}>1{data.goods_name}</td>
-                                                <td style={{ textAlign: "center" }} >2{data.price_unit}</td>
-                                                <td style={{ textAlign: "center" }}>3{data.order_qty}</td>
-                                                <td style={{ textAlign: "center" }}>4{data.order_price}</td>
-                                            </tr>
+                                            <td className="menu">{data.goods_name}</td>
+                                            <td className="price">{data.price_unit}</td>
+                                            <td className="amount">{data.order_qty}</td>
+                                            <td className="total">{data.order_price}</td>
                                         </tr>
-                                    )
+                                    );
                                 })
                             }
                         </tbody>
-                    </Table>
+                    </Table >
                 </div >
-                
-
-                        <table>
-                            <thead>
-                                <tr></tr> or <td></td>
-                            </thead>
-                            <tbody>
-                                <tr></tr> or <td></td>
-                            </tbody>
-                        </table>
 
                 <br /><br />
 
                 <div className="total-table">
                     <Table striped bordered hover responsive variant="dark" id="Total">
-                        <tr>
-                            <td >Total</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <td >Total</td>
+                                <td >{partyOrder.total}</td>
+                            </tr>
+                        </thead>
                     </Table>
                 </div>
 
                 <br />
                 <div className="print-button" onClick={this.handleClick} > PRINT </div>
                 <br /><br />
-            </div>
+            </div >
         );
     }
 }

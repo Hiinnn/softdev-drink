@@ -33,9 +33,10 @@ import Slideshow from './component/Slideshow/Slideshow';
 import Recommended from './component/Recommended/Recommended';
 
 const WebContext = React.createContext({
-  link: 'http://f0e930d0.ngrok.io'
+	link: 'http://f0e930d0.ngrok.io'
 });
 
+<<<<<<< HEAD
 export default class App extends React.Component {
 
   constructor(props) {
@@ -100,9 +101,42 @@ export default class App extends React.Component {
       </div>
     );
   }
+=======
+function App() {
+	return ( <
+		div className = "App" > {
+			// ? <SearchResult />
+			// ? <UserParty/>
+			// ? <TableCheck />
+			// ? <UserOrder />
+
+			// ? <UserProfile />
+			// ? <UserBill />
+			// ? <OwnerHome />
+
+			// * <UserHome />
+			// * <SignUp/>
+			// * <LoginPage />
+			// * <UserViewBranch />
+			// * <ResetPassword />
+
+			// order sm ใช้ได้
+		}
+
+		<
+		UserOrder / > { /* <UserViewBranch /> */ } <
+		/div>
+	);
+>>>>>>> 063e4289718e95719d7cfcf01624aeb8b3a6e55f
 }
 
 
+<<<<<<< HEAD
 const Home = () => <> <Slideshow /><Recommended /> </>
 const Login = (login) => <LoginForm auth={login} />
 const Signup = () => <SignUp />
+=======
+const home = () => < > < Slideshow / > < Recommended / > < />
+const login = () => < LoginForm / >
+	const signup = () => < SignUp / >
+>>>>>>> 063e4289718e95719d7cfcf01624aeb8b3a6e55f

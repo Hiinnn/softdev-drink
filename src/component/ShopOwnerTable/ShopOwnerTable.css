@@ -12,7 +12,20 @@
 	position: relative;
 	left: 50%;
 	transform: translateX(-50%);
-	overflow: auto;
+	/*overflow: auto;*/
+	overflow-y: scroll;
+}
+
+.table-shop-owner::-webkit-scrollbar {
+	width: 10px;
+}
+
+.table-shop-owner::-webkit-scrollbar-thumb {
+	background-color: lightslategray;
+}
+
+.table-shop-owner::-webkit-scrollbar-track {
+	background-color: dimgray;
 }
 
 .ownerhome-container {
