@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import './SignUp-form.css';
 import Axios from 'axios';
-import IMX from '../../asset/HomeBG/bg1.jpg';
 
 const usernameRegex = RegExp(/[a-zA-Z0-9]{8,}/)              // contain at least 1 uppercase and 1 lowercase
 const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number

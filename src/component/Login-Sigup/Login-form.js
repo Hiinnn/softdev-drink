@@ -29,7 +29,6 @@ export default class LoginForm extends React.Component {
         }
 
         this.submit = this.submit.bind(this)
-        // this.handleCheck = this.handleCheck.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
@@ -67,28 +66,22 @@ export default class LoginForm extends React.Component {
         login.append('username', this.state.username);
         login.append('password', this.state.password);
 
-        console.log()
-
         if (validateForm(this.state)) {
             Axios.post(`${localStorage.getItem('url')}/login/token/`, login)
                 .then((res) => {
-                    console.log(res);
                     localStorage.setItem('access', res.data.access);
                     localStorage.setItem('refresh', res.data.refresh);
                     localStorage.setItem('role', res.data.role);
 
-                    Object.keys(localStorage).map((key) => {
-                        console.log(key, localStorage.getItem(key));
-                    })
-
                     this.setState({
                         redirect: "/"
                     })
+                    
+                    this.props.auth();
                 })
                 .catch((error) => {
-
+                    
                 })
-            console.log('nice');
         }
         else {
             console.log('fuckr');

@@ -15,7 +15,6 @@ export default class Recommended extends Component {
                 <div className="rec-header"> Recommended </div>
                 {
                     this.shopArray.map((cafe, i) => {
-                        console.log('eiei', cafe, i)
                         return (
                             (i % 2) === 0 ?
                                 /* Picture Left */
@@ -24,11 +23,9 @@ export default class Recommended extends Component {
                                         <div className="main-rec-pic"> <img src={cafe.picture_main} alt="" /> </div>
                                         <div className="sub-rec-pic">
                                             {
-                                                cafe.picture_sub.map((obj) => {
-                                                    console.log(obj);
-
+                                                cafe.picture_sub.map((obj,i) => {
                                                     return (
-                                                        <img src={obj.url} alt="" />
+                                                        <img src={obj.url} alt="" key={i}/>
                                                     )
                                                 })
                                             }
@@ -54,11 +51,9 @@ export default class Recommended extends Component {
                                         <div className="main-rec-pic"> <img src={cafe.picture_main} alt="" /> </div>
                                         <div className="sub-rec-pic">
                                             {
-                                                cafe.picture_sub.map((obj) => {
-                                                    console.log(obj);
-
+                                                cafe.picture_sub.map((obj,i) => {
                                                     return (
-                                                        <img src={obj.url} alt="" />
+                                                        <img src={obj.url} alt="" key={i}/>
                                                     )
                                                 })
                                             }

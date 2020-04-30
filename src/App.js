@@ -36,49 +36,73 @@ const WebContext = React.createContext({
   link: 'http://f0e930d0.ngrok.io'
 });
 
-function App() {
-  localStorage.setItem('url', 'http://f0e930d0.ngrok.io');
-  
-  return (
-    <div className="App" >
-      {
-        // ? <UserParty/>
-        // ? <TableCheck />
-        // ? <SearchResult />
-        // ? <UserOrder />
+export default class App extends React.Component {
 
-        // ? <UserProfile />
-        // ? <UserBill />
-        // ? <OwnerHome />
+  constructor(props) {
+    super(props)
+    localStorage.setItem('url', 'https://1fcc91f9.ngrok.io');
+    this.state = {
+      auth: true && localStorage.getItem("access") !== null
+    }
 
-        // * <UserHome />
-        // * <SignUp/>
-        // * <LoginPage />
-        // * <UserViewBranch />
-        // * <ResetPassword />
+    this.login = this.login.bind(this)
+    this.logout = this.logout.bind(this)
+  }
 
-        // order sm ใช้ได้
-      }
+  login = () => {
+    this.setState({
+      auth: true
+    })
+  }
 
-      <Navbar />
+  logout = () => {
+    this.setState({
+      auth: false
+    })
+  }
+
+  render() {
+    return (
+      <div className="App" >
+        {
+          // ? <UserParty/>
+          // ? <TableCheck />
+          // ? <SearchResult />
+          // ? <UserOrder />
+
+          // ? <UserProfile />
+          // ? <UserBill />
+          // ? <OwnerHome />
+
+          // * <UserHome />
+          // * <UserViewBranch />
+          // * <ResetPassword />
 
 
-      <Switch>
-        <Route path="/login" component={login} />
 
-        <Route path="/signup" component={signup} />
+          // ! <SignUp/>
+          // ! <LoginPage />
+          // order sm ใช้ได้
+        }
 
-        <Route path={"/"} component={home} />
+        <Navbar auth={this.state.auth} logout={this.logout} />
 
-        {/* <Route component=for 404 /> */}
+        <Switch>
+          <Route path="/login" component={() => Login(this.login)} />
 
-      </Switch>
-    </div>
-  );
+          <Route path="/signup" component={Signup} />
+
+          <Route path={"/"} component={Home} />
+
+          <Route />
+
+        </Switch>
+      </div>
+    );
+  }
 }
-export default App;
 
 
-const home = () => <> <Slideshow /><Recommended /> </>
-const login = () => <LoginForm />
-const signup = () => <SignUp />
+const Home = () => <> <Slideshow /><Recommended /> </>
+const Login = (login) => <LoginForm auth={login} />
+const Signup = () => <SignUp />
