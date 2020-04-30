@@ -1,125 +1,108 @@
 import React, { Component } from 'react';
 import './TableUserBill.css';
 //import { listMenu } from '../../data/listMenu';
-import Table from 'react-bootstrap/Table'; //className = "table"
-import { partyOrder } from '../../data/NEW/partyOrder';
+import Table from 'react-bootstrap/Table'; 		//className = "table"
+import partyOrder from '../../data/NEW/partyOrder';
 
 export default class TableUserBill extends Component {
 
-	constructor(props) {
+    constructor(props) {
 
-		super(props);
+        super(props);
 
-		this.partyOrder = partyOrder;
+        this.partyOrder = partyOrder;
 
-		this.state = {
-			editable: false,
-			partyOrder: partyOrder
-		};
+        this.state = {
+            editable: false,
+            partyOrder: partyOrder
+        };
 
-		//this.edit = this.edit.bind(this)
-		//this.handleChange = this.handleChange.bind(this)
-	}
+        //this.edit = this.edit.bind(this)
+        //this.handleChange = this.handleChange.bind(this)
+    }
+    
+    edit = () => {
 
-	edit = () => {
+        if (this.state.editable === true) {
+            //send data to back-end
+        }
 
-		if (this.state.editable === true) {
-			//send data to back-end
-		}
+        this.setState(() => {
+            return { editable: !this.state.editable }
+        })
 
-		this.setState(() => {
-			return { editable: !this.state.editable }
-		})
+    }
+    
+    handleChange = (e) => {
 
-	}
+        // e.preventDefault();
 
-	handleChange = (e) => {
+        //const name = e.target.name;
+        //const value = e.target.value;
+        const partyOrder = { ...this.state.partyOrder };
 
-		// e.preventDefault();
+        //newOrder[name] = value;
 
-		//const name = e.target.name;
-		//const value = e.target.value;
-		const partyOrder = {...this.state.partyOrder };
+        //console.log(name,value)
 
-		//newOrder[name] = value;
+        this.setState({
+            partyOrder: partyOrder
+        })
 
-		//console.log(name,value)
+        console.log(this.state)
+    }
 
-		this.setState({
-			partyOrder: partyOrder
-		})
+    handleClick = () => {
+        alert('Print')
+    };
 
-		console.log(this.state)
-	}
+    render() {
+        return (
+            <div>
+                <div className="bill-table">
+                    <Table striped bordered hover responsive variant="dark" id="Menu" /*style={{ marginLeft: "20%" }}*/>
+                        <thead>
+                            <tr>
+                                <th className="menu-head" >Menu</th>
+                                <th className="price-head">Price</th>
+                                <th className="amount-head">Amount</th>
+                                <th className="total-head">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                this.state.partyOrder.order_item.map((data,i) => {
+                                    return (
+                                        <tr key={i}>
+                                            <td className="menu">{data.goods_name}</td>
+                                            <td className="price">{data.price_unit}</td>
+                                            <td className="amount">{data.order_qty}</td>
+                                            <td className="total">{data.order_price}</td>
+                                        </tr>
+                                    );
+                                })
+                            }
+                        </tbody>
+                    </Table >
+                </div >
 
-	handleClick = () => {
-		alert('Print')
-	};
+                <br /><br />
 
-	render() {
-		return ( <
-			div >
-			<
-			div className = "bill-table" >
-			<
-			Table striped bordered hover responsive variant = "dark"
-			id = "Menu" /*style={{ marginLeft: "20%" }}*/ >
-			<
-			thead >
-			<
-			tr >
-			<
-			th className = "menu-head" > Menu < /th> <
-			th className = "price-head" > Price < /th> <
-			th className = "amount-head" > Amount < /th> <
-			th className = "total-head" > Total < /th> <
-			/tr> <
-			/thead> <
-			tbody > {
-				this.state.partyOrder.order_item.map((data, i) => {
-					return ( <
-						tr key = { i } >
-						<
-						td className = "menu" > { data.goods_name } < /td> <
-						td className = "price" > { data.price_unit } < /td> <
-						td className = "amount" > { data.order_qty } < /td> <
-						td className = "total" > { data.order_price } < /td> <
-						/tr>
-					);
-				})
-			} <
-			/tbody> <
-			/Table > <
-			/div >
+                <div className="total-table">
+                    <Table striped bordered hover responsive variant="dark" id="Total">
+                        <thead>
+                            <tr>
+                                <td >Total</td>
+                                <td >{partyOrder.total}</td>
+                            </tr>
+                        </thead>
+                    </Table>
+                </div>
 
-			<
-			br / > < br / >
-
-			<
-			div className = "total-table" >
-			<
-			Table striped bordered hover responsive variant = "dark"
-			id = "Total" >
-			<
-			thead >
-			<
-			tr >
-			<
-			td > Total < /td> <
-			td > { partyOrder.total } < /td> <
-			/tr> <
-			/thead> <
-			/Table> <
-			/div>
-
-			<
-			br / >
-			<
-			div className = "print-button"
-			onClick = { this.handleClick } > PRINT < /div> <
-			br / > < br / >
-			<
-			/div >
-		);
-	}
+                <br />
+                <div className="print-button" onClick={this.handleClick} > PRINT </div>
+                <br /><br />
+            </div >
+        );
+    }
 }
