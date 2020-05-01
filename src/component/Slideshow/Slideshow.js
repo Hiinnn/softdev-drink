@@ -8,7 +8,7 @@ export default class SlideShow extends Component {
         return (
             <div >
                 <div id="main-slide">
-                    <Carousel touch={true} fade={true} interval={null}>
+                    <Carousel touch={true} interval={null}>
                         {
                             photos.map((photo, i) => {
                                 return (

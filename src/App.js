@@ -68,9 +68,9 @@ export default class App extends React.Component {
 
           // ? <UserProfile />
           // ? <UserBill />
-          // ? <OwnerHome />
+          // // ? <OwnerHome />
 
-          // * <UserHome />
+          // // * <UserHome />
           // * <UserViewBranch />
           // * <ResetPassword />
 
@@ -78,10 +78,10 @@ export default class App extends React.Component {
 
           // ! <SignUp/>
           // ! <LoginPage />
+          // TODO <UserHome />
+          // TODO <OwnerHome />
           // order sm ใช้ได้
         }
-
-        <TableCheck />
         <Navbar auth={this.state.auth} logout={this.logout} />
 
         <Switch>
@@ -89,7 +89,12 @@ export default class App extends React.Component {
 
           <Route path="/signup" component={Signup} />
 
-          <Route path={"/"} component={Home} />
+          {/* <Route path="/signup/drinker" component={} /> */}
+          {/* <Route path="/signup/owner" component={} /> */}
+
+          <Route path="/home/drinker" component={DrinkerHome} />
+
+          <Route path="/" component={Home} />
 
           <Route />
 
@@ -102,4 +107,5 @@ export default class App extends React.Component {
 
 const Home = () => <> <Slideshow /><Recommended /> </>
 const Login = (login) => <LoginForm auth={login} />
+const DrinkerHome = () => <UserHome />
 const Signup = () => <SignUp />

@@ -97,6 +97,7 @@ export default class LoginForm extends React.Component {
         if (this.state.redirect) {
             return (<Redirect to={this.state.redirect} />)
         }
+        
         return (
             <div className="login-form-container">
                 <Form className="login-form-wrapper" onSubmit={this.submit}>
