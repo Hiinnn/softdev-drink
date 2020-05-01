@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './TableUserBill.css';
 //import { listMenu } from '../../data/listMenu';
 import Table from 'react-bootstrap/Table'; 		//className = "table"
-import partyOrder from '../../data/NEW/partyOrder';
+import { partyOrder } from '../../data/NEW/partyOrder';
 
 export default class TableUserBill extends Component {
 
@@ -20,7 +20,7 @@ export default class TableUserBill extends Component {
         //this.edit = this.edit.bind(this)
         //this.handleChange = this.handleChange.bind(this)
     }
-    
+
     edit = () => {
 
         if (this.state.editable === true) {
@@ -32,7 +32,7 @@ export default class TableUserBill extends Component {
         })
 
     }
-    
+
     handleChange = (e) => {
 
         // e.preventDefault();
@@ -71,7 +71,7 @@ export default class TableUserBill extends Component {
                         </thead>
                         <tbody>
                             {
-                                this.state.partyOrder.order_item.map((data,i) => {
+                                this.state.partyOrder.order_item.map((data, i) => {
                                     return (
                                         <tr key={i}>
                                             <td className="menu">{data.goods_name}</td>

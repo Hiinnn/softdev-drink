@@ -32,16 +32,11 @@ import LoginForm from './component/Login-Sigup/Login-form';
 import Slideshow from './component/Slideshow/Slideshow';
 import Recommended from './component/Recommended/Recommended';
 
-const WebContext = React.createContext({
-	link: 'http://f0e930d0.ngrok.io'
-});
-
-<<<<<<< HEAD
 export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://1fcc91f9.ngrok.io');
+    localStorage.setItem('url', 'https://4c6714eb.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
@@ -86,6 +81,7 @@ export default class App extends React.Component {
           // order sm ใช้ได้
         }
 
+        <TableCheck />
         <Navbar auth={this.state.auth} logout={this.logout} />
 
         <Switch>
@@ -101,42 +97,9 @@ export default class App extends React.Component {
       </div>
     );
   }
-=======
-function App() {
-	return ( <
-		div className = "App" > {
-			// ? <SearchResult />
-			// ? <UserParty/>
-			// ? <TableCheck />
-			// ? <UserOrder />
-
-			// ? <UserProfile />
-			// ? <UserBill />
-			// ? <OwnerHome />
-
-			// * <UserHome />
-			// * <SignUp/>
-			// * <LoginPage />
-			// * <UserViewBranch />
-			// * <ResetPassword />
-
-			// order sm ใช้ได้
-		}
-
-		<
-		UserOrder / > { /* <UserViewBranch /> */ } <
-		/div>
-	);
->>>>>>> 063e4289718e95719d7cfcf01624aeb8b3a6e55f
 }
 
 
-<<<<<<< HEAD
 const Home = () => <> <Slideshow /><Recommended /> </>
 const Login = (login) => <LoginForm auth={login} />
 const Signup = () => <SignUp />
-=======
-const home = () => < > < Slideshow / > < Recommended / > < />
-const login = () => < LoginForm / >
-	const signup = () => < SignUp / >
->>>>>>> 063e4289718e95719d7cfcf01624aeb8b3a6e55f
