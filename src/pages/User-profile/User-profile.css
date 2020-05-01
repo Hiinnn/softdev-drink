@@ -2,5 +2,6 @@
     width: 100%;
     height: auto;
     display: inline-block;
-    background-color: #000000;
+    /*background-color: #000000;*/
+    background-image: url('../../asset/MainBackground/bgor1.jpg');
 }
