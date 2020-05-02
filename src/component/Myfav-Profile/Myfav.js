@@ -1,89 +1,96 @@
 import React, { Component } from 'react';
 import './Myfav.css';
-import { CafeName } from '../../data/MyfavData';
+import { shopArray } from '../../data/NEW/ShopArray';
 
-export default class Myfav extends Component {
+class Myfav extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			shopData: shopArray,
+			createLike: this.createLike()
+		}
+	}
 
-    handleClick = () => {
-        alert('Save')
-    };
+	getTime = () => {
+		const date = new Date()
+		this.state.shopArray.map((i) => {
 
-    learnClick = () => {
-        alert('Learn more')
-    };
+			// console.log(this.state.shopData[i].officeday.forEach(work => work.weekday === date.getDay()));
+		})
+	}
 
-    heartClick = () => {
-        alert('Add to my favourite')
-    };
+	createLike = () => {
+		let temp = []
+		for (let i = 0; i < shopArray.length; i++) {
+			temp.push(shopArray[i].like)
+		}
 
-    render() {
-        return (
-            <div className="myfav-container" >
+		return temp;
+	}
 
-                <div className="textheader" style={{ marginLeft: "4%" }}> My Favourite </div>
+	likeClick = (i) => {
+		const ar = this.state.createLike;
+		ar[i] = !ar[i]
+		this.setState({
+			createLike: ar
+		})
+	}
 
-                <img src={require('../../asset/Profile/line.png')} width="91%" height="100" style={{ marginLeft: "4%" }}></img>
+	render() {
+		return (
+			<div className="myfav-main-container" >
+				<div className="myfav-container" >
+					<h5 style={{ marginBottom: "10px" }}> My favourite </h5> {
+						Object.keys(this.state.shopData).map((i) => {
+							console.log(this.state.shopData[i].picture_main)
+							return (
+								<div >
 
-                {
-                    CafeName.map((cafe, i) => {
-                        return (
-                            <div key={i}>
-                                <div className="picandcafename-container">
+									<div className="left-container" >
+										<img className="imgShop"
+											src={this.state.shopData[i].picture_main}
+											alt={this.state.shopData[i].shop_name}
+											align="left" />
+									</div>
 
-                                    <img className="cafename-pic-container" src={cafe.url} width="320" height="220" align="left"></img>
+									<div className="right-container" >
+										<div style={{ display: "block", width: "315px", float: "left", fontSize: "18px", marginTop: "10px" }}>
+											{this.state.shopData[i].shop_name}
+										</div>
 
-                                    <div className="cafename-container">
-                                        <label className="textheader" style={{ marginLeft: 20 }} > {cafe.name} </label>
-                                        <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
-                                        <br /><br />
-                                        <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
-                                        <label className="text" style={{ marginLeft: 20 }} > open-close <label style={{ marginLeft: 30 }}>{cafe.openclose}</label></label>
-                                        <label className="text" style={{ marginLeft: 20 }} > location <label style={{ marginLeft: 56 }}>{cafe.location}</label></label>
-                                        <label className="text" style={{ marginLeft: 20 }} > type <label style={{ marginLeft: 85 }}>{cafe.type}</label></label>
-                                        <label className="text" style={{ marginLeft: 20 }} > contact <label style={{ marginLeft: 62 }}>{cafe.contact}</label></label>
-                                    </div>
+										<div style={{ height: "50px" }}>
+											<img src={this.state.createLike[i] ? require("../../asset/icon/heart2.png") : require("../../asset/icon/heart.png")}
+												onClick={() => this.likeClick(i)}
+												alt="heart"
+												style={{ width: "35px", height: "35px", float: "left", marginTop: "5px", cursor: "pointer" }} />
+										</div >
 
-                                </div>
+										<div style={{ display: "block", width: "340px", wordWrap: "break-word", height: "90px", paddingTop: "10px", fontSize: "12px" }}>
+											{this.state.shopData[i].detail}
+										</div>
+										<div className="detailShop"
+											style={{ paddingTop: "5px" }}>
+											open - close: { /*{this.state.shopData[i].open_close}*/}
+										</div>
+										<div className="detailShop" > location: {this.state.shopData[i].address} </div>
+										
+										<div className="detailShop" > contact: {this.state.shopData[i].phone_number.replace('+66', 0)} </div>
+										<div className="learnBox" > LEARN MORE </div>
 
-                                <img src={require('../../asset/Profile/line.png')} width="91%" height="100" style={{ marginLeft: "4%" }}></img>
-
-                            </div>
-
-                        )
-                    })
-                }
-
-
-                {/* Loop */}
-
-                {/*<div className="picandcafename-container">
-
-                    <img className="cafename-pic-container" src={require('../../asset/Profile/1.jpg')} width="320" height="220" align="left"></img>
-
-                    <div className="cafename-container">
-                        <label className="textheader" style={{ marginLeft: 20 }} > Cafe's Name </label>
-                        <div className="heart" onClick={this.heartClick} style={{ marginLeft: 350 }}></div>
-                        <br /><br />
-                        <div className="learn-button" onClick={this.learnClick} style={{ marginLeft: 20 }}> LEARN MORE </div>
-                        <label className="text" style={{ marginLeft: 20 }} > open close </label>
-                        <label className="text" style={{ marginLeft: 20 }} > location </label>
-                        <label className="text" style={{ marginLeft: 20 }} > type </label>
-                        <label className="text" style={{ marginLeft: 20 }} > contact </label>
-                    </div>
+									</div>
+									<hr className="hrcss"
+										style={{ height: "280px" }}
+									/>
+								</div >
+							)
+						})
+					} <hr className="hrcss" />
+                    <br />
+				<div className="three-button" > Save My Favourite </div>
                 </div>
-
-                <br />
-
-                <img src={require('../../asset/Profile/line.png')} width="91%" height="100" style={{ marginLeft: "4%" }}></img>
-                */}
-
-                {/*end loop*/}
-
-                <div className="three-button" onClick={this.handleClick}> Save My Favourite </div>
-
-                <br /><br />
-
-            </div>
-        );
-    }
+                
+			</div >
+		);
+	}
 }
+export default Myfav;
