@@ -78,6 +78,19 @@
 
 	margin-top: 10px;
 	margin-bottom: 10px;
+	cursor: pointer;
+}
+
+.learnBox:hover {
+	color: white;
+	box-shadow:0 0 1px #fff, 
+				0 0 2px #fff, 
+				0 0 3px #fff, 
+				0 0 4px rgb(255, 250, 223), 
+				0 0 5px rgb(255, 250, 223), 
+				0 0 6px rgb(255, 250, 223), 
+				0 0 7px rgb(255, 250, 223), 
+				0 0 8px rgb(255, 250, 223);
 }
 
 .detailShop {

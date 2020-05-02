@@ -33,6 +33,8 @@ export default class BranchDetail extends React.Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+
+
     formatPhoneNumber = (phone_number) => {
         if (phone_number[0] === '+') {
             phone_number = phone_number.slice(3);
@@ -44,6 +46,10 @@ export default class BranchDetail extends React.Component {
         }
 
         return phone_number.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+    }
+
+    componentDidMount = () => {
+        console.log('did',this.props.location)
     }
 
     handleChange = (e) => {
@@ -216,7 +222,7 @@ export default class BranchDetail extends React.Component {
 
                         {/* Slidshow pic (subPic) */}
                         <div className="add-rm-container">
-                            <Carousel>
+                            <Carousel fade={true}>
                                 {this.state.shopData.picture_sub.map((item, i) => {
                                     return (
                                         <Carousel.Item key={item + i}>
@@ -234,7 +240,8 @@ export default class BranchDetail extends React.Component {
                                                                     position: 'absolute',
                                                                     top: 0, left: 0, bottom: 0, right: 0,
                                                                     width: '100%',
-                                                                    height: '100%'
+                                                                    height: '100%',
+                                                                    zIndex: 100,
                                                                 }}
                                                                 name={i}
                                                                 accept={"image/*"}
@@ -498,13 +505,17 @@ const BranchDetailContainer = styled.div`
                     
                     top: 100%;
                     left: 100%;
-                    z-index: 2;
+                    z-index: 10;
                     position: absolute;
 
                     text-decoration: none;
                     color: rgba(0,0,0,0.9);
                     -webkit-text-stroke-width: 1px;
                     -webkit-text-stroke-color: rgba(255,255,255,0.9);
+                }
+                
+                .add-rm-container .carousel-control-next {
+                    z-index: 5;
                 }
 
                 .add-rm-pic-sm {

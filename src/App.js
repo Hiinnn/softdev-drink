@@ -7,13 +7,12 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import LoginPage from './pages/Login-Signup/Login';
 import ResetPassword from './pages/Login-Signup/Reset-password-page';
 
-import UserHome from './pages/User-home/User-home';
+// import UserHome from './pages/User-home/User-home';
 import UserBill from './pages/User-bill/User-bill';
 import UserOrder from './pages/User-Order/User-Order';
 import UserProfile from './pages/User-profile/User-profile';
-import UserViewBranch from './pages/ํ๊User-view-branch/User-view-branch';
 
-import OwnerHome from './pages/Owner-home/Owner-home';
+// import OwnerHome from './pages/Owner-home/Owner-home';
 import SearchResult from './pages/Search-result/Search-result';
 
 import TableCheck from './pages/TableCheck/TableCheck';
@@ -22,21 +21,24 @@ import UserParty from './pages/User-party/User-party';
 // ! Component ************************************
 import Navbar from './component/Nav-bar/Nav-bar';
 
-// * Signup
+// * General
 import SignUp from './component/Login-Sigup/SignUp-form';
-
-// * Login
 import LoginForm from './component/Login-Sigup/Login-form';
+import BranchDetail from './component/User-view-branch/Branch-detail';
 
-// * Usermain
+// * User main
 import Slideshow from './component/Slideshow/Slideshow';
 import Recommended from './component/Recommended/Recommended';
+
+// * Owner main
+import ShopOwnerTable from './component/ShopOwnerTable/ShopOwnerTable';
+import Result from './component/Result/Result';
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://4c6714eb.ngrok.io');
+    localStorage.setItem('url', 'https://532127f4.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
@@ -89,14 +91,17 @@ export default class App extends React.Component {
 
           <Route path="/signup" component={Signup} />
 
-          {/* <Route path="/signup/drinker" component={} /> */}
-          {/* <Route path="/signup/owner" component={} /> */}
+          <Route path="/search" component={Search}/>
 
-          <Route path="/home/drinker" component={DrinkerHome} />
+          <Route path="/drinker" component={DrinkerHome} />
+          {/* <Route path="/owner" component={OwnerHome} /> */}
+          {/* <Route path="/manager" component={ManagerHome} /> */}
+
+          <Route path="/shop" component={Shop}/>
 
           <Route path="/" component={Home} />
 
-          <Route />
+          <Route component={() => <div>KUY</div>}/>
 
         </Switch>
       </div>
@@ -107,5 +112,11 @@ export default class App extends React.Component {
 
 const Home = () => <> <Slideshow /><Recommended /> </>
 const Login = (login) => <LoginForm auth={login} />
-const DrinkerHome = () => <UserHome />
 const Signup = () => <SignUp />
+const Search = () => <Result/>
+
+const Shop = () => <BranchDetail/>
+
+const DrinkerHome = () => <><Slideshow /> <Recommended /></>
+const OwnerHome = () => <> <ShopOwnerTable /></>
+const ManagerHome = () => <></>

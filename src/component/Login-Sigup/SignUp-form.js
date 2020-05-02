@@ -6,7 +6,7 @@ import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
 import './SignUp-form.css';
 import CreateModal from '../Modal/Modal';
 
-const usernameRegex = RegExp(/[a-zA-Z0-9]{8,}/)              // contain at least 1 uppercase and 1 lowercase
+const usernameRegex = RegExp(/[a-zA-Z0-9]/)              // contain at least 1 uppercase and 1 lowercase
 const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number
 const nameRegex = RegExp(/^[a-zA-Z]+$/)                                         // contain name and surname (only english letter)
 const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)      // Email format -----@-----.---
@@ -36,7 +36,7 @@ export default class SignUp extends React.Component {
             password: ['Password', 'password'],
             password_comfirm: ['Confirm Password', 'password'],
             first_name: ['Name Surname', 'text'],
-            nickname: ['Display Name', 'text'],
+            // nickname: ['Display Name', 'text'],
             birth_date: ['Birth Month', 'month'],
             email: ['Email', 'email',],
             phone_number: ['Phone', 'text', '[0-9]{8,10}'],
@@ -101,7 +101,7 @@ export default class SignUp extends React.Component {
                 formError[name] =
                     usernameRegex.test(value)
                         ? ""
-                        : "Username must be longer than 8 characters.";
+                        : "Username must be letter or number.";
                 newForm["nickname"] = value;
                 break;
             case "password":

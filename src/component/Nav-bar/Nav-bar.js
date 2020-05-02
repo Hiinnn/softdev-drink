@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Nav-bar.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Axios from 'axios';
 
 // class navBar extends React {
@@ -9,7 +9,10 @@ class Navbar extends Component {
         super(props)
         this.state = {
             profile: null,
+            searchKey: '',
+            redirect: '',
         }
+        this.search = this.search.bind(this)
         this.loggedIn = this.loggedIn.bind(this)
     }
 
@@ -26,6 +29,29 @@ class Navbar extends Component {
         else if (!this.props.auth && this.state.profile !== null) {
             this.loggedOut();
         }
+    }
+
+    setSearchType = (e) => {
+        this.setState({ searchType: e.target.value })
+    }
+
+    search = () => {
+        const key = this.state.searchKey
+        const redirect = '/search'
+
+        localStorage.setItem('searchKey', key);
+
+        this.setState({
+            searchKey: '',
+        })
+
+        this.render = () => {
+            return <>{this.navComponent()}<Redirect to={{ pathname: redirect, state: { key: key } }} /></>
+        }
+    }
+
+    handleChange = (e) => {
+        this.setState({ searchKey: e.target.value })
     }
 
     loggedIn = () => {
@@ -45,6 +71,9 @@ class Navbar extends Component {
                             this.setState({ profile: res.data.picture });
                         }
                     })
+                    .catch((err) => {
+                        console.log('get profile error', err.response)
+                    })
                 break;
             case 'ow':
                 break;
@@ -63,9 +92,8 @@ class Navbar extends Component {
         localStorage.removeItem('profile');
     }
 
-    render() {
+    navComponent = () => {
         return (
-
             <div className="nav-bar-container">
                 <Link to="/home"><div className="drink-logo"> DRINK </div></Link>
                 {!this.props.auth && <Link to="/login"><div className="nav-bar-button" style={{ paddingRight: 20 }}> Login </div></Link>}
@@ -74,13 +102,23 @@ class Navbar extends Component {
                 {this.props.auth && <a href="eiei"><img src={`${localStorage.getItem('url') + this.state.profile}`} className="nav-profile-pic" alt="" /></a>}
 
                 <div className="search-box-wrapper">
-                    <input className="search-box" type="text" placeholder="Search"></input>
+                    <input className="search-box" type="text"
+                        placeholder="Search"
+                        onChange={this.handleChange}
+                        value={this.state.searchKey}
+                        onKeyPress={event => {
+                            if (event.key === 'Enter') this.search();
+                        }} />
                     <div className="search-icon-wrapper">
-                        <img className="search-icon" src={require('../../asset/Navbar/searchIcon.png')} alt=""></img>
+                        <img className="search-icon" src={require('../../asset/Navbar/searchIcon.png')} alt="" onClick={this.search}></img>
                     </div>
                 </div>
             </div>
-        );
+        )
+    }
+
+    render() {
+        return (this.navComponent())
     }
 }
 

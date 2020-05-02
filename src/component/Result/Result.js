@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './Result.css';
-import { Results } from '../../data/ResultData';
-// import BookingTime from '../Party/BookingTime';
-import PartyList from '../Party/Party';
-import { shopArray } from '../../data/NEW/ShopArray';
+import Axios from 'axios';
+import { Redirect, Link } from 'react-router-dom';
 
 
 
@@ -11,33 +9,75 @@ class Result extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			shopData: shopArray,
-			createLike: this.createLike()
+			shopData: '',
 		}
 	}
 
-	getTime = () => {
-		const date = new Date()
-		this.state.shopArray.map((i) => {
+	getData = () => {
+		const key = localStorage.getItem('searchKey')
+		const url = localStorage.getItem('url')
+		const token = localStorage.getItem('access')
 
-			// console.log(this.state.shopData[i].officeday.forEach(work => work.weekday === date.getDay()));
-		})
+		localStorage.removeItem('searchKey')
+
+		Axios.get(`${url}/manager/shop/?search=${key}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			.then((res) => {
+				this.setState({ shopData: res.data })
+			})
+			.catch((err) => {
+				console.log('search did mount err', err)
+			})
 	}
 
-	createLike = () => {
-		let temp = []
-		for (let i = 0; i < shopArray.length; i++) {
-			temp.push(shopArray[i].like)
-		}
-
-		return temp;
+	componentDidMount = () => {
+		this.getData()
 	}
 
-	likeClick = (i) => {
-		const ar = this.state.createLike;
-		ar[i] = !ar[i]
+	componentDidUpdate = () => {
+		if (localStorage.getItem('searchKey')) this.getData()
+	}
+
+	toggleLike = (i) => {
+		const newShopData = { ...this.state.shopData }
+		newShopData[i].is_fav = !this.state.shopData[i].is_fav
 		this.setState({
-			createLike: ar
+			shopData: newShopData
+		}, () => {
+			const url = localStorage.getItem('url')
+			const token = localStorage.getItem('access')
+
+			if (this.state.shopData[i].is_fav) {
+				Axios.post(`${url}/user/profile/favorite_shop/`,
+					{ shop_id: this.state.shopData[i].shop_id },
+					{
+						headers: {
+							Authorization: `Bearer ${token}`
+						}
+					})
+					.then((response) => {
+					})
+					.catch((err) => {
+						console.log('like post err', err);
+					})
+			}
+			else {
+				Axios.delete(`${url}/user/profile/favorite_shop/${this.state.shopData[i].shop_id}`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`
+						}
+					})
+					.then((response) => {
+					})
+					.catch((err) => {
+						console.log('like del err', err.response);
+					})
+			}
 		})
 	}
 
@@ -47,9 +87,8 @@ class Result extends Component {
 				<div className="result-container" >
 					<h5 style={{ marginBottom: "10px" }}> Result </h5> {
 						Object.keys(this.state.shopData).map((i) => {
-							console.log(this.state.shopData[i].picture_main)
 							return (
-								<div >
+								<div key={i}>
 
 									<div className="left-container" >
 										<img className="imgShop"
@@ -64,24 +103,34 @@ class Result extends Component {
 											{this.state.shopData[i].shop_name}
 										</div>
 
+
 										<div style={{ height: "50px" }}>
-											<img src={this.state.createLike[i] ? require("../../asset/icon/heart2.png") : require("../../asset/icon/heart.png")}
-												onClick={() => this.likeClick(i)}
-												alt="heart"
-												style={{ width: "35px", height: "35px", float: "left", marginTop: "5px", cursor: "pointer" }} />
+											{
+												localStorage.getItem('role') === 'dk' &&
+												<img src={this.state.shopData[i].is_fav ? require("../../asset/icon/heart2.png") : require("../../asset/icon/heart.png")}
+													onClick={() => this.toggleLike(i)}
+													alt="heart"
+													style={{ width: "35px", height: "35px", float: "left", marginTop: "5px", cursor: "pointer" }} />
+											}
 										</div >
 
 										<div style={{ display: "block", width: "340px", wordWrap: "break-word", height: "90px", paddingTop: "10px", fontSize: "12px" }}>
 											{this.state.shopData[i].detail}
 										</div>
 										<div className="detailShop"
-											style={{ paddingTop: "5px" }}>
-											open - close: { /*{this.state.shopData[i].open_close}*/}
+											style={{ paddingTop: "20px" }}>
+											{/* open - close:  */}
 										</div>
 										<div className="detailShop" > location: {this.state.shopData[i].address} </div>
 										{/* < div className = "detailShop" > type: { this.state.shopData[i].type } </div > */}
 										<div className="detailShop" > contact: {this.state.shopData[i].phone_number.replace('+66', 0)} </div>
-										<div className="learnBox" > LEARN MORE </div>
+										<Link
+											to={{
+												pathname: `/shop`,
+												shopId: i
+											}}>
+											<div className="learnBox"> LEARN MORE </div>
+										</Link>
 
 										{
 											/* <BookingTime sm={true} />
