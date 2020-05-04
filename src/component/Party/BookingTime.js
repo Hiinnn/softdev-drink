@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import shopData from '../../data/NEW/Shop';
+import Axios from 'axios';
 
 export default class BookingTime extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            shopData: shopData,
             working: true,
             timeArray: [],
+
+            partySize: 0,
             partyName: '',
             partyType: '',
-            partySize: 0,
-            maxParty: 99,
+            selectTime: '',
         }
 
         this.submit = this.submit.bind(this);
@@ -23,56 +24,55 @@ export default class BookingTime extends React.Component {
     }
 
     componentDidMount() {
-        let time = this.createBranchTime();
-        this.setState({ timeArray: time })
+        let today = new Date();
+        today = `${today.getFullYear()}-${(today.getUTCMonth() + 1) % 12}-${today.getDate()}`;
+
+        this.getBookingData(today, this.props.shopId)
     }
 
-    createBranchTime() {
-        let time = [];
-        const date = new Date();
-        const i = this.state.shopData.officeday.findIndex(item => { return item.weekday === date.getDay() });
-
-        if (i === -1) {
-            this.setState({
-                working: false
-            })
-            return;
+    getBookingData(date, shopId) {
+        if (this.props.role !== null) {
+            Axios.get(`${localStorage.getItem('url')}/booking/seat/get/?date=${date}&shop_id=${shopId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('access')}`
+                    }
+                })
+                .then((res) => {
+                    this.setState({
+                        working: true,
+                        timeArray: this.createBranchTime(res.data),
+                    })
+                })
+                .catch((err) => {
+                    console.log('booking err', err)
+                })
         }
+    }
 
-        // change open,close time format ISO 8601 -> 'hh.mm'
-        let open = this.state.shopData.officeday[i].open_time.match(/[0-9]*:[0-9]*:[0-9]*/)[0].split(':');
-        let close = this.state.shopData.officeday[i].close_time.match(/[0-9]*:[0-9]*:[0-9]*/)[0].split(':')
+    createBranchTime(data) {
+        const timeArr = [];
+        Object.keys(data).map((key) => {
+            if (key.match(/^time/) && data[key] > 0) {
+                let temp = key.slice(4);
+                let date = new Date()
+                const dateHr = date.getHours()
+                const dateMin = date.getMinutes()
+                const tempHr = temp.slice(0, 2)
+                const tempMin = temp.slice(2)
 
-        open = parseFloat(open[0] + '.' + open[1]);
-        close = parseFloat(close[0] + '.' + close[1]);
-
-        if (close < open) close += 24;
-
-        let x = Math.abs(open - close);         // declare x (use for count times)
-
-        if (x % 1 < 0.5 || x % 1 > 0.5) {       // parse hrs to 30min
-            x = parseInt(x) * 2;
-        }
-
-        let temp = open;                        // init temp
-        for (let i = 0; i < x; i++) {
-            time.push(temp);
-            temp % 1 < 0.2
-                ? temp += 0.3       // xx.00
-                : temp += 0.7       // xx.30
-
-            if (temp === parseFloat(24)) temp = parseFloat(0)   // check time overflow (24)
-        }
-
-        // slice the time that passed
-        time = time.slice(time.findIndex(x => x > parseFloat(date.getHours() + '.' + date.getMinutes())) + 1);
-
-        return time;
+                if (parseFloat(`${dateHr}.${dateMin}`) < parseFloat(`${tempHr}.${tempMin}`)) {
+                    temp = `${tempHr}:${tempMin}`
+                    timeArr.push(temp)
+                }
+            }
+        })
+        return timeArr;
     }
 
     changePartySize = (op) => {
         // check that party is empty or max
-        if ((this.state.partySize === 0 && op === "-") || (this.state.partySize === this.state.maxParty && op === "+")) return;
+        if ((this.state.partySize === 0 && op === "-") || this.props.role !== 'dk') return;
 
         // add or sub
         let temp = op === "+" ? 1 : -1;
@@ -83,20 +83,77 @@ export default class BookingTime extends React.Component {
         })
     }
 
-    submit = (e) => {
-        console.log(this.state);
-    }
-
     handlePartyName = (e) => {
         e.preventDefault();
         this.setState({ partyName: e.target.value })
     }
 
     handlePartyType = (e) => {
-        e.preventDefault();
-        this.setState({partyType: e.target.name})
+        this.setState({ partyType: e.target.value })
     }
 
+    submit = (e) => {
+        const date = new Date();
+
+        if (this.state.partyName === '') {
+            this.setState({ partyName: 'Please enter party name.' })
+            return
+        }
+
+        if (this.state.partySize === 0) {
+            this.setState({ partyName: 'Party can\'t be empty.' })
+            return
+        }
+
+        if (this.state.selectTime === '') {
+            this.setState({ partyName: 'Select time.' })
+            return
+        }
+
+        if (this.state.partyType === '') {
+            this.setState({ partyName: 'Select party type.' })
+            return
+        }
+
+        const startHr = this.state.selectTime.slice(0, 2)
+        const startMin = this.state.selectTime.slice(3)
+        const endHr = parseInt(startMin) === 30 ? `${(parseInt(startHr) + 1) % 24}` : startHr
+        const endMin = parseInt(startMin) === 30 ? '00' : '30'
+
+        const start = `${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}T${startHr}:${startMin}:00+07:00`
+        const end = `${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}T${endHr}:${endMin}:00+07:00`
+
+        this.postCreateParty(
+            this.props.shopId,
+            this.state.partyName,
+            this.state.partySize,
+            start,
+            end,
+            this.state.partyType === 'public' ? 1 : 0
+        )
+    }
+
+    postCreateParty = (id, name, size, start, end, type) => {
+        const url = `${localStorage.getItem('url')}/booking/book/`
+        const body = {
+            shop_id: id,
+            party_name: name,
+            member_max: size,
+            start_datetime: start,
+            end_datetime: end,
+            is_join: type,
+        }
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
+        Axios.post(url, body, { headers: head })
+            .then((res) => {
+            })
+            .catch((err) => {
+                console.log((err));
+            })
+    }
 
     render() {
         let sm = this.props.sm === true ? '-sm' : '';
@@ -123,14 +180,16 @@ export default class BookingTime extends React.Component {
                 <div className="form-inline" id={'form' + sm}>
                     <select className="custom-select my-1 mr-sm-2 form-control-lg"
                         id="inlineFormCustomSelectPref"
-                        disabled={!this.state.working}
-                        style={{textAlign: "center", textAalignLast: "center"}}>
-                        <option>Time</option>
+                        value={this.state.selectTime}
+                        disabled={!this.state.working || this.props.role !== 'dk'}
+                        onChange={(e) => this.setState({ selectTime: e.target.value })}
+                        style={{ textAlign: "center", textAalignLast: "center" }}>
+                        <option value='choose'>Time</option>
                         {
                             this.state.timeArray.map((num, i) => {
                                 return (
-                                    <option value={i} key={i} style={{textAlign: "center"}}>{
-                                        (((Math.round(num * 100) / 100)).toFixed(2)).replace('.',' : ')
+                                    <option value={num} key={i} style={{ textAlign: "center" }}>{
+                                        num
                                     }</option>
                                 )
                             })
@@ -144,8 +203,9 @@ export default class BookingTime extends React.Component {
                         <label className="form-check-label" htmlFor="exampleRadios2">Private</label>
                         <input className="form-check-input"
                             type="radio"
-                            name="private"
-                            value="option1"
+                            name="privacy"
+                            value="private"
+                            disabled={this.props.role !== 'dk'}
                             onChange={this.handlePartyType} />
                     </div>
 
@@ -153,17 +213,23 @@ export default class BookingTime extends React.Component {
                         <label className="form-check-label" htmlFor="exampleRadios2" >Public</label>
                         <input className="form-check-input"
                             type="radio"
-                            name="public"
-                            value="option2"
+                            name="privacy"
+                            value="public"
+                            disabled={this.props.role !== 'dk'}
                             onChange={this.handlePartyType} />
                     </div>
                 </FormColumn>
 
                 {/** Party name*/}
-                <input className={"party-name" + sm} type="text" placeholder="Party name" value={this.state.partyName || ""} onChange={this.handlePartyName} />
+                <input className={"party-name" + sm}
+                    type="text"
+                    placeholder="Party name"
+                    value={this.state.partyName || ""}
+                    onChange={this.handlePartyName}
+                    disabled={this.props.role !== 'dk'} />
 
                 {/** Drink button*/}
-                <div className={`drink-bt + ${sm} + ${this.props.disabledBt === true ? " disabled-bt" : ""}`} onClick={this.submit} >Drink!</div>
+                <div className={`drink-bt + ${sm} + ${(this.props.disabledBt === true || this.props.role !== 'dk') ? " disabled-bt" : ""}`} onClick={this.submit} >Drink!</div>
             </BookingContainer>
         )
     }

@@ -32,6 +32,12 @@ export default class LoginForm extends React.Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    componentDidMount = () => {
+        if (localStorage.getItem('access') !== null) {
+            this.setState({ redirect: '/' })
+        }
+    }
+
     handleChange(e) {
         const name = e.target.name;
         const value = e.target.value;
@@ -69,18 +75,38 @@ export default class LoginForm extends React.Component {
         if (validateForm(this.state)) {
             Axios.post(`${localStorage.getItem('url')}/login/token/`, login)
                 .then((res) => {
+                    let newRedirect;
                     localStorage.setItem('access', res.data.access);
                     localStorage.setItem('refresh', res.data.refresh);
                     localStorage.setItem('role', res.data.role);
 
-                    this.setState({
-                        redirect: "/"
-                    })
+                    if (res.data.role === 'dk') {
+                        newRedirect = "/"
+                        this.setState({
+                            redirect: newRedirect
+                        })
+                    }
+                    else if (res.data.role === 'sm') {
+                        Axios.get(`${localStorage.getItem('url')}/manager/profile/my_profile/`, { headers: { Authorization: `Bearer ${res.data.access}` } })
+                            .then((res) => {
+                                this.setState({
+                                    redirect: `/shop/${res.data.related_shop.shop_id}`
+                                })
+                                this.props.auth();
+                            }).bind(this)
+                    }
+                    else if (res.data.role === 'ow') {
+                        this.setState({
+                            redirect: `/owner`
+                        })
+                    }
+
+                    console.log('auth');
                     
                     this.props.auth();
                 })
                 .catch((error) => {
-                    
+
                 })
         }
         else {
@@ -97,7 +123,7 @@ export default class LoginForm extends React.Component {
         if (this.state.redirect) {
             return (<Redirect to={this.state.redirect} />)
         }
-        
+
         return (
             <div className="login-form-container">
                 <Form className="login-form-wrapper" onSubmit={this.submit}>

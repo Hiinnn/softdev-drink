@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
 import './SignUp-form.css';
 import CreateModal from '../Modal/Modal';
@@ -45,16 +45,16 @@ export default class SignUp extends React.Component {
         this.state = {
             form: {
                 // Prototype for user data
-                email: '',
-                first_name: '',
-                last_name: '',
-                username: '',
-                password: '',
-                password_confirm: '',
-                nickname: '',
-                birth_date: '',
-                phone_number: '',
-                address: ''
+                email: 'aaa@hotmail.com',
+                first_name: 'hin',
+                last_name: 'hinn',
+                username: 'hinnnnn',
+                password: '181113Hk',
+                password_confirm: '181113Hk',
+                nickname: 'hinna',
+                birth_date: '2020-01-01',
+                phone_number: '+66944932354',
+                address: 'mai bok'
             },
             error: {
                 username: '',
@@ -155,6 +155,7 @@ export default class SignUp extends React.Component {
                     value.length > 0
                         ? ""
                         : "Display name can't be empty."
+                break;
             default:
                 break;
         }
@@ -179,7 +180,7 @@ export default class SignUp extends React.Component {
         })
     }
 
-    setModal(head,body,button,toggle,redirect) {
+    setModal(head, body, button, toggle, redirect) {
         let newModal = { ...this.state.modal }
 
         newModal.head = head
@@ -213,7 +214,11 @@ export default class SignUp extends React.Component {
     submit(event) {
         event.preventDefault();
 
+        console.log('submit');
+        
         if (validateForm(this.state) && this.state.check) {     /* Form is valid */
+            
+            console.log('valid');
             const url = localStorage.getItem('url');
             const sentForm = new FormData();                    // change raw data to formData
             const path = this.state.role === 'dk' ? '/user/profile/' : this.state.role === 'ow' ? '/owner/profile/' : '9999';
@@ -224,22 +229,26 @@ export default class SignUp extends React.Component {
 
             Axios.post(`${url + path}`, sentForm)
                 .then((res) => {
-                    this.setModal('Sign up success', 'You re going to Login page', 'success',this.toggleModal,this.redirect)
+                    console.log(res);
+                    
+                    this.setModal('Sign up success', 'You re going to Login page', 'success', this.toggleModal, this.redirect)
                 })
                 .catch((err) => {
-                    this.setModal('Error', Object.values(err.response.data), 'danger',this.toggleModal,this.toggleModal)
+                    this.setModal('Error', Object.values(err.response.data), 'danger', this.toggleModal, this.toggleModal)
                 })
         }
         else if (!this.state.check) {                            /* User dont agree with term and policy */
-            this.setModal('Error', 'Please read Term of Service and Privacy Notice.', 'danger',this.toggleModal,this.toggleModal)
+            console.log('dont check');
+            this.setModal('Error', 'Please read Term of Service and Privacy Notice.', 'danger', this.toggleModal, this.toggleModal)
         }
         else {                                                  /* etc. error */
             for (let key of Object.entries(this.state.error)) {
                 if (key[1].length > 0) {
-                    this.setModal('Error', key[1], 'danger',this.toggleModal,this.toggleModal)
+                    this.setModal('Error', key[1], 'danger', this.toggleModal, this.toggleModal)
                     break;
                 }
             }
+            console.log('taek');
         }
     }
 

@@ -14,13 +14,19 @@ export default class Profile extends Component {
             editable: false,
             userData: userData
         };
-
+        
         this.edit = this.edit.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
-    edit = () => {
+    componentDidMount(){
+        this.setState({
+            userData: this.props.userData
+        })
+        console.log(this.state);
+    }
 
+    edit = () => {
         if (this.state.editable === true) {
             //send data to back-end
         }
@@ -32,9 +38,6 @@ export default class Profile extends Component {
     }
 
     handleChange = (e) => {
-
-        // e.preventDefault();
-
         const name = e.target.name;
         const value = e.target.value;
         const newData = {...this.state.userData};

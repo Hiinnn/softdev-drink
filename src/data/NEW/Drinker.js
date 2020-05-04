@@ -18,3 +18,5 @@ const userData = {
     ],
     "created": "2020-04-23T04:46:46.124362Z"
 }
+
+export default userData

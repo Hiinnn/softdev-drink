@@ -126,23 +126,22 @@ class Result extends Component {
 										<div className="detailShop" > contact: {this.state.shopData[i].phone_number.replace('+66', 0)} </div>
 										<Link
 											to={{
-												pathname: `/shop`,
-												shopId: i
+												pathname: `/shop/${this.state.shopData[i].shop_id}`,
 											}}>
 											<div className="learnBox"> LEARN MORE </div>
 										</Link>
 
 										{
-											/* <BookingTime sm={true} />
-																					<div style={
-																						{ maxHeight: '240px', overflow: 'auto' }} > {
-																							Object.keys(partyData).map((i) => {
-																								return (< PartyList partyData={partyData[i]}
-																									key={i}
-																									sm={true}
-																								/>)
-																							})}
-																					</div> */
+											// <BookingTime sm={true} />
+											// <div style={
+											// 	{ maxHeight: '240px', overflow: 'auto' }} > {
+											// 		Object.keys(partyData).map((i) => {
+											// 			return (< PartyList partyData={partyData[i]}
+											// 				key={i}
+											// 				sm={true}
+											// 			/>)
+											// 		})}
+											// </div> 
 										}
 
 									</div>

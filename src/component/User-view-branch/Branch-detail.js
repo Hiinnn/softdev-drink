@@ -1,16 +1,20 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Carousel, Form } from 'react-bootstrap';
+import React from 'react'
+import styled from 'styled-components'
+import { Carousel, Form } from 'react-bootstrap'
+
+import Axios from 'axios'
+import Select from 'react-select'
+import TimePicker from 'react-time-picker'
 
 // data
-import shopData from '../../data/NEW/Shop';
-import { orderData } from '../../data/NEW/Order';
+import shopData from '../../data/NEW/Shop'
+import { orderData } from '../../data/NEW/Order'
 
 // Component
-import PartyList from '../Party/Party';
-import BookingTime from '../Party/BookingTime';
-import OrderTable from '../OrderTable/OrderTable';
-import Axios from 'axios';
+import PartyList from '../Party/Party'
+import BookingTime from '../Party/BookingTime'
+import OrderTable from '../OrderTable/OrderTable'
+import { Link, Redirect } from 'react-router-dom'
 
 export default class BranchDetail extends React.Component {
     constructor(props) {
@@ -18,22 +22,113 @@ export default class BranchDetail extends React.Component {
         let userRole = 'sm';   // dk, ow, sm
         this.orderData = orderData;
 
-        shopData.phone_number = this.formatPhoneNumber(shopData.phone_number)
+        // shopData.phone_number = this.formatPhoneNumber(shopData.phone_number)
 
         this.state = {
-            role: userRole,
+            role: localStorage.getItem('role'),
+            redirect: null,
             editable: false,
-            day: new Date().getDay(),
+            workingTime: '00:00-00:00',
 
             shopData: shopData,
+
+            selectDay: new Date().getDay(),
+            changedDay: false,
+            officeday: [
+                {
+                    weekday: 0,
+                    open_time: '00:00',
+                    close_time: '00:00',
+                },
+                {
+                    weekday: 1,
+                    open_time: '00:00',
+                    close_time: '00:00',
+                },
+                {
+                    weekday: 2,
+                    open_time: '00:00',
+                    close_time: '00:00',
+                },
+                {
+                    weekday: 3,
+                    open_time: '00:00',
+                    close_time: '00:00',
+                },
+                {
+                    weekday: 4,
+                    open_time: '00:00',
+                    close_time: '00:00',
+                },
+                {
+                    weekday: 5,
+                    open_time: '00:00',
+                    close_time: '00:00',
+                },
+                {
+                    weekday: 6,
+                    open_time: '00:00',
+                    close_time: '00:00',
+                },
+            ],
         }
 
         this.edit = this.edit.bind(this)
         this.addPic = this.addPic.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.changeOpenTime = this.changeOpenTime.bind(this)
+        this.changeCloseTime = this.changeCloseTime.bind(this)
     }
 
+    componentDidMount = () => {
+        this.getShopData()
+        if (this.state.role !== null) this.getPartyData()
+    }
 
+    getShopData = () => {
+        Axios.get(`${localStorage.getItem('url')}/manager/shop/${this.props.match.params.shopId}`)
+            .then((res) => {
+                this.setState({
+                    shopData: res.data
+                }, () => {
+                    let newShopData = { ...this.state.shopData }
+                    const officeday = { ...this.state.officeday }
+                    const index = this.state.shopData.officeday.findIndex(element => element.weekday === new Date().getDay())
+                    const time = index === -1
+                        ? "We're Closed Today"
+                        : `  ${this.ISOtoNormal(this.state.shopData.officeday[index].open_time)} - ${this.ISOtoNormal(this.state.shopData.officeday[index].close_time)}`
+
+                    for (let i = 0; i < 7; i++) {
+                        let index = this.state.shopData.officeday.findIndex(element => element.weekday === i)
+                        if (index !== -1) {
+                            officeday[i].open_time = this.ISOtoNormal(this.state.shopData.officeday[index].open_time);
+                            officeday[i].close_time = this.ISOtoNormal(this.state.shopData.officeday[index].close_time);
+                        }
+                    }
+
+                    newShopData.phone_number = this.formatPhoneNumber(newShopData.phone_number);
+
+                    this.setState({
+                        workingTime: time,
+                        officeday: officeday,
+                        shopData: newShopData
+                    })
+                })
+            })
+            .catch((err) => {
+                console.log('branch err', err.response);
+            })
+
+    }
+
+    ISOtoNormal = (time) => {
+        const newTime = time.slice(11, 19).split(':')
+        return (`${(parseInt(newTime[0]) + 7) % 24}:${newTime[1]}`)
+    }
+
+    NormaltoISO = (time) => {
+        return `2020-01-01T${time}:00+07:00`
+    }
 
     formatPhoneNumber = (phone_number) => {
         if (phone_number[0] === '+') {
@@ -44,12 +139,7 @@ export default class BranchDetail extends React.Component {
         if (phone_number.length < 10) {
             return phone_number;
         }
-
         return phone_number.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    }
-
-    componentDidMount = () => {
-        console.log('did',this.props.location)
     }
 
     handleChange = (e) => {
@@ -59,7 +149,8 @@ export default class BranchDetail extends React.Component {
         const shop_data = { ...this.state.shopData };
 
         if (name === "phone_number") {
-            value = this.formatPhoneNumber(value);
+            if (value.length < 13) value = this.formatPhoneNumber(value);
+            else return
         }
 
         shop_data[name] = value;
@@ -69,15 +160,118 @@ export default class BranchDetail extends React.Component {
         })
     }
 
-    edit = () => {
+    changeDay = (e) => {
+        this.setState({ selectDay: e.value })
+    }
 
+    changeOpenTime = (e) => {
+        const newOffice = this.state.officeday
+        newOffice[this.state.selectDay].open_time = e
+
+        this.setState({
+            changedDay: true,
+            officeay: newOffice
+        })
+    }
+
+    changeCloseTime = (e) => {
+        const newOffice = this.state.officeday
+        newOffice[this.state.selectDay].close_time = e
+
+        this.setState({
+            changedDay: true,
+            officeDay: newOffice
+        })
+    }
+
+    postChangeTime = (url, body, header) => {
+        Axios.post(url, body, { headers: header })
+            .then((res) => {
+            })
+            .catch((err) => {
+                console.log('change time err', err.response);
+            })
+    }
+
+    edit = () => {
         if (this.state.editable === true) {
-            //send data to back-end
+            // loop send new time
+            if (this.state.changedDay === true) {
+                const url = `${localStorage.getItem('url')}/booking/create/`
+                const header = { Authorization: `Bearer ${localStorage.getItem('access')}` }
+                let body;
+                for (let i = 0; i < 7; i++) {
+                    body = {
+                        shop_id: this.state.shopData.shop_id,
+                        weekday: this.state.officeday[i].weekday,
+                        open_time: this.NormaltoISO(this.state.officeday[i].open_time),
+                        close_time: this.NormaltoISO(this.state.officeday[i].close_time)
+                    }
+
+                    let open = this.state.officeday[i].open_time.split(':')
+                    let close = this.state.officeday[i].close_time.split(':')
+
+                    open = parseFloat(open[0].concat('.', open[1]))
+                    close = parseFloat(close[0].concat('.', close[1]))
+
+                    if (close - open >= 0.3) this.postChangeTime(url, body, header)
+                }
+            }
+
+            // update shop
+            this.patchEditShop(
+                this.state.shopData.shop_id,
+                this.state.shopData.shop_name,
+                this.state.shopData.detail,
+                this.state.shopData.address,
+                this.state.shopData.phone_number,
+                this.state.shopData.max_seat,
+            )
         }
+
         this.setState(() => {
             return { editable: !this.state.editable }
         })
 
+    }
+
+    patchEditShop(id, name, detail, address, phone, seat) {
+        const url = `${localStorage.getItem('url')}/manager/profile/my_profile/`
+        const data = {
+            shop_id: id,
+            new_shop_name: name,
+            new_detail: detail,
+            new_address: address,
+            new_phone_number: phone.split('-').join('').replace(/^0/, '+66'),
+            new_max_seat: seat,
+        }
+        const header = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
+        Axios.patch(url, data, { headers: header })
+            .then((res) => {
+                this.getShopData()
+            })
+            .catch((err) => {
+                console.log('pathc err', err.response);
+            })
+    }
+
+    getPartyData() {
+        const date = new Date()
+        const url = `${localStorage.getItem('url')}/party/list/?date=${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}&shop_id=${this.state.shopData.shop_id}`
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
+        Axios.get(url, { headers: head })
+            .then((res) => {
+                this.setState({ partyData: res.data })
+            })
+            .catch((err) => {
+                console.log('err', err);
+            })
     }
 
     addPic = (e) => {
@@ -99,13 +293,19 @@ export default class BranchDetail extends React.Component {
 
         shopData.picture_sub[e.target.name] = file
 
-        
+
         // delete file from server
         //  then
         //  get shop_data again and refresh pages
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
+
+        // console.log(this.stae)
+
         return (
             <>
                 <img src={this.state.shopData.picture_main}
@@ -131,7 +331,10 @@ export default class BranchDetail extends React.Component {
                                     spellCheck="false"
                                     onChange={this.handleChange} />
                             </div>
-                            <a className="fav-wrapper" href="" ><img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="fav-icon" width="30px" height="30px" /></a>
+
+                            <a className="fav-wrapper" href="" >
+                                <img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="fav-icon" width="30px" height="30px" />
+                            </a>
                         </div>
 
                         {/* Branch description */}
@@ -145,6 +348,7 @@ export default class BranchDetail extends React.Component {
 
                         {/* Branch detail (location, time, tel, etc.) */}
                         <div className="details">
+                            {/* Address */}
                             <div className="form-group form-inline">
                                 <label style={{ marginBottom: 0 }} >Address :&nbsp;&nbsp;</label>
                                 <input name="address"
@@ -155,16 +359,20 @@ export default class BranchDetail extends React.Component {
                                     style={{ width: '79.5%', }} />
                             </div>
 
-                            <div className="form-group form-inline">
-                                <label style={{ marginBottom: 0 }} >Open :&nbsp;&nbsp;</label>
-                                <input name=""
-                                    disabled={!this.state.editable}
-                                    value={this.state.shopData.officeday[0]}
-                                    spellCheck="false"
-                                    onChange={this.handleChange}
-                                    style={{ width: '84.5%', }} />
-                            </div>
+                            {   // Open
+                                !this.state.editable &&
+                                <div className="form-group form-inline">
+                                    <label style={{ marginBottom: 0 }} >{this.state.workingTime !== 'We\'re Closed Today' && 'Open :  '}</label>
+                                    <input name=""
+                                        disabled={!this.state.editable}
+                                        value={this.state.workingTime}
+                                        spellCheck="false"
+                                        onChange={this.handleChange}
+                                        style={{}} />
+                                </div>
+                            }
 
+                            {/* Tel. */}
                             <div className="form-group form-inline">
                                 <label style={{ marginBottom: 0 }} >Tel. :&nbsp;&nbsp;</label>
                                 <input name="phone_number"
@@ -175,7 +383,7 @@ export default class BranchDetail extends React.Component {
                                     style={{ width: '88.5%', }} />
                             </div>
 
-                            {
+                            {   // max seat
                                 this.state.editable &&
                                 <div className="form-group form-inline">
                                     <label style={{ marginBottom: 0 }} >Max seat :&nbsp;&nbsp;</label>
@@ -187,13 +395,51 @@ export default class BranchDetail extends React.Component {
                                         style={{ width: '77.5%', }} />
                                 </div>
                             }
+
+                            {
+                                // Edit officeday
+                                this.state.editable &&
+                                <>
+                                    <div style={{ color: 'black', marginBottom: 20 }}>
+                                        <Select onChange={e => this.changeDay(e)}
+                                            options={[
+                                                { value: 0, label: 'Monday' },
+                                                { value: 1, label: 'Tuesday' },
+                                                { value: 2, label: 'Wednesday' },
+                                                { value: 3, label: 'Thursday' },
+                                                { value: 4, label: 'Friday' },
+                                                { value: 5, label: 'Saturday' },
+                                                { value: 6, label: 'Sunday' }]} />
+                                        <TimePicker
+                                            disableClock
+                                            locale="sv-sv"
+                                            onChange={this.changeOpenTime}
+                                            value={this.state.officeday[this.state.selectDay].open_time}
+                                        />
+                                        -
+                                        <TimePicker
+                                            disableClock
+                                            locale="sv-sv"
+                                            onChange={this.changeCloseTime}
+                                            value={this.state.officeday[this.state.selectDay].close_time}
+                                        />
+                                    </div>
+                                </>
+                            }
                         </div>
 
                         {/** Edit button */}
                         {
-                            (this.state.role === 'sm' || this.state.role === 'ow') &&
+                            this.state.role === 'ow' &&
                             <button className="edit-bt" onClick={this.edit}>
                                 {this.state.editable === true ? 'Confirm' : 'Edit'}
+                            </button>
+
+                            ||
+
+                            this.state.role === 'sm' &&
+                            <button className="edit-bt" onClick={() => this.setState({ redirect: `/manager/check/${this.state.shopData.shop_id}` })}>
+                                Table
                             </button>
                         }
 
@@ -204,6 +450,7 @@ export default class BranchDetail extends React.Component {
                             width={400}
                             role={this.state.role}
                             edit={this.state.editable}
+                            shopId={this.state.shopData.shop_id}
                             disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
                         />
                         <OrderTable
@@ -211,6 +458,7 @@ export default class BranchDetail extends React.Component {
                             width={400}
                             role={this.state.role}
                             edit={this.state.editable}
+                            shopId={this.state.shopData.shop_id}
                             disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
                         />
 
@@ -222,7 +470,7 @@ export default class BranchDetail extends React.Component {
 
                         {/* Slidshow pic (subPic) */}
                         <div className="add-rm-container">
-                            <Carousel fade={true}>
+                            <Carousel>
                                 {this.state.shopData.picture_sub.map((item, i) => {
                                     return (
                                         <Carousel.Item key={item + i}>
@@ -308,16 +556,19 @@ export default class BranchDetail extends React.Component {
                         </div>
 
                         {/** Booking time tap */}
-                        <BookingTime disabledBt={this.state.role !== 'dk'} /> {/* disable button when role is owner or manager*/}
+                        <BookingTime shopId={this.state.shopData.shop_id} disabledBt={this.state.role !== 'dk'} role={this.state.role} /> {/* disable button when role is owner or manager */}
 
                         {/** Current Party in cafe */}
-                        {Object.keys(this.state.shopData.party).map((i) => {
-                            console.log(i,this.state.shopData.party[i])
-                            return (<PartyList
-                                key={i}
-                                partyData={this.state.shopData.party[i]}
-                                disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
-                        })}
+                        {
+                            this.state.partyData &&
+                            this.state.role !== null &&
+                            this.state.partyData.map((obj, i) => {
+                                return (<PartyList
+                                    key={i}
+                                    partyData={obj}
+                                    disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
+                            })
+                        }
                     </div>
                 </BranchDetailContainer>
             </>
@@ -575,5 +826,20 @@ const BranchDetailContainer = styled.div`
 
                 .details input:nth-child(3) {
                     border-radius: 0px 0px 5px 5px;
+                }
+
+                .css-2b097c-container {
+                    width: 135px;
+                    margin-right: 10px;
+                    display: inline-block;
+                }   
+
+                .react-time-picker{
+                    width: 120px;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                    border-radius: 5px;
+                    display: inline-block;
+                    background-color: white;
                 }
             `

@@ -11,6 +11,7 @@ class Navbar extends Component {
             profile: null,
             searchKey: '',
             redirect: '',
+            home: ''
         }
         this.search = this.search.bind(this)
         this.loggedIn = this.loggedIn.bind(this)
@@ -23,7 +24,7 @@ class Navbar extends Component {
     }
 
     componentDidUpdate = () => {
-        if (this.props.auth && this.state.profile === null) {
+        if (this.props.auth && this.state.profile === null && this.state.shopId === null) {
             this.loggedIn();
         }
         else if (!this.props.auth && this.state.profile !== null) {
@@ -43,13 +44,13 @@ class Navbar extends Component {
 
         this.setState({
             searchKey: '',
+            home: '/',
         })
 
         this.render = () => {
             return <>{this.navComponent()}<Redirect to={{ pathname: redirect, state: { key: key } }} /></>
         }
     }
-
     handleChange = (e) => {
         this.setState({ searchKey: e.target.value })
     }
@@ -68,38 +69,72 @@ class Navbar extends Component {
                 })
                     .then((res) => {
                         if (this.state.profile !== res.data.picture) {
-                            this.setState({ profile: res.data.picture });
+                            this.setState({
+                                profile: res.data.picture,
+                                home: `/`
+                            });
                         }
                     })
                     .catch((err) => {
                         console.log('get profile error', err.response)
                     })
                 break;
-            case 'ow':
-                break;
             case 'sm':
+                Axios.get(`${url}/manager/profile/my_profile/`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                    .then((res) => {
+                        this.setState({
+                            shopId: res.data.related_shop.shop_id,
+                            home: `/shop/${res.data.related_shop.shop_id}`
+                        });
+                    })
+                    .catch((err) => {
+                        console.log('get profile error', err)
+                    })
+                break;
+            case 'ow':
+                this.setState({
+                    home: `/owner`
+                })
                 break;
             default:
+                this.setState({
+                    home: `/`
+                })
                 break;
         }
-    }
-
-    loggedOut = () => {
-        this.setState({ profile: null });
-        localStorage.removeItem('role');
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
-        localStorage.removeItem('profile');
     }
 
     navComponent = () => {
         return (
             <div className="nav-bar-container">
-                <Link to="/home"><div className="drink-logo"> DRINK </div></Link>
+                <Link to={this.state.home}>
+                    <div className="drink-logo"> DRINK </div>
+                </Link>
                 {!this.props.auth && <Link to="/login"><div className="nav-bar-button" style={{ paddingRight: 20 }}> Login </div></Link>}
 
-                {this.props.auth && <div className="nav-bar-button" onClick={this.props.logout} style={{ paddingRight: 20 }}> Logout </div>}
-                {this.props.auth && <a href="eiei"><img src={`${localStorage.getItem('url') + this.state.profile}`} className="nav-profile-pic" alt="" /></a>}
+                {
+                    this.props.auth &&
+                    <div className="nav-bar-button"
+                        onClick={() => {
+                            this.props.logout()
+                            this.setState({
+                                shopId: null,
+                                profile: null
+                            });
+                        }}
+                        style={{ paddingRight: 20 }}> Logout </div>
+                }
+                {
+                    this.props.auth &&
+                    localStorage.getItem('role') === 'dk' &&
+                    <Link to='/drinker/profile/'>
+                        <img src={`${localStorage.getItem('url') + this.state.profile}`} className="nav-profile-pic" alt=""/>
+                    </Link>
+                }
 
                 <div className="search-box-wrapper">
                     <input className="search-box" type="text"

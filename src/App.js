@@ -10,7 +10,6 @@ import ResetPassword from './pages/Login-Signup/Reset-password-page';
 // import UserHome from './pages/User-home/User-home';
 import UserBill from './pages/User-bill/User-bill';
 import UserOrder from './pages/User-Order/User-Order';
-import UserProfile from './pages/User-profile/User-profile';
 
 // import OwnerHome from './pages/Owner-home/Owner-home';
 import SearchResult from './pages/Search-result/Search-result';
@@ -22,6 +21,7 @@ import UserParty from './pages/User-party/User-party';
 import Navbar from './component/Nav-bar/Nav-bar';
 
 // * General
+import Result from './component/Result/Result';
 import SignUp from './component/Login-Sigup/SignUp-form';
 import LoginForm from './component/Login-Sigup/Login-form';
 import BranchDetail from './component/User-view-branch/Branch-detail';
@@ -29,16 +29,20 @@ import BranchDetail from './component/User-view-branch/Branch-detail';
 // * User main
 import Slideshow from './component/Slideshow/Slideshow';
 import Recommended from './component/Recommended/Recommended';
+import UserProfile from './component/Profile/NewProfile';
+import PartyU from './component/partyUser/partyUser';
 
 // * Owner main
 import ShopOwnerTable from './component/ShopOwnerTable/ShopOwnerTable';
-import Result from './component/Result/Result';
+
+// * Shop manager main
+import CheckTable from './component/CheckTable/CheckTable';
 
 export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://532127f4.ngrok.io');
+    localStorage.setItem('url', 'https://c7093f47.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
@@ -54,6 +58,10 @@ export default class App extends React.Component {
   }
 
   logout = () => {
+    localStorage.removeItem('role');
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+    localStorage.removeItem('profile');
     this.setState({
       auth: false
     })
@@ -86,22 +94,24 @@ export default class App extends React.Component {
         }
         <Navbar auth={this.state.auth} logout={this.logout} />
 
+
         <Switch>
+          <Route path="/search" component={Search} />
+          <Route path="/signup" component={Signup} />
           <Route path="/login" component={() => Login(this.login)} />
 
-          <Route path="/signup" component={Signup} />
+          <Route path="/drinker/party/" component={DrinkerParty} />
+          <Route path="/drinker/profile" component={() => <UserProfile />} />
+          <Route path="/drinker/" component={DrinkerHome} />
 
-          <Route path="/search" component={Search}/>
+          <Route path="/owner" component={OwnerHome} />
+          <Route path="/owner/shop/:shopId" render={props => <BranchDetail {...props} />} />
 
-          <Route path="/drinker" component={DrinkerHome} />
-          {/* <Route path="/owner" component={OwnerHome} /> */}
-          {/* <Route path="/manager" component={ManagerHome} /> */}
-
-          <Route path="/shop" component={Shop}/>
+          <Route path="/shop/:shopId" render={props => <BranchDetail {...props} />} />
+          <Route path="/manager/check/:shopId" render={props => <CheckTable {...props} />} />
 
           <Route path="/" component={Home} />
-
-          <Route component={() => <div>KUY</div>}/>
+          <Route component={() => <div>KUY</div>} />
 
         </Switch>
       </div>
@@ -110,13 +120,19 @@ export default class App extends React.Component {
 }
 
 
-const Home = () => <> <Slideshow /><Recommended /> </>
+const Home = () =>
+  <>
+    <Slideshow />
+    <Recommended />
+  </>
+
 const Login = (login) => <LoginForm auth={login} />
 const Signup = () => <SignUp />
-const Search = () => <Result/>
-
-const Shop = () => <BranchDetail/>
+const Search = () => <Result />
 
 const DrinkerHome = () => <><Slideshow /> <Recommended /></>
-const OwnerHome = () => <> <ShopOwnerTable /></>
-const ManagerHome = () => <></>
+const OwnerHome = () => <ShopOwnerTable />
+
+
+const DrinkerParty = () => <PartyU />
+

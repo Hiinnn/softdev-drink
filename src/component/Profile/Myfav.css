@@ -1,9 +1,9 @@
 .myfav-main-container {
 	width: 100%;
-	/* background-image: url('../../asset/MainBackground/bgResult.jpeg'); */
 	background-size: 100% 50%;
 	background-repeat: repeat;
 	padding-top: 40px;
+	display: block;
 }
 
 .myfav-container {
