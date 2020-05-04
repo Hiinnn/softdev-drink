@@ -139,5 +139,6 @@
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
+	object-fit: cover;
 	border-radius: 100%;
 }

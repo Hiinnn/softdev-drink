@@ -80,8 +80,6 @@ export default class UserProfile extends React.Component {
                 this.setState({
                     shopArray: newData
                 })
-                console.log(this.state);
-
             })
             .catch((err) => {
                 console.log('fav err', err.response);
@@ -108,13 +106,10 @@ export default class UserProfile extends React.Component {
                 new_birth_date: `${this.state.userData.birth_date}-01`,
                 new_phone_number: this.state.userData.phone_number.replace(/^0/, '+66'),
             }
-            console.log(data);
-
             this.patchChangeProfile(data)
         }
 
         this.setState(() => {
-            console.log('toggle data');
             return { editableData: !this.state.editableData }
         })
 
@@ -126,7 +121,6 @@ export default class UserProfile extends React.Component {
         const newPassword = { ...this.state.passwordChange };
 
         newPassword[name] = value;
-        console.log(name, value, newPassword, e);
 
         this.setState({
             passwordChange: newPassword
@@ -144,8 +138,6 @@ export default class UserProfile extends React.Component {
         }
 
         this.setState(() => {
-            console.log('toggle pass');
-
             return { editablePassword: !this.state.editablePassword }
         })
 
@@ -173,10 +165,36 @@ export default class UserProfile extends React.Component {
 
         Axios.delete(url, { headers: head })
             .then((res) => {
-                console.log('del fav', res);
             })
             .catch((err) => {
                 console.log('del fav', err.response);
+            })
+    }
+
+    patchChangePic(e) {
+        const picture = new FormData()
+        const url = `${localStorage.getItem('url')}/user/profile/my_profile/`
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+        
+        picture.append('new_picture', e.target.files[0])
+
+        console.log(e.target.files[0]);
+        
+        Object.keys(picture).map((keys)=>{
+            console.log(keys);
+            
+        })
+        
+
+        Axios.patch(url, picture, { headers: head })
+            .then((res) => {
+                console.log(res);
+                // window.location.reload(false);
+            })
+            .catch((err) => {
+                console.log('change err', err.response);
             })
     }
 
@@ -185,7 +203,19 @@ export default class UserProfile extends React.Component {
             <>
                 <div className="picandpro-container">
                     <div className="profile-pic-container">
-                        <img className="profile-pic" src={`${localStorage.getItem('url')}${this.state.userData.picture}`} width="200" height="200" align="left" alt=""></img>
+                        <label style={{ display: 'block', left: '50%', position: 'relative', transform: 'translateX(-50%)', marginBottom: 10 }}>
+                            <img className="profile-pic" src={ `${localStorage.getItem('url')}${this.state.userData.picture}`} width="200" height="200" align="left" alt=""></img>
+                        </label>
+                        <input type='file'
+                            style={{
+                                width: 105,
+                                display: 'block',
+                                top: 10,
+                                left: '50%',
+                                position: 'relative',
+                                transform: 'translateX(-50%)'
+                            }}
+                            onChange={this.patchChangePic.bind(this)} />
                     </div>
 
                     <div className="profile-container">
@@ -247,11 +277,11 @@ export default class UserProfile extends React.Component {
                         </div>
                         <br /><br />
 
-                        <Link to='/drinker/party'>
-                            <div className="two-button" >
+                        <div className="two-button" >
+                            <Link to='/drinker/party' style={{ textDecoration: 'none', color: 'white' }}>
                                 My Party
-                            </div>
-                        </Link>
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
@@ -264,7 +294,7 @@ export default class UserProfile extends React.Component {
                                     <div key={i}>
                                         <div className="left-container" >
                                             <img className="imgShop"
-                                                src={this.state.shopArray[i].picture_main}
+                                                src={`${localStorage.getItem('url')}${this.state.shopArray[i].picture}`}
                                                 alt={this.state.shopArray[i].shop_name}
                                                 align="left" />
                                         </div>

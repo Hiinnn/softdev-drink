@@ -197,6 +197,14 @@ export default class BookingTime extends React.Component {
                     </select>
                 </div>
 
+                <div className="form-inline" id={'form' + sm}>
+                    <input type='date'>
+                        
+                    </input>
+
+                </div>
+
+
                 {/** Privacy radio check */}
                 <FormColumn>
                     <div className="form-check" id="check">
@@ -269,7 +277,7 @@ const BookingContainer = styled.form`
                     display: flex;
                     align-items: center;
                     
-                    margin-right: 30px;
+                    margin-right: 20px;
                 }
 
                 .party-size {
@@ -452,7 +460,7 @@ const BookingContainer = styled.form`
                 }
                 
                 #form-sm {
-                    margin-left: 15px;
-                    margin-right: 15px;
+                    margin-left: 6px;
+                    margin-right: 6px;
                 }
             `

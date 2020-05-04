@@ -49,6 +49,7 @@ const partyArray = [{
 		"invite_num": 0,
 		"full": false,
 		"total": 5394.0,
+		"username": "NameSurname",
 		"member_list": [{
 				"name": "b",
 				"picture": "/media/drinker_picture/1_AAwZBED.jpg"
@@ -85,6 +86,7 @@ const partyArray = [{
 		"invite_num": 0,
 		"full": false,
 		"total": 5394.0,
+		"username": "NameSurname",
 		"member_list": [{
 				"name": "b",
 				"picture": "/media/drinker_picture/1_AAwZBED.jpg"

@@ -159,7 +159,7 @@ export default class LoginForm extends React.Component {
                         </Col>
                     </Form.Group>
 
-                    <Link to="/home" style={{ display: 'inline', float: 'right' }}>Forgot your password ?</Link>
+                    <Link to="/reset" style={{ display: 'inline', float: 'right' }}>Forgot your password ?</Link>
                     <br />
                     <br />
 
