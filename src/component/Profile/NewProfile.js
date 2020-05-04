@@ -4,10 +4,11 @@ import './Myfav.css';
 import './Profile.css';
 import './Password.css';
 
-
 import userData from '../../data/NEW/Drinker';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+
+import { NotifyAlert } from '../../component/SweetAlert';
 
 export default class UserProfile extends React.Component {
 
@@ -151,9 +152,11 @@ export default class UserProfile extends React.Component {
 
         Axios.patch(url, body, { headers: head })
             .then((res) => {
+                NotifyAlert(() => { }, 'สำเร็จ!', 'ข้อมูลโปรไฟล์ถูกอัพเดตแล้ว', 'success');
             })
             .catch((err) => {
-                console.log(('change err', err.response));
+                //console.log(('change err', err.response));
+                NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
 
@@ -164,10 +167,11 @@ export default class UserProfile extends React.Component {
         }
 
         Axios.delete(url, { headers: head })
-            .then((res) => {
+            .then((res) => { 
             })
             .catch((err) => {
-                console.log('del fav', err.response);
+                //console.log('del fav', err.response);
+                NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
 
@@ -187,18 +191,27 @@ export default class UserProfile extends React.Component {
             
         })
         
+        NotifyAlert(() => { }, 'กำลังดำเนินการ', 'กำลังอัพเดตรูปโปรไฟล์ กรุณารอสักครู่', 'info', false);
 
         Axios.patch(url, picture, { headers: head })
             .then((res) => {
                 console.log(res);
                 // window.location.reload(false);
+                setTimeout(()=> {
+                    window.location.reload();
+                }, 2000)
+
+                NotifyAlert(() => { }, 'สำเร็จ!', 'รูปโปรไฟล์ถูกอัพเดตแล้ว โปรดรีเฟรชหน้าเว็บของท่าน', 'success');
+
             })
             .catch((err) => {
-                console.log('change err', err.response);
+                //console.log('change err', err.response); 
+                NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
 
     render() {
+        console.log('i love u so much ver much');
         return (
             <>
                 <div className="picandpro-container">
