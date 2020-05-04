@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import './Owner-form.css';
 
-const usernameRegex = RegExp(/[a-zA-Z0-9]{8,}/)              // contain at least 1 uppercase and 1 lowercase
+const usernameRegex = RegExp(/[a-zA-Z0-9]/)              // contain at least 1 uppercase and 1 lowercase
 const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number
 const nameRegex = RegExp(/^[a-zA-Z]+$/)                                         // contain name and surname (only english letter)
 const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)      // Email format -----@-----.---
@@ -31,9 +31,6 @@ export default class Ownerform extends React.Component {
 
         this.form = {
             username: ['Username', 'text', ''],
-            picture: ['Picture','file', ''],
-            name: ['Name', 'text', ''],
-            email: ['Email', 'email', ''],
             password: ['Password', 'password', ''],
             password_comfirm: ['Confirm Password', 'password', ''],
             max_seat: ['Max Seat', 'text', ''],
@@ -46,9 +43,6 @@ export default class Ownerform extends React.Component {
         this.state = {
             form: {
                 username: '',
-                picture: '',
-                name: '',
-                email: '',
                 password: '',
                 password_comfirm: '',
                 max_seat: '',
@@ -59,9 +53,6 @@ export default class Ownerform extends React.Component {
             },
             error: {
                 username: '',
-                picture: '',
-                name: '',
-                email: '',
                 password: '',
                 password_comfirm: '',
                 max_seat: '',
@@ -93,7 +84,7 @@ export default class Ownerform extends React.Component {
                 formError[name] =
                     usernameRegex.test(value)
                         ? ""
-                        : "Username must be longer than 8 characters.";
+                        : "Username must be english letter or number.";
                 break;
 
             case "picture":
@@ -200,19 +191,8 @@ export default class Ownerform extends React.Component {
     }
 
     render() {
-
-        /*let xMid = {
-            left: '50%',
-            position: 'relative',
-            transform: 'translateX(-50%)'
-        }*/
-
-        let term = <a href="eiei">term</a>
-        let condition = <a href="eiei">condition</a>
-
         return (
             <div className="owner-form-container">
-
                 <Form className = "form-wrapper" onSubmit={this.submit}>
                     <h3>Create New Shop</h3>
                     <br />
@@ -236,16 +216,14 @@ export default class Ownerform extends React.Component {
                                         />
                                         <Form.Control.Feedback type="valid">{this.state.error[key]}</Form.Control.Feedback>
                                         <Form.Control.Feedback type="invalid">{this.state.error[key]}</Form.Control.Feedback>
-                                    </Col>                             
-                                
-                                    {/*<input type="file" accept="image/*"></input>*/}                         
+                                    </Col>
                                 </Form.Group>
                             );
                         })
                     }                  
                     
                     {/* Save button */}
-                    <div className = "button"> Save </div>
+                    <div className = "button"> Create </div>
                     
                 </Form>
             </div>

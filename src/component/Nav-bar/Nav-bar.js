@@ -24,7 +24,7 @@ class Navbar extends Component {
     }
 
     componentDidUpdate = () => {
-        if (this.props.auth && this.state.profile === null && this.state.shopId === null) {
+        if (this.props.auth && this.state.profile === null && this.state.shopId === null && localStorage.getItem('role') !== 'ow') {
             this.loggedIn();
         }
         else if (!this.props.auth && this.state.profile !== null) {

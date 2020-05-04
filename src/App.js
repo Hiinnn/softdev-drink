@@ -33,7 +33,8 @@ import UserProfile from './component/Profile/NewProfile';
 import PartyU from './component/partyUser/partyUser';
 
 // * Owner main
-import ShopOwnerTable from './component/ShopOwnerTable/ShopOwnerTable';
+import Ownerform from './component/Owner-form/Owner-form'
+import ShopOwnerTable from './component/ShopOwnerTable/ShopOwnerTable'
 
 // * Shop manager main
 import CheckTable from './component/CheckTable/CheckTable';
@@ -93,6 +94,7 @@ export default class App extends React.Component {
           // order sm ใช้ได้
         }
         <Navbar auth={this.state.auth} logout={this.logout} />
+        <Ownerform />
 
 
         <Switch>
@@ -104,8 +106,9 @@ export default class App extends React.Component {
           <Route path="/drinker/profile" component={() => <UserProfile />} />
           <Route path="/drinker/" component={DrinkerHome} />
 
-          <Route path="/owner" component={OwnerHome} />
           <Route path="/owner/shop/:shopId" render={props => <BranchDetail {...props} />} />
+          <Route path="/owner/create" component={<Ownerform />} />
+          <Route path="/owner" component={OwnerHome} />
 
           <Route path="/shop/:shopId" render={props => <BranchDetail {...props} />} />
           <Route path="/manager/check/:shopId" render={props => <CheckTable {...props} />} />

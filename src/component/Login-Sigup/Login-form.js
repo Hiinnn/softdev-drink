@@ -75,15 +75,13 @@ export default class LoginForm extends React.Component {
         if (validateForm(this.state)) {
             Axios.post(`${localStorage.getItem('url')}/login/token/`, login)
                 .then((res) => {
-                    let newRedirect;
                     localStorage.setItem('access', res.data.access);
                     localStorage.setItem('refresh', res.data.refresh);
                     localStorage.setItem('role', res.data.role);
 
                     if (res.data.role === 'dk') {
-                        newRedirect = "/"
                         this.setState({
-                            redirect: newRedirect
+                            redirect: "/"
                         })
                     }
                     else if (res.data.role === 'sm') {
@@ -100,9 +98,6 @@ export default class LoginForm extends React.Component {
                             redirect: `/owner`
                         })
                     }
-
-                    console.log('auth');
-                    
                     this.props.auth();
                 })
                 .catch((error) => {
