@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Carousel, Form } from 'react-bootstrap'
 
 import Axios from 'axios'
+import './Branch-detail.css'
 import Select from 'react-select'
 import TimePicker from 'react-time-picker'
 
@@ -19,18 +20,13 @@ import { Link, Redirect } from 'react-router-dom'
 export default class BranchDetail extends React.Component {
     constructor(props) {
         super(props);
-        let userRole = 'sm';   // dk, ow, sm
-        this.orderData = orderData;
-
-        // shopData.phone_number = this.formatPhoneNumber(shopData.phone_number)
-
         this.state = {
             role: localStorage.getItem('role'),
             redirect: null,
             editable: false,
             workingTime: '00:00-00:00',
 
-            shopData: shopData,
+            shopData: null,
 
             selectDay: new Date().getDay(),
             changedDay: false,
@@ -74,19 +70,20 @@ export default class BranchDetail extends React.Component {
         }
 
         this.edit = this.edit.bind(this)
-        this.addPic = this.addPic.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.changeOpenTime = this.changeOpenTime.bind(this)
         this.changeCloseTime = this.changeCloseTime.bind(this)
     }
 
     componentDidMount = () => {
+        console.log('did');
+        
         this.getShopData()
-        if (this.state.role !== null) this.getPartyData()
+        if (this.state.role !== null && this.state.shopData) this.getPartyData()
     }
 
     getShopData = () => {
-        Axios.get(`${localStorage.getItem('url')}/manager/shop/${this.props.match.params.shopId}`)
+        Axios.get(`${localStorage.getItem('url')}/manager/shop/${this.props.match.params.shopId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('access')}` } })
             .then((res) => {
                 this.setState({
                     shopData: res.data
@@ -274,29 +271,84 @@ export default class BranchDetail extends React.Component {
             })
     }
 
-    addPic = (e) => {
-        const name = e.target.name;
+    addPic = (...params) => {
+        const e = params[2];
+        e.preventDefault()
+
+        const url = `${localStorage.getItem('url')}/manager/picture/`
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
         const file = e.target.files[0];
-        const shop_data = { ...this.state.shopData };
+        const form = new FormData()
 
-        shopData.picture_sub[e.target.name] = file
+        form.append('type', params[0])
+        form.append('picture', file)
+        form.append('shop_id', this.state.shopData.shop_id)
+        form.append('picture_id', params[1])
 
-        // upload file to server
-        //  then
-        //  get shop_data again and refresh pages
+        Axios.post(url, form, { headers: head })
+            .then((res) => {
+                console.log('uploaded');
+
+                this.setState({
+                    changePic: true
+                })
+            })
+            .catch((err) => {
+                console.log(err.response)
+            })
+
+
     }
 
-    removePic = (e) => {
-        const name = e.target.name;
-        const file = e.target.files[0];
-        const shop_data = { ...this.state.shopData };
+    removePic = (...params) => {    // type, index, event
+        const e = params[2];
+        e.preventDefault()
 
-        shopData.picture_sub[e.target.name] = file
+        const url = `${localStorage.getItem('url')}/manager/picture/${params[0]}`
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
 
+        Axios.delete(url, { headers: head })
+            .then((res) => {
+                this.setState({
+                    changePic: true
+                })
+            })
+            .catch((err) => {
+                console.log('deleted', err.response)
+            })
+    }
 
-        // delete file from server
-        //  then
-        //  get shop_data again and refresh pages
+    toggleLike() {
+        const url = localStorage.getItem('url')
+        const token = localStorage.getItem('access')
+        const body = {
+            shop_id: this.state.shopData.shop_id
+        }
+        const head = {
+            Authorization: `Bearer ${token}`
+        }
+
+        if (!this.state.shopData.is_fav.is_fav) {
+            Axios.post(`${url}/user/profile/favorite_shop/`, body, { headers: head })
+                .then((response) => {
+                })
+                .catch((err) => {
+                    console.log('like post err', err.response);
+                })
+        }
+        else {
+            Axios.delete(`${url}/user/profile/favorite_shop/${this.state.shopData.is_fav.pk}`, { headers: head })
+                .then((response) => {
+                })
+                .catch((err) => {
+                    console.log('like del err', err.response);
+                })
+        }
     }
 
     render() {
@@ -304,184 +356,217 @@ export default class BranchDetail extends React.Component {
             return <Redirect to={this.state.redirect} />
         }
 
-        // console.log(this.stae)
+        const tempPic = 'https://image.freepik.com/free-photo/minimalist-background-with-green-leaves-white_23-2147752433.jpg';
 
-        return (
-            <>
-                <img src={this.state.shopData.picture_main}
-                    alt="eiei"
-                    style={{
-                        width: '100%',
-                        height: '600px',
-                        top: '110',
-                        display: 'flex',
-                        objectFit: 'cover'
-                    }} />
-                <BranchDetailContainer>
-                    {/********************** Left Column ***********************/}
+        if (this.state.shopData)
+            return (
+                <>
+                    <div className="add-rm-container">
+                        <img src={`${localStorage.getItem('url')}${this.state.shopData.picture_main.url}`}
+                            alt="eiei"
+                            style={{
+                                width: '100%',
+                                height: '600px',
+                                top: '110',
+                                display: 'flex',
+                                objectFit: 'cover'
+                            }} />
+                        {
+                            this.state.role === 'ow' &&
+                            <>
+                                <div className="main-add-rm"
+                                    style={{ transform: 'translateX(-270%)', fontSize: '25px' }}>
+                                    🞦<input type="file"
+                                        style={{
+                                            opacity: 0.0,
+                                            position: 'absolute',
+                                            top: 0, left: 0, bottom: 0, right: 0,
+                                            width: '100%',
+                                            height: '100%'
+                                        }}
+                                        name='main_pic'
+                                        accept={"image/*"}
+                                        onChange={this.addPic.bind(this, 'ma', 1)} />
+                                </div>
+                                <div className="main-add-rm"
+                                    style={{ transform: 'translateX(-150%)', fontSize: '25px' }}
+                                    onClick={this.removePic.bind(this, 'ma', 1)}>
+                                    🞮
+                            </div>
+                            </>
+                        }
+                    </div>
 
-                    <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginRight: '1%' }}>
+                    <BranchDetailContainer>
+                        {/********************** Left Column ***********************/}
 
-                        {/* Branch name */}
-                        <div className="name-wrapper">
-                            <div className="branch-name">
-                                <input name="shop_name"
+                        <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginRight: '1%' }}>
+
+                            {/* Branch name */}
+                            <div className="name-wrapper">
+                                <div className="branch-name">
+                                    <input name="shop_name"
+                                        disabled={!this.state.editable}
+                                        value={this.state.shopData.shop_name}
+                                        spellCheck="false"
+                                        onChange={this.handleChange} />
+                                </div>
+
+
+                                {
+                                    localStorage.getItem('role') !== 'ow' &&
+                                    localStorage.getItem('role') !== 'sm' &&
+                                    <div className="fav-wrapper" style={{ cursor: 'pointer' }} onClick={this.toggleLike.bind(this)}>
+                                        <img src={this.state.shopData.is_fav.is_fav ? require('../../asset/icon/heart2.png') : require('../../asset/icon/heart.png')} alt="fav-icon" width="30px" height="30px" />
+                                    </div>
+                                }
+                            </div>
+
+                            {/* Branch description */}
+                            <div className="description">
+                                <textarea name="detail"
                                     disabled={!this.state.editable}
-                                    value={this.state.shopData.shop_name}
+                                    value={this.state.shopData.detail}
                                     spellCheck="false"
                                     onChange={this.handleChange} />
                             </div>
 
-                            <a className="fav-wrapper" href="" >
-                                <img src="https://image.flaticon.com/icons/svg/1076/1076984.svg" alt="fav-icon" width="30px" height="30px" />
-                            </a>
-                        </div>
-
-                        {/* Branch description */}
-                        <div className="description">
-                            <textarea name="detail"
-                                disabled={!this.state.editable}
-                                value={this.state.shopData.detail}
-                                spellCheck="false"
-                                onChange={this.handleChange} />
-                        </div>
-
-                        {/* Branch detail (location, time, tel, etc.) */}
-                        <div className="details">
-                            {/* Address */}
-                            <div className="form-group form-inline">
-                                <label style={{ marginBottom: 0 }} >Address :&nbsp;&nbsp;</label>
-                                <input name="address"
-                                    disabled={!this.state.editable}
-                                    value={this.state.shopData.address}
-                                    spellCheck="false"
-                                    onChange={this.handleChange}
-                                    style={{ width: '79.5%', }} />
-                            </div>
-
-                            {   // Open
-                                !this.state.editable &&
+                            {/* Branch detail (location, time, tel, etc.) */}
+                            <div className="details">
+                                {/* Address */}
                                 <div className="form-group form-inline">
-                                    <label style={{ marginBottom: 0 }} >{this.state.workingTime !== 'We\'re Closed Today' && 'Open :  '}</label>
-                                    <input name=""
+                                    <label style={{ marginBottom: 0 }} >Address :&nbsp;&nbsp;</label>
+                                    <input name="address"
                                         disabled={!this.state.editable}
-                                        value={this.state.workingTime}
+                                        value={this.state.shopData.address}
                                         spellCheck="false"
                                         onChange={this.handleChange}
-                                        style={{}} />
+                                        style={{ width: '79.5%', }} />
                                 </div>
-                            }
 
-                            {/* Tel. */}
-                            <div className="form-group form-inline">
-                                <label style={{ marginBottom: 0 }} >Tel. :&nbsp;&nbsp;</label>
-                                <input name="phone_number"
-                                    disabled={!this.state.editable}
-                                    value={this.state.shopData.phone_number}
-                                    spellCheck="false"
-                                    onChange={this.handleChange}
-                                    style={{ width: '88.5%', }} />
-                            </div>
+                                {   // Open
+                                    !this.state.editable &&
+                                    <div className="form-group form-inline">
+                                        <label style={{ marginBottom: 0 }} >{this.state.workingTime !== 'We\'re Closed Today' && 'Open :  '}</label>
+                                        <input name=""
+                                            disabled={!this.state.editable}
+                                            value={this.state.workingTime}
+                                            spellCheck="false"
+                                            onChange={this.handleChange}
+                                            style={{}} />
+                                    </div>
+                                }
 
-                            {   // max seat
-                                this.state.editable &&
+                                {/* Tel. */}
                                 <div className="form-group form-inline">
-                                    <label style={{ marginBottom: 0 }} >Max seat :&nbsp;&nbsp;</label>
-                                    <input name="max_seat"
+                                    <label style={{ marginBottom: 0 }} >Tel. :&nbsp;&nbsp;</label>
+                                    <input name="phone_number"
                                         disabled={!this.state.editable}
-                                        value={this.state.shopData.max_seat}
+                                        value={this.state.shopData.phone_number}
                                         spellCheck="false"
                                         onChange={this.handleChange}
-                                        style={{ width: '77.5%', }} />
+                                        style={{ width: '88.5%', }} />
                                 </div>
-                            }
 
-                            {
-                                // Edit officeday
-                                this.state.editable &&
-                                <>
-                                    <div style={{ color: 'black', marginBottom: 20 }}>
-                                        <Select onChange={e => this.changeDay(e)}
-                                            options={[
-                                                { value: 0, label: 'Monday' },
-                                                { value: 1, label: 'Tuesday' },
-                                                { value: 2, label: 'Wednesday' },
-                                                { value: 3, label: 'Thursday' },
-                                                { value: 4, label: 'Friday' },
-                                                { value: 5, label: 'Saturday' },
-                                                { value: 6, label: 'Sunday' }]} />
-                                        <TimePicker
-                                            disableClock
-                                            locale="sv-sv"
-                                            onChange={this.changeOpenTime}
-                                            value={this.state.officeday[this.state.selectDay].open_time}
-                                        />
+                                {   // max seat
+                                    this.state.editable &&
+                                    <div className="form-group form-inline">
+                                        <label style={{ marginBottom: 0 }} >Max seat :&nbsp;&nbsp;</label>
+                                        <input name="max_seat"
+                                            disabled={!this.state.editable}
+                                            value={this.state.shopData.max_seat}
+                                            spellCheck="false"
+                                            onChange={this.handleChange}
+                                            style={{ width: '77.5%', }} />
+                                    </div>
+                                }
+
+                                {
+                                    // Edit officeday
+                                    this.state.editable &&
+                                    <>
+                                        <div style={{ color: 'black', marginBottom: 20 }}>
+                                            <Select onChange={e => this.changeDay(e)}
+                                                options={[
+                                                    { value: 0, label: 'Monday' },
+                                                    { value: 1, label: 'Tuesday' },
+                                                    { value: 2, label: 'Wednesday' },
+                                                    { value: 3, label: 'Thursday' },
+                                                    { value: 4, label: 'Friday' },
+                                                    { value: 5, label: 'Saturday' },
+                                                    { value: 6, label: 'Sunday' }]} />
+                                            <TimePicker
+                                                disableClock
+                                                locale="sv-sv"
+                                                onChange={this.changeOpenTime}
+                                                value={this.state.officeday[this.state.selectDay].open_time}
+                                            />
                                         -
                                         <TimePicker
-                                            disableClock
-                                            locale="sv-sv"
-                                            onChange={this.changeCloseTime}
-                                            value={this.state.officeday[this.state.selectDay].close_time}
-                                        />
-                                    </div>
-                                </>
+                                                disableClock
+                                                locale="sv-sv"
+                                                onChange={this.changeCloseTime}
+                                                value={this.state.officeday[this.state.selectDay].close_time}
+                                            />
+                                        </div>
+                                    </>
+                                }
+                            </div>
+
+                            {/** Edit button */}
+                            {
+                                this.state.role === 'ow' &&
+                                <button className="edit-bt" onClick={this.edit}>
+                                    {this.state.editable === true ? 'Confirm' : 'Edit'}
+                                </button>
+
+                                ||
+
+                                this.state.role === 'sm' &&
+                                <button className="edit-bt" onClick={() => this.setState({ redirect: `/manager/check/${this.state.shopData.shop_id}` })}>
+                                    Table
+                            </button>
                             }
+
+
+                            {/* Food and Drink menu */}
+                            <OrderTable
+                                type={'food'}
+                                width={400}
+                                role={this.state.role}
+                                edit={this.state.editable}
+                                shopId={this.state.shopData.shop_id}
+                                disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
+                            />
+                            <OrderTable
+                                type={'drink'}
+                                width={400}
+                                role={this.state.role}
+                                edit={this.state.editable}
+                                shopId={this.state.shopData.shop_id}
+                                disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
+                            />
+
                         </div>
 
-                        {/** Edit button */}
-                        {
-                            this.state.role === 'ow' &&
-                            <button className="edit-bt" onClick={this.edit}>
-                                {this.state.editable === true ? 'Confirm' : 'Edit'}
-                            </button>
+                        {/*********************** Right Column ***********************/}
 
-                            ||
+                        <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginLeft: '1%' }}>
 
-                            this.state.role === 'sm' &&
-                            <button className="edit-bt" onClick={() => this.setState({ redirect: `/manager/check/${this.state.shopData.shop_id}` })}>
-                                Table
-                            </button>
-                        }
-
-
-                        {/* Food and Drink menu */}
-                        <OrderTable
-                            type={'food'}
-                            width={400}
-                            role={this.state.role}
-                            edit={this.state.editable}
-                            shopId={this.state.shopData.shop_id}
-                            disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
-                        />
-                        <OrderTable
-                            type={'drink'}
-                            width={400}
-                            role={this.state.role}
-                            edit={this.state.editable}
-                            shopId={this.state.shopData.shop_id}
-                            disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
-                        />
-
-                    </div>
-
-                    {/*********************** Right Column ***********************/}
-
-                    <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginLeft: '1%' }}>
-
-                        {/* Slidshow pic (subPic) */}
-                        <div className="add-rm-container">
-                            <Carousel>
-                                {this.state.shopData.picture_sub.map((item, i) => {
-                                    return (
-                                        <Carousel.Item key={item + i}>
-                                            <img src={item.url}
-                                                className="sub-pic"
-                                                alt="" />
-                                            {
-                                                this.state.role === 'sm' &&
-                                                <>
-                                                    <a href="#" name="" className="add-rm-pic">
-                                                        <div style={{ fontSize: '30px' }}>
+                            {/* Slidshow pic (subPic) */}
+                            <div className="add-rm-container">
+                                <Carousel>
+                                    {this.state.shopData.picture_sub.map((item, i) => {
+                                        return (
+                                            <Carousel.Item key={item + i}>
+                                                <img src={item.url === '/black.jpg' ? tempPic : `${localStorage.getItem('url')}${item.url}`}
+                                                    className="sub-pic"
+                                                    alt="" />
+                                                {
+                                                    this.state.role === 'ow' &&
+                                                    <>
+                                                        <div className="add-rm-pic"
+                                                            style={{ fontSize: '30px' }}>
                                                             🞦<input type="file"
                                                                 style={{
                                                                     opacity: 0.0,
@@ -493,40 +578,46 @@ export default class BranchDetail extends React.Component {
                                                                 }}
                                                                 name={i}
                                                                 accept={"image/*"}
-                                                                onChange={this.addPic} />
+                                                                onChange={this.addPic.bind(this, 'sb', item.pk)}
+                                                            />
                                                         </div>
-                                                    </a>
-                                                    <a href="#" name="" className="add-rm-pic">
-                                                        <div style={{ fontSize: '30px' }}>🞮
+                                                        <div className="add-rm-pic"
+                                                            style={{ fontSize: '30px' }}
+                                                            onClick={this.removePic.bind(this, 'sb', item.pk)}
+                                                        >🞮
                                                         </div>
-                                                    </a>
-                                                </>
-                                            }
-                                        </Carousel.Item>
-                                    )
-                                })}
-                            </Carousel>
-                        </div>
+                                                    </>
+                                                }
+                                            </Carousel.Item>
+                                        )
+                                    })}
+                                </Carousel>
+                            </div>
 
-                        {/* miniPic */}
-                        <div className="mini-pic-wrapper">
-                            {this.state.shopData.picture_mini.map((item, i) => {
-                                let width;
-                                if (i < 2) width = { width: '50%' };
-                                else width = { width: '33.3333%' };
+                            {/* miniPic */}
+                            <div className="mini-pic-wrapper">
+                                {this.state.shopData.picture_mini.map((item, i) => {
+                                    let width, heigth;
+                                    if (i < 2) {
+                                        width = { width: '50%' };
+                                        heigth = 160
+                                    }
+                                    else {
+                                        width = { width: '33.3333%' };
+                                        heigth = 100
+                                    }
 
-                                return (
-                                    <div className="add-rm-container" style={width} key={i}>
-                                        <img src={item.url}
-                                            className="mini-pic"
-                                            alt="" />
-                                        {
-                                            this.state.role === 'sm' &&
-                                            <>
-                                                <a href="#"
-                                                    className="add-rm-pic"
-                                                    style={{ width: '30px', height: '30px' }}>
-                                                    <div style={{ fontSize: '20px' }}>
+                                    return (
+                                        <div className="add-rm-container" style={width} key={i}>
+                                            <img src={item.url === '/black.jpg' ? tempPic : `${localStorage.getItem('url')}${item.url}`}
+                                                className="mini-pic"
+                                                alt=""
+                                                style={{ objectFit: 'cover', width: width, height: heigth }} />
+                                            {
+                                                this.state.role === 'ow' &&
+                                                <>
+                                                    <div className="add-rm-pic"
+                                                        style={{ fontSize: '20px', width: '30px', height: '30px' }}>
                                                         🞦<input type="file"
                                                             style={{
                                                                 opacity: 0.0,
@@ -537,42 +628,45 @@ export default class BranchDetail extends React.Component {
                                                             }}
                                                             name={i}
                                                             accept={"image/*"}
-                                                            onChange={this.addPic} />
+                                                            onChange={this.addPic.bind(this, 'mn', item.pk)}
+                                                        />
                                                     </div>
-                                                </a>
-                                                <a href="#"
-                                                    className="add-rm-pic"
-                                                    style={{ width: '30px', height: '30px' }}>
-                                                    <div style={{ fontSize: '20px' }}
-                                                        onChange={this.removePic}>
+                                                    <div className="add-rm-pic"
+                                                        style={{ fontSize: '20px', width: '30px', height: '30px' }}
+                                                        onClick={this.removePic.bind(this, 'mn', item.pk)}>
                                                         🞮
                                                     </div>
-                                                </a>
-                                            </>
-                                        }
-                                    </div>
-                                )
-                            })}
+                                                </>
+                                            }
+                                        </div>
+                                    )
+                                })}
+                            </div>
+
+                            {/** Booking time tap */}
+                            {
+                                localStorage.getItem('role') === 'dk' &&
+                                <BookingTime shopId={this.state.shopData.shop_id} disabledBt={this.state.role !== 'dk'} role={this.state.role} />
+                            }
+
+                            {/** Current Party in cafe */}
+                            {
+                                this.state.partyData &&
+                                this.state.role !== null &&
+                                this.state.partyData.map((obj, i) => {
+                                    return (<PartyList
+                                        key={i}
+                                        partyData={obj}
+                                        disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
+                                })
+                            }
                         </div>
+                    </BranchDetailContainer>
+                </>
+            )
 
-                        {/** Booking time tap */}
-                        <BookingTime shopId={this.state.shopData.shop_id} disabledBt={this.state.role !== 'dk'} role={this.state.role} /> {/* disable button when role is owner or manager */}
-
-                        {/** Current Party in cafe */}
-                        {
-                            this.state.partyData &&
-                            this.state.role !== null &&
-                            this.state.partyData.map((obj, i) => {
-                                return (<PartyList
-                                    key={i}
-                                    partyData={obj}
-                                    disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
-                            })
-                        }
-                    </div>
-                </BranchDetailContainer>
-            </>
-        )
+        else
+            return (<></>)
     }
 }
 
@@ -778,7 +872,8 @@ const BranchDetailContainer = styled.div`
                     transform: translate(-100%,-100%);
                 }
 
-                .add-rm-pic:nth-child(odd) div:hover {
+                .add-rm-pic:nth-child(odd):hover {
+                    cursor: pointer;
                     color: red;
                 }
 
@@ -786,11 +881,13 @@ const BranchDetailContainer = styled.div`
                     transform: translate(-200%,-100%);
                 }
 
-                .add-rm-pic:nth-child(even) div:hover {
+                .add-rm-pic:nth-child(even):hover {
+                    cursor: pointer;
                     color: blue;
                 }
 
                 .add-rm-pic:hover {
+                    cursor: pointer;
                     color: black;
                 }
 

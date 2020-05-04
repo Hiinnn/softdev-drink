@@ -4,8 +4,8 @@
 .picandpro-container{
     width:  810px;
     height: 730px;
+    display: block;
     position: relative;
-    display: inline-block;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 20px;
@@ -20,6 +20,8 @@
 .profile-pic {
     position: relative;
     left: 50%;
+    border-radius: 50%;
+    object-fit: cover;
     transform: translateX(-50%);
 }
 

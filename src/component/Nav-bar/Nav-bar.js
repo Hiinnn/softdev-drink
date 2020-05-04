@@ -24,7 +24,7 @@ class Navbar extends Component {
     }
 
     componentDidUpdate = () => {
-        if (this.props.auth && this.state.profile === null && this.state.shopId === null && localStorage.getItem('role') !== 'ow') {
+        if (this.props.auth && this.state.profile === null && this.state.shopId === null) {
             this.loggedIn();
         }
         else if (!this.props.auth && this.state.profile !== null) {
@@ -44,13 +44,13 @@ class Navbar extends Component {
 
         this.setState({
             searchKey: '',
-            home: '/',
         })
 
         this.render = () => {
             return <>{this.navComponent()}<Redirect to={{ pathname: redirect, state: { key: key } }} /></>
         }
     }
+
     handleChange = (e) => {
         this.setState({ searchKey: e.target.value })
     }
@@ -92,18 +92,16 @@ class Navbar extends Component {
                         });
                     })
                     .catch((err) => {
-                        console.log('get profile error', err)
+                        console.log('get profile error', err.response)
                     })
                 break;
             case 'ow':
-                this.setState({
-                    home: `/owner`
-                })
+                if (this.state.home !== '/owner')
+                    this.setState({
+                        home: `/owner`
+                    })
                 break;
             default:
-                this.setState({
-                    home: `/`
-                })
                 break;
         }
     }
@@ -132,7 +130,7 @@ class Navbar extends Component {
                     this.props.auth &&
                     localStorage.getItem('role') === 'dk' &&
                     <Link to='/drinker/profile/'>
-                        <img src={`${localStorage.getItem('url') + this.state.profile}`} className="nav-profile-pic" alt=""/>
+                        <img src={`${localStorage.getItem('url')}${this.state.profile}`} className="nav-profile-pic" alt="" />
                     </Link>
                 }
 
