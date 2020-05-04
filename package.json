@@ -18,7 +18,8 @@
     "react-scripts": "3.3.1",
     "react-select": "^3.1.0",
     "react-time-picker": "^4.0.1",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "sweetalert2": "^9.10.12"
   },
   "scripts": {
     "start": "react-scripts start",

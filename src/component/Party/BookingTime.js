@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import shopData from '../../data/NEW/Shop';
 import Axios from 'axios';
+import TimePicerk from 'react-time-picker'
+import TimePicker from 'react-time-picker/dist/TimePicker';
 
 export default class BookingTime extends React.Component {
     constructor(props) {
@@ -10,17 +12,35 @@ export default class BookingTime extends React.Component {
         this.state = {
             working: true,
             timeArray: [],
+            dateArray: this.createDayArray(),
+
 
             partySize: 0,
             partyName: '',
             partyType: '',
+            partyDate: '',
             selectTime: '',
         }
+        this.createDayArray()
 
         this.submit = this.submit.bind(this);
         this.handlePartyType = this.handlePartyType.bind(this);
         this.handlePartyName = this.handlePartyName.bind(this);
         this.createBranchTime = this.createBranchTime.bind(this);
+    }
+
+    createDayArray() {
+        let today = new Date()
+        const lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
+        today = today.getDate()
+
+        let arr = new Array()
+
+        for (let i = 0; i < 7; i++) {
+            arr.push((today + i) % lastDate)
+        }
+
+        return arr
     }
 
     componentDidMount() {
@@ -120,8 +140,15 @@ export default class BookingTime extends React.Component {
         const endHr = parseInt(startMin) === 30 ? `${(parseInt(startHr) + 1) % 24}` : startHr
         const endMin = parseInt(startMin) === 30 ? '00' : '30'
 
-        const start = `${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}T${startHr}:${startMin}:00+07:00`
-        const end = `${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}T${endHr}:${endMin}:00+07:00`
+        const day = this.state.partyDate < 10 ? `0${this.state.partyDate}` : this.state.partyDate
+        let month = this.state.partyDate > date.getDate() ? date.getMonth() : date.getMonth() + 1
+        month = month < 10 ? `0${month}` : month
+
+        const start = `${date.getFullYear()}-${month}-${day}T${startHr}:${startMin}:00+07:00`
+        const end = `${date.getFullYear()}-${month}-${day}T${endHr}:${endMin}:00+07:00`
+
+        console.log(`${date.getFullYear()}-${month}-${day}T${startHr}:${startMin}:00+07:00`);
+
 
         this.postCreateParty(
             this.props.shopId,
@@ -149,9 +176,10 @@ export default class BookingTime extends React.Component {
 
         Axios.post(url, body, { headers: head })
             .then((res) => {
+                console.log('book', res);
             })
             .catch((err) => {
-                console.log((err));
+                console.log(err.response);
             })
     }
 
@@ -197,11 +225,25 @@ export default class BookingTime extends React.Component {
                     </select>
                 </div>
 
+                {/* Date */}
                 <div className="form-inline" id={'form' + sm}>
-                    <input type='date'>
-                        
-                    </input>
-
+                    <select className="custom-select my-1 mr-sm-2 form-control-lg"
+                        id="inlineFormCustomSelectPref"
+                        value={this.state.partyDate}
+                        disabled={!this.state.working || this.props.role !== 'dk'}
+                        onChange={(e) => this.setState({ partyDate: e.target.value })}
+                        style={{ textAlign: "center", textAalignLast: "center" }}>
+                        <option value='choose'>Date</option>
+                        {
+                            this.state.dateArray.map((num, i) => {
+                                return (
+                                    <option value={num} key={i} style={{ textAlign: "center" }}>{
+                                        num
+                                    }</option>
+                                )
+                            })
+                        }
+                    </select>
                 </div>
 
 
@@ -360,7 +402,7 @@ const BookingContainer = styled.form`
                 }
                 
                 .form-inline {
-                    margin-right: 30px;
+                    margin-right: 10px;
                 }
 
                 .disabled-bt {   

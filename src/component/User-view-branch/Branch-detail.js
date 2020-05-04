@@ -76,10 +76,11 @@ export default class BranchDetail extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log('did');
-        
         this.getShopData()
-        if (this.state.role !== null && this.state.shopData) this.getPartyData()
+    }
+
+    componentDidUpdate = () => {
+        if (this.state.role !== null && this.state.shopData && !this.state.partyData ) this.getPartyData()
     }
 
     getShopData = () => {
@@ -358,7 +359,7 @@ export default class BranchDetail extends React.Component {
 
         const tempPic = 'https://image.freepik.com/free-photo/minimalist-background-with-green-leaves-white_23-2147752433.jpg';
 
-        if (this.state.shopData)
+        if (this.state.shopData && this.state.partyData)
             return (
                 <>
                     <div className="add-rm-container">

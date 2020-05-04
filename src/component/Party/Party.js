@@ -4,81 +4,76 @@ import Invite from '../Invite/Invite';
 import Axios from 'axios';
 
 export default class PartyList extends React.Component {
-		constructor(props) {
-			super(props)
+    constructor(props) {
+        super(props)
 
-			this.postJoin = this.postJoin.bind(this)
-		}
+        this.postJoin = this.postJoin.bind(this)
+    }
 
-		postJoin = () => {
-			const url = `${localStorage.getItem('url')}/party/participate/`
-			const body = {
-				party_id: this.props.partyData.party_id
-			}
-			const head = {
-				Authorization: `Bearer ${localStorage.getItem('access')}`
-			}
+    postJoin = () => {
+        const url = `${localStorage.getItem('url')}/party/participate/`
+        const body = {
+            party_id: this.props.partyData.party_id
+        }
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
 
-			Axios.post(url, body, { headers: head })
-				.then((res) => {
-					console.log(res);
-				})
-				.catch((err) => {
-					console.log(err.response);
-				})
-		}
+        Axios.post(url, body, { headers: head })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+    }
 
-		render() {
-			let sm = this.props.sm === true ? '-sm' : '';
-			return ( <
-				Party > {
-					this.props.partyUser ?
-					<
-					div className = { sm }
-					style = {
-						{ float: 'left', width: '360px', fontSize: '20px', textAlign: 'left' }
-					} > { this.props.partyData.party_name } < /div> : <
-					div className = { "party-name" + sm } > { this.props.partyData.party_name } < /div>
-				}
+    render() {
+        let sm = this.props.sm === true ? '-sm' : '';
+        return (
+            <Party >
+                {
+                    this.props.partyUser ?
+                        <div className={sm}
+                            style={
+                                { float: 'left', width: '360px', fontSize: '20px', textAlign: 'left' }
+                            } > {this.props.partyData.party_name} </div> :
+                        <div className={"party-name" + sm} > {this.props.partyData.party_name} </div>
+                }
 
 
-				<
-				div className = { "profile-pic-container" + sm } > {
-					Object.keys(this.props.partyData.member_list).map((i) => {
-							return ( <
-								div style = {
-									{ position: 'relative' }
-								}
-								key = { i } >
-								<
-								img className = { "party-profile-pic" + sm }
-								src = { this.props.partyData.member_list[i].picture }
-								/> <
-								/div>)
-							})
-					} <
-					/div> {
-						this.props.inv &&
-							<
-							div className = { "join-bt" + sm } > ACCEPT < /div>
-					} {
-						this.props.partyUser && !this.props.inv &&
-							<
-							div className = { "join-bt" + sm }
-						onClick = {
-							() => this.props.quit(this.props.partyData.party_id) } > QUIT < /div>
-					} {
-						!this.props.partyUser && !this.props.inv &&
-							<
-							div className = { `join-bt${sm}${(this.props.disabledBt === true || !this.props.partyData.is_join === true) ? " disabled-bt" : ""}` }
-						onClick = { this.postJoin } > Join < /div>
-					} <
-					/Party>
-				);
-			}
-		}
+                <div className={"profile-pic-container" + sm} > {
+                    Object.keys(this.props.partyData.member_list).map((i) => {
+                        
+                        return (
+                            <div style={{ position: 'relative' }} key={i} >
+                                <img className={"party-profile-pic" + sm}
+                                    src={`${localStorage.getItem('url')}${this.props.partyData.member_list[i].picture}`} />
+                            </div>
+                        )
+                    })
+                }
+                </div>
+                {
+                    this.props.inv &&
+                    <div className={"join-bt" + sm} > ACCEPT </div>
+                }
+                {
+                    this.props.partyUser && !this.props.inv &&
+                    <div className={"join-bt" + sm}
+                        onClick={() => this.props.quit(this.props.partyData.party_id)} > QUIT </div>
+                }
+                {
+                    !this.props.partyUser && !this.props.inv &&
+                    <div className={`join-bt${sm}${(this.props.disabledBt === true || !this.props.partyData.is_join === true) ? " disabled-bt" : ""}`}
+                        onClick={this.postJoin} > Join </div>
+                }
+            </Party>
+        );
+    }
+}
 
-		const Party = styled.div `
+const Party = styled.div`
                     width: 100%;
                     height: auto;
 
@@ -92,8 +87,7 @@ export default class PartyList extends React.Component {
 
                     /********************** Normal ***********************/
                     .party-name {
-                                height: 40px;
-
+                        height: 40px;
                         flex: 100%;
                         display: flex;
                         flex-direction: column;
@@ -105,7 +99,7 @@ export default class PartyList extends React.Component {
                     }
 
                     .profile-pic-container {
-                                width: 370px;
+                        width: 370px;
                         min-height: 70px;
                         max-height: 140px;
                         overflow: auto;
@@ -116,7 +110,7 @@ export default class PartyList extends React.Component {
                     }
 
                     .profile-pic-container::-webkit-scrollbar {
-                                width: 10px;
+                        width: 10px;
                         border-radius: 10px;
                         background-color: red;
                     }
@@ -127,14 +121,14 @@ export default class PartyList extends React.Component {
                     }
 
                     .party-profile-pic {
-                                width: 50px;
+                        width: 50px;
                         height: 50px;
                         margin: 10px;
                         border-radius: 100%;
                     }
 
                     .join-bt {
-                                width: 60px;
+                        width: 60px;
                         height: 30px;
                         margin-top: 5px;
                         margin-left: 35px;
@@ -151,7 +145,7 @@ export default class PartyList extends React.Component {
                     }
 
                     .join-bt:hover {
-                                cursor: pointer;
+                        cursor: pointer;
                         box-shadow:
                             0 0 5px wheat,
                             0 0 10px wheat,
@@ -166,8 +160,7 @@ export default class PartyList extends React.Component {
 
                     /********************** Small ***********************/
                     .party-name-sm {
-                                height: 40px;
-
+                        height: 40px;
                         flex: 100%;
                         display: flex;
                         flex-direction: column;
@@ -196,19 +189,19 @@ export default class PartyList extends React.Component {
                     }
 
                     .profile-pic-container-sm::-webkit-scrollbar-thumb {
-                                border-radius: 10px;
+                        border-radius: 10px;
 	                    background-image: linear-gradient(rgb(255, 251, 0),rgb(247, 0, 255));
                     }
 
                     .party-profile-pic-sm {
-                                width: 30px;
+                        width: 30px;
                         height: 30px;
                         margin: 5px;
                         border-radius: 100%;
                     }
 
                     .join-bt-sm {
-                                width: 60px;
+                        width: 60px;
                         height: 30px;
                         margin-left: 25px;
 
@@ -224,7 +217,7 @@ export default class PartyList extends React.Component {
                     }
 
                     .join-bt-sm:hover {
-                                cursor: pointer;
+                        cursor: pointer;
                         box-shadow:
                             0 0 5px wheat,
                             0 0 10px wheat,

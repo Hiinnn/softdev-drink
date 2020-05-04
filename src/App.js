@@ -44,7 +44,7 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://50e7d088.ngrok.io');
+    localStorage.setItem('url', 'https://f4057185.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
@@ -72,30 +72,8 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="App" >
-        {
-          // ? <UserParty/>
-          // ? <TableCheck />
-          // ? <SearchResult />
-          // ? <UserOrder />
 
-          // ? <UserProfile />
-          // ? <UserBill />
-          // // ? <OwnerHome />
-
-          // // * <UserHome />
-          // * <UserViewBranch />
-          // * <ResetPassword />
-
-
-
-          // ! <SignUp/>
-          // ! <LoginPage />
-          // TODO <UserHome />
-          // TODO <OwnerHome />
-          // order sm ใช้ได้
-        }
         <Navbar auth={this.state.auth} logout={this.logout} />
-
 
         <Switch>
           <Route path="/search" component={Search} />
@@ -139,7 +117,6 @@ const DrinkerHome = () => <><Slideshow /> <Recommended /></>
 
 const OwnerHome = () => <ShopOwnerTable />
 const CreateShop = () => <Ownerform />
-
 
 const DrinkerParty = () => <PartyU />
 
