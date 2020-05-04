@@ -1,25 +1,56 @@
 import React, { Component } from 'react';
 import "./Slideshow.css";
 import { Carousel } from 'react-bootstrap';
-import { photos } from '../../data/Slideshowdata.js';
+import { shops } from '../../data/Slideshowdata.js';
+import Axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default class SlideShow extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            shopArray: ''
+        }
+    }
+
+    componentDidMount() {
+        this.getShopArray()
+    }
+
+    getShopArray() {
+        const key = localStorage.getItem('searchKey')
+        const url = localStorage.getItem('url')
+        const token = localStorage.getItem('access')
+
+        Axios.get(`${url}/manager/shop/?search=`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then((res) => {
+                this.setState({ shopArray: res.data })
+            })
+            .catch((err) => {
+                console.log('search did mount err', err)
+            })
+    }
+
     render() {
         return (
             <div >
                 <div id="main-slide">
                     <Carousel touch={true} interval={null}>
                         {
-                            photos.map((photo, i) => {
+                            Object.keys(this.state.shopArray).map((index) => {
                                 return (
-                                    <Carousel.Item key={photo + i}>
-                                        <a href="">
-                                            <img
-                                                className="d-block w-100 h-50"
-                                                src={photo.url}
-                                                alt={photo.name}
-                                            />
-                                        </a>
+                                    <Carousel.Item key={index}>
+                                        <img
+                                            className="d-block w-100 "
+                                            src={`${localStorage.getItem('url')}${this.state.shopArray[index].picture}`}
+                                            alt={index}
+                                            style={{objectPosition: '50% 30%'}}
+                                        />
                                     </Carousel.Item>
                                 )
                             })
@@ -27,11 +58,11 @@ export default class SlideShow extends Component {
                     </Carousel>
                 </div>
                 <div className="hot-cafe-pic-container">
-                    <a href="" style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={require('../../asset/Slider/Slider1.png')} /></a>
-                    <a href="" style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={require('../../asset/Slider/Slider1.png')} /></a>
-                    <a href="" style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={require('../../asset/Slider/Slider1.png')} /></a>
-                    <a href="" style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={require('../../asset/Slider/Slider1.png')} /></a>
-                    <a href="" style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={require('../../asset/Slider/Slider1.png')} /></a>
+                    {this.state.shopArray[0] && <Link to={`/shop/${this.state.shopArray[0].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[0].picture}`} /></Link>}
+                    {this.state.shopArray[1] && <Link to={`/shop/${this.state.shopArray[1].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[1].picture}`} /></Link>}
+                    {this.state.shopArray[2] && <Link to={`/shop/${this.state.shopArray[2].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[2].picture}`} /></Link>}
+                    {this.state.shopArray[3] && <Link to={`/shop/${this.state.shopArray[3].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[3].picture}`} /></Link>}
+                    {this.state.shopArray[4] && <Link to={`/shop/${this.state.shopArray[4].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[4].picture}`} /></Link>}
                 </div>
             </div>
         )

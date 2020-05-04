@@ -44,14 +44,14 @@ class Result extends Component {
 
 	toggleLike = (i) => {
 		const newShopData = { ...this.state.shopData }
-		newShopData[i].is_fav = !this.state.shopData[i].is_fav
+		newShopData[i].is_fav.is_fav = !this.state.shopData[i].is_fav.is_fav
 		this.setState({
 			shopData: newShopData
 		}, () => {
 			const url = localStorage.getItem('url')
 			const token = localStorage.getItem('access')
 
-			if (this.state.shopData[i].is_fav) {
+			if (this.state.shopData[i].is_fav.is_fav) {
 				Axios.post(`${url}/user/profile/favorite_shop/`,
 					{ shop_id: this.state.shopData[i].shop_id },
 					{
@@ -66,7 +66,7 @@ class Result extends Component {
 					})
 			}
 			else {
-				Axios.delete(`${url}/user/profile/favorite_shop/${this.state.shopData[i].shop_id}`,
+				Axios.delete(`${url}/user/profile/favorite_shop/${this.state.shopData[i].is_fav.is_fav}`,
 					{
 						headers: {
 							Authorization: `Bearer ${token}`
@@ -82,6 +82,7 @@ class Result extends Component {
 	}
 
 	render() {
+		
 		return (
 			<div className="main-container" >
 				<div className="result-container" >
@@ -89,10 +90,9 @@ class Result extends Component {
 						Object.keys(this.state.shopData).map((i) => {
 							return (
 								<div key={i}>
-
 									<div className="left-container" >
 										<img className="imgShop"
-											src={this.state.shopData[i].picture_main}
+											src={`${localStorage.getItem('url')}${this.state.shopData[i].picture}`}
 											alt={this.state.shopData[i].shop_name}
 											align="left" />
 									</div>
@@ -107,7 +107,7 @@ class Result extends Component {
 										<div style={{ height: "50px" }}>
 											{
 												localStorage.getItem('role') === 'dk' &&
-												<img src={this.state.shopData[i].is_fav ? require("../../asset/icon/heart2.png") : require("../../asset/icon/heart.png")}
+												<img src={this.state.shopData[i].is_fav.is_fav ? require("../../asset/icon/heart2.png") : require("../../asset/icon/heart.png")}
 													onClick={() => this.toggleLike(i)}
 													alt="heart"
 													style={{ width: "35px", height: "35px", float: "left", marginTop: "5px", cursor: "pointer" }} />

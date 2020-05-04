@@ -25,6 +25,7 @@ import Result from './component/Result/Result';
 import SignUp from './component/Login-Sigup/SignUp-form';
 import LoginForm from './component/Login-Sigup/Login-form';
 import BranchDetail from './component/User-view-branch/Branch-detail';
+import Reset from './component/Login-Sigup/Reset-password'
 
 // * User main
 import Slideshow from './component/Slideshow/Slideshow';
@@ -43,7 +44,7 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://c7093f47.ngrok.io');
+    localStorage.setItem('url', 'https://50e7d088.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
@@ -94,20 +95,20 @@ export default class App extends React.Component {
           // order sm ใช้ได้
         }
         <Navbar auth={this.state.auth} logout={this.logout} />
-        <Ownerform />
 
 
         <Switch>
           <Route path="/search" component={Search} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={() => Login(this.login)} />
+          <Route path="/reset" component={ResetPW}/>
 
           <Route path="/drinker/party/" component={DrinkerParty} />
           <Route path="/drinker/profile" component={() => <UserProfile />} />
           <Route path="/drinker/" component={DrinkerHome} />
 
           <Route path="/owner/shop/:shopId" render={props => <BranchDetail {...props} />} />
-          <Route path="/owner/create" component={<Ownerform />} />
+          <Route path="/owner/create" component={CreateShop} />
           <Route path="/owner" component={OwnerHome} />
 
           <Route path="/shop/:shopId" render={props => <BranchDetail {...props} />} />
@@ -132,9 +133,12 @@ const Home = () =>
 const Login = (login) => <LoginForm auth={login} />
 const Signup = () => <SignUp />
 const Search = () => <Result />
+const ResetPW = () => <Reset />
 
 const DrinkerHome = () => <><Slideshow /> <Recommended /></>
+
 const OwnerHome = () => <ShopOwnerTable />
+const CreateShop = () => <Ownerform />
 
 
 const DrinkerParty = () => <PartyU />

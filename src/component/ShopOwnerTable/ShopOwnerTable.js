@@ -20,12 +20,11 @@ class ShopOwnerTable extends Component {
 	}
 
 	componentDidMount() {
-		// this.getOwnerData()
+		this.getOwnerData()
 	}
 
 	getOwnerData() {
 		const url = `${localStorage.getItem('url')}/owner/profile/my_profile/`
-		// const body = {}
 		const head = {
 			Authorization: `Bearer ${localStorage.getItem('access')}`
 		}
@@ -42,6 +41,12 @@ class ShopOwnerTable extends Component {
 			})
 	}
 
+	createShop() {
+		this.setState({
+			redirect: `/owner/create`
+		})
+	}
+
 	redirect(...e) {
 		console.log(e[0])
 		this.setState({
@@ -54,6 +59,8 @@ class ShopOwnerTable extends Component {
 			return <Redirect to={this.state.redirect} />
 		}
 
+		const tempPic = 'https://image.freepik.com/free-photo/minimalist-background-with-green-leaves-white_23-2147752433.jpg';
+
 		return (
 			<div className=" ownerhome-container" >
 				<table className="table-shop-owner">
@@ -64,7 +71,7 @@ class ShopOwnerTable extends Component {
 									<tr key={i} width='100%'>
 										<td width='60%'>
 											<img className="imgshop"
-												src={shop.shop_picture}
+												src={shop.pic === '/media/black.jpg' ? tempPic : `${localStorage.getItem('url')}${shop.pic}`}
 												alt={shop.shop_name}
 											/>
 										</td >
@@ -78,7 +85,7 @@ class ShopOwnerTable extends Component {
 						<tr width='100%'>
 							<td width='60%'></td>
 							<td width='40%'>
-								<Button> Create new shop</Button>
+								<Button onClick={this.createShop.bind(this)}> Create new shop</Button>
 							</td>
 						</tr>
 					</tbody>

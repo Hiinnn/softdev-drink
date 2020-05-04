@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import './Owner-form.css';
+import Axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 const usernameRegex = RegExp(/[a-zA-Z0-9]/)              // contain at least 1 uppercase and 1 lowercase
 const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number
@@ -30,31 +32,36 @@ export default class Ownerform extends React.Component {
         super(props)
 
         this.form = {
-            username: ['Username', 'text', ''],
-            password: ['Password', 'password', ''],
-            password_comfirm: ['Confirm Password', 'password', ''],
+            username: ['Shop Username', 'text', ''],
+            password: ['Shop Password', 'password', ''],
+            password_confirm: ['Confirm Password', 'password', ''],
             max_seat: ['Max Seat', 'text', ''],
             shop_name: ['Shop Name', 'text', ''],
             address: ['Address', 'text', ''],
             phone_number: ['Phone', 'text', '[0-9]{8,10}'],
-            detail: ['Detail','text', ''],
+            detail: ['Detail', 'text', ''],
+            email: ['Email', 'email',],
         }
 
         this.state = {
             form: {
                 username: '',
+                first_name: 'nope',
+                last_name: 'nope',
+                email: '',
                 password: '',
-                password_comfirm: '',
+                password_confirm: '',
                 max_seat: '',
                 shop_name: '',
                 address: '',
+                timezone: 'Asia/Bangkok',
                 phone_number: '',
                 detail: '',
             },
             error: {
                 username: '',
                 password: '',
-                password_comfirm: '',
+                password_confirm: '',
                 max_seat: '',
                 shop_name: '',
                 address: '',
@@ -63,8 +70,9 @@ export default class Ownerform extends React.Component {
             },
             role: 'ow',
             check: true,
-            timezone: 'Asia/Bangkok',
         }
+
+
 
         this.submit = this.submit.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
@@ -89,11 +97,11 @@ export default class Ownerform extends React.Component {
 
             case "picture":
                 formError[name] =
-                pictureRegex.test(value)
-                    ? ""
-                    : "Invalid (Only jpg, jpeg and png)";
-            break;
-            
+                    pictureRegex.test(value)
+                        ? ""
+                        : "Invalid (Only jpg, jpeg and png)";
+                break;
+
             case "email":
                 formError[name] =
                     emailRegex.test(value)
@@ -108,7 +116,7 @@ export default class Ownerform extends React.Component {
                         : "Password must be longer than 8 characters and contain at least 1 uppercase, 1 lower case and 1 number.";
                 break;
 
-            case "password_comfirm":
+            case "password_confirm":
                 formError[name] =
                     value === this.state.form.password
                         ? ""
@@ -121,37 +129,29 @@ export default class Ownerform extends React.Component {
                         ? ""
                         : "Max seat must be only number";
                 break;
-
             case "shop_name":
                 break;
-
             case "address":
                 break;
-
             case "phone_number":
                 formError[name] =
-                    phoneRegex.test(value) && value[0] === '0'
+                    phoneRegex.test(value)
                         ? ""
                         : "Phone number must contain only number (only Thai phone number)";
-                if (value[0] === "0" && this.state.form.phone_number[0] !== "+") {
-                    value = '+66'.concat(this.state.form.phone_number.slice(1))
-                }
                 break;
-
             case "name":
                 let [Name, Surname] = value.split(' ')
                 formError[name] =
                     nameRegex.test(Name) && nameRegex.test(Surname) && Surname
                         ? ""
                         : "Invalid name or surname";
-
                 newForm["first_name"] = Name;
                 newForm["last_name"] = Surname;
                 break;
-                
+
             case "detail":
                 break;
-            
+
             default:
                 break;
         }
@@ -180,10 +180,30 @@ export default class Ownerform extends React.Component {
         event.preventDefault();
 
         if (validateForm(this.state) && this.state.check) {
+            console.log('finish');
+
+            const newForm = this.state.form
+            newForm.phone_number = newForm.phone_number.replace(/^0/, '+66');
+
             const sentForm = new FormData();            // change raw data to form
-            Object.keys(this.state.form).map((key) => {
-                sentForm.append(key, this.state.form[key]);
-            })
+            for (let value of Object.entries(newForm)) {
+                sentForm.append(value[0], value[1]);
+            }
+
+            const url = `${localStorage.getItem('url')}/owner/build_shop/`
+            const head = {
+                Authorization: `Bearer ${localStorage.getItem('access')}`
+            }
+
+            Axios.post(url, sentForm, { headers: head })
+                .then((res) => {
+                    this.setState({
+                        redirect: '/owner'
+                    })
+                })
+                .catch((err) => {
+                    console.log('err', err.response);
+                })
         }
         else {
             console.log('xxx');
@@ -191,9 +211,12 @@ export default class Ownerform extends React.Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}/>
+        }
         return (
             <div className="owner-form-container">
-                <Form className = "form-wrapper" onSubmit={this.submit}>
+                <Form className="form-wrapper" onSubmit={this.submit}>
                     <h3>Create New Shop</h3>
                     <br />
                     {
@@ -204,7 +227,7 @@ export default class Ownerform extends React.Component {
                                     <Form.Label column sm={4}>{this.form[key][0]}</Form.Label>
                                     <Col>
                                         <Form.Control as='input'
-                                            className = "control"
+                                            className="control"
                                             name={key}
                                             type={this.form[key][1]}
                                             pattern={this.form[key][2]}
@@ -220,11 +243,11 @@ export default class Ownerform extends React.Component {
                                 </Form.Group>
                             );
                         })
-                    }                  
-                    
+                    }
+
                     {/* Save button */}
-                    <div className = "button"> Create </div>
-                    
+                    <div className="button" onClick={this.submit}> Create </div>
+
                 </Form>
             </div>
         )

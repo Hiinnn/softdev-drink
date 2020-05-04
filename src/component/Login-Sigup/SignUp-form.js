@@ -34,27 +34,36 @@ export default class SignUp extends React.Component {
         this.form = {
             username: ['Username', 'text'],
             password: ['Password', 'password'],
-            password_comfirm: ['Confirm Password', 'password'],
+            password_confirm: ['Confirm Password', 'password'],
             first_name: ['Name Surname', 'text'],
-            // nickname: ['Display Name', 'text'],
             birth_date: ['Birth Month', 'month'],
             email: ['Email', 'email',],
-            phone_number: ['Phone', 'text', '[0-9]{8,10}'],
+            phone_number: ['Phone', 'text', '[0-9]{8,}'],
         }
 
         this.state = {
             form: {
-                // Prototype for user data
-                email: 'aaa@hotmail.com',
-                first_name: 'hin',
-                last_name: 'hinn',
-                username: 'hinnnnn',
-                password: '181113Hk',
-                password_confirm: '181113Hk',
-                nickname: 'hinna',
-                birth_date: '2020-01-01',
-                phone_number: '+66944932354',
-                address: 'mai bok'
+                email: '',
+                first_name: '',
+                last_name: '',
+                username: '',
+                password: '',
+                password_confirm: '',
+                nickname: '',
+                birth_date: '',
+                phone_number: '',
+                address: 'nothing'
+
+                // email: 'aaa@hotmail.com',
+                // first_name: 'hin',
+                // last_name: 'hinn',
+                // username: 'hinnnnn',
+                // password: '181113Hk',
+                // password_confirm: '181113Hk',
+                // nickname: 'hinna',
+                // birth_date: '2020-01-01',
+                // phone_number: '+66944932354',
+                // address: 'mai bok'
             },
             error: {
                 username: '',
@@ -124,7 +133,7 @@ export default class SignUp extends React.Component {
                         : "Invalid name or surname.";
 
                 newForm["first_name"] = Name;
-                newForm["lase_name"] = Surname;
+                newForm["last_name"] = Surname;
                 break;
             case "birth_date":
                 let date = new Date();
@@ -143,12 +152,9 @@ export default class SignUp extends React.Component {
                 break;
             case "phone_number":
                 formError[name] =
-                    phoneRegex.test(value) && value[0] === '0'
+                    phoneRegex.test(value)
                         ? ""
                         : "Phone number must contain only number (only Thai phone number).";
-                if (value[0] === "0" && this.state.form.phone_number[0] !== "+") {
-                    value = '+66'.concat(this.state.form.phone_number.slice(1))
-                }
                 break;
             case "nickname":
                 formError[name] =
@@ -199,9 +205,6 @@ export default class SignUp extends React.Component {
         let newModal = { ...this.state.modal }
 
         newModal.showModal = !this.state.modal.showModal
-
-        console.log('')
-
         this.setState({
             modal: newModal
         })
@@ -213,24 +216,20 @@ export default class SignUp extends React.Component {
 
     submit(event) {
         event.preventDefault();
-
-        console.log('submit');
-        
         if (validateForm(this.state) && this.state.check) {     /* Form is valid */
-            
-            console.log('valid');
             const url = localStorage.getItem('url');
             const sentForm = new FormData();                    // change raw data to formData
             const path = this.state.role === 'dk' ? '/user/profile/' : this.state.role === 'ow' ? '/owner/profile/' : '9999';
+            const newForm = this.state.form
+            newForm.phone_number = newForm.phone_number.replace(/^0/, '+66');
 
-            for (let value of Object.entries(this.state.form)) {
+
+            for (let value of Object.entries(newForm)) {
                 sentForm.append(value[0], value[1]);
             }
 
             Axios.post(`${url + path}`, sentForm)
                 .then((res) => {
-                    console.log(res);
-                    
                     this.setModal('Sign up success', 'You re going to Login page', 'success', this.toggleModal, this.redirect)
                 })
                 .catch((err) => {

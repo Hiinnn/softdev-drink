@@ -1,0 +1,48 @@
+
+.add-rm-container {
+    width: auto;
+    position: relative;
+    background: transparent;
+}
+
+.main-add-rm {
+    width: 40px; 
+    height: 40px;
+    margin: 0px;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    top: 90%;
+    left: 100%;
+    transform: translateY(-150%);
+    -ms-transform: translateY(-150%);
+    background-color: #555;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    
+    text-decoration: none;
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgba(255,255,255,0.9);
+}
+
+.main-add-rm:hover {
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
+
+.main-add-rm:nth-child(odd):hover {
+    color: red;
+}
+
+.main-add-rm:nth-child(even):hover {
+    color: blue;
+}

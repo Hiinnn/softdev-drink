@@ -28,7 +28,6 @@ class PartyU extends React.Component {
 			.then((res) => {
 				let current = []
 				let coming = []
-				let pass = []
 				// console.log('party', res.data[0], newArr)
 
 				// this.setState({
