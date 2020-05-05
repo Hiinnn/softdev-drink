@@ -46,7 +46,7 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://47cf9fbf.ngrok.io');
+    localStorage.setItem('url', 'https://5e6a8b58.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }

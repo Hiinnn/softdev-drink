@@ -9,6 +9,8 @@ export default class PartyList extends React.Component {
         super(props)
 
         this.postJoin = this.postJoin.bind(this)
+        this.postAcceptInvite = this.postAcceptInvite.bind(this)
+        this.delDeclineInvite = this.delDeclineInvite.bind(this)
     }
 
     postJoin = () => {
@@ -22,6 +24,42 @@ export default class PartyList extends React.Component {
 
         Axios.post(url, body, { headers: head })
             .then((res) => {
+                console.log('joined');
+
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+    }
+
+    postAcceptInvite() {
+        const url = `${localStorage.getItem('url')}/party/participate/`
+        const body = {
+            party_id: this.props.partyData.party_detail.party_id
+        }
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
+        Axios.post(url, body, { headers: head })
+            .then((res) => {
+                console.log('joined');
+
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+    }
+
+    delDeclineInvite() {
+        const url = `${localStorage.getItem('url')}/party/invitation/${this.props.partyData.pk}`
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
+        Axios.delete(url, { headers: head })
+            .then((res) => {
+                console.log('decline');
             })
             .catch((err) => {
                 console.log(err.response);
@@ -30,62 +68,71 @@ export default class PartyList extends React.Component {
 
     render() {
         let sm = this.props.sm === true ? '-sm' : '';
+        console.log('partyyyyyyyyy', this.props.partyData);
+
         if (this.props.partyData)
             return (
                 <Party >
                     {
                         this.props.partyUser
-                            ? <div className={sm}
-                                style={
-                                    { float: 'left', width: '360px', fontSize: '20px', textAlign: 'left' }
-                                } > {this.props.partyData.party_name} </div>
+                            ? this.props.inv
+                                ? <div className={sm} style={{ float: 'left', width: '260px', fontSize: '20px', textAlign: 'left' }} > {this.props.partyData.party_detail.party_name} </div>
+                                : <div className={"party-name" + sm} > {this.props.partyData.party_name} </div>
                             : <div className={"party-name" + sm} > {this.props.partyData.party_name} </div>
                     }
 
 
-                    <div className={"profile-pic-container" + sm} > {
-                        Object.keys(this.props.partyData.member_list).map((i) => {
-                            return (
-                                <div style={{ position: 'relative' }} key={i} >
-                                    <img className={"party-profile-pic" + sm}
-                                        src={`${localStorage.getItem('url')}${this.props.partyData.member_list[i].picture}`} />
-                                </div>
-                            )
-                        })
+                    {
+                        !this.props.inv &&
+                        <div className={"profile-pic-container" + sm} >
+                            {
+                                Object.keys(this.props.partyData.member_list).map((i) => {
+                                    return (
+                                        <div style={{ position: 'relative' }} key={i} >
+                                            <img className={"party-profile-pic" + sm} src={`${localStorage.getItem('url')}${this.props.partyData.member_list[i].picture}`} />
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
                     }
-                    </div>
+
+
                     {
                         this.props.inv &&
-                        <div className={"join-bt" + sm} > ACCEPT </div>
+                        <>
+                            <div className={"join-bt" + sm} onClick={this.postAcceptInvite}> ACCEPT </div>
+                            <div className={"join-bt" + sm} onClick={this.delDeclineInvite}> DECLINE </div>
+                        </>
                     }
-                    <div style={{ flexDirection: 'column' }}>
-                        {
-                            this.props.partyUser && !this.props.inv &&
-                            <div className={"join-bt" + sm}
-                                onClick={() => this.props.quit(this.props.partyData.party_id)} > QUIT </div>
-                        }
-                        {
-                            this.props.partyUser && !this.props.inv && this.props.current &&
-                            <Link to={`/drinker/order/${this.props.partyData.shop_id}/${this.props.partyData.party_id}`} style={{textDecoration: 'none'}}>
+
+                    {
+                        this.props.partyUser && !this.props.inv && !this.props.current &&
+                        <div className={"join-bt" + sm} onClick={() => this.props.quit(this.props.partyData.id)} > QUIT </div>
+                    }
+
+                    {
+                        this.props.partyUser && !this.props.inv && this.props.current &&
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div className={"join-bt" + sm} onClick={() => this.props.quit(this.props.partyData.id)} > QUIT </div>
+                            <Link to={`/drinker/order/${this.props.partyData.shop_id}/${this.props.partyData.party_id}`} style={{ textDecoration: 'none' }}>
                                 <div className={"join-bt" + sm}
                                     style={{ marginTop: 10 }}
                                     onClick={() => this.props.quit(this.props.partyData.party_id)}> Order </div>
                             </Link>
-                        }
-                        {
-                            this.props.partyUser && !this.props.inv && this.props.current &&
-                            <Link to={`/drinker/bill/${this.props.partyData.party_id}`} style={{textDecoration: 'none'}}>
+                            <Link to={`/drinker/bill/${this.props.partyData.party_id}`} style={{ textDecoration: 'none' }}>
                                 <div className={"join-bt" + sm}
                                     style={{ marginTop: 10 }}
                                     onClick={() => this.props.quit(this.props.partyData.party_id)}> Bill </div>
                             </Link>
-                        }
-                    </div>
+                        </div>
+                    }
+
                     {
                         !this.props.partyUser && !this.props.inv &&
-                        <div className={`join-bt${sm}${(this.props.disabledBt === true || !this.props.partyData.is_join === true) ? " disabled-bt" : ""}`}
-                            onClick={this.postJoin} > Join </div>
+                        <div className={`join-bt${sm}${(this.props.disabledBt === true || !this.props.partyData.is_join === true) ? " disabled-bt" : ""}`} onClick={this.postJoin} > Join </div>
                     }
+
                 </Party >
             );
         else
@@ -149,10 +196,10 @@ const Party = styled.div`
                     }
 
                     .join-bt {
-                        width: 60px;
+                        width: 70px;
                         height: 30px;
                         margin-top: 5px;
-                        margin-left: 35px;
+                        margin-left: 25px;
 
                         display:flex;
                         align-items: center;

@@ -9,8 +9,9 @@ class PartyU extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentPartyData: partyData,
-			comingPartyData: partyArray
+			currentPartyData: null,
+			comingPartyData: null,
+			invitedParty: null
 		}
 	}
 
@@ -27,26 +28,29 @@ class PartyU extends React.Component {
 
 		Axios.get(url, { headers: head })
 			.then((res) => {
-				let date = new Date()
+				console.log(res);
+
 				let current = []
 				let coming = []
+				if (res.data.length > 0) {
+					let date = new Date()
 
-				if (parseInt(res.data[0].start_datetime.slice(12, 13)) <= date.getHours())
-					current.push(res.data[0])
-				else
-					coming.push(res.data[0])
+					if (parseInt(res.data[0].start_datetime.slice(12, 13)) <= date.getHours())
+						current.push(res.data[0])
+					else
+						coming.push(res.data[0])
 
-				for (let i = 1; i < res.data.length; i++) {
-					coming.push(res.data[i])
+					for (let i = 1; i < res.data.length; i++) {
+						coming.push(res.data[i])
+					}
 				}
-
 				this.setState({
 					currentPartyData: current,
 					comingPartyData: coming
 				})
 			})
 			.catch((err) => {
-				console.log('party err', err.response)
+				console.log('party err', err)
 			})
 	}
 
@@ -63,11 +67,16 @@ class PartyU extends React.Component {
 				})
 			})
 			.catch((err) => {
+				this.setState({
+					invitedParty: []
+				})
 				console.log('invite err', err.response)
 			})
 	}
 
 	deleteQuitParty(partyId) {
+		console.log(partyId);
+
 		const url = `${localStorage.getItem('url')}/party/participate/${partyId}`
 		const head = {
 			Authorization: `Bearer ${localStorage.getItem('access')}`
@@ -82,39 +91,44 @@ class PartyU extends React.Component {
 			})
 	}
 
-	render() {
-		if (this.state.currentPartyData && this.state.comingPartyData)
+	currentParty() {
+		if (this.state.currentPartyData.length > 0)
 			return (
-				<div className='partyUser-container' >
+				<>
 					<div className="textCurrent" > Current party </div>
-
-
 					<div className="current-container" >
-						{
-							this.state.currentPartyData &&
-							<>
-								<PartyList partyData={this.state.currentPartyData[0]}
-									partyUser={true}
-									sm={false}
-									joined={true}
-									current={true}
-									quit={this.deleteQuitParty}
-								/>
-								<Invite />
-								<div style={{ clear: 'left', marginLeft: '20px' }} > Total </div>
-								<div style={{ float: 'left', width: 'auto', paddingRight: '10px', marginLeft: '20px' }} > {this.state.currentPartyData.total || 0.0} Baht </div>
-							</>
-						}
+						<PartyList partyData={this.state.currentPartyData[0]}
+							partyUser={true}
+							sm={false}
+							joined={true}
+							current={true}
+							quit={this.deleteQuitParty}
+						/>
+						<Invite partyId={this.state.currentPartyData[0].party_id} />
+						<div style={{ clear: 'left', marginLeft: '20px' }} > Total </div>
+						<div style={{ float: 'left', width: 'auto', paddingRight: '10px', marginLeft: '20px' }} > {this.state.currentPartyData.total || 0.0} Baht </div>
+
 					</div>
-
-
 					<hr style={
 						{ borderTop: '1px solid #888787' }}
 					/>
-					<div className="textCurrent" > Upcoming party </div>
+				</>
+			)
+		else
+			return (
+				<>
+					<div className="textCurrent" > Current party </div>
+					<hr style={{ borderTop: '1px solid #888787' }} />
+				</>
+			)
+	}
 
+	comingParty() {
+		if (this.state.comingPartyData.length > 0)
+			return (
+				<>
+					<div className="textCurrent" > Upcoming party </div>
 					{
-						this.state.comingPartyData &&
 						Object.keys(this.state.comingPartyData).map((i) => {
 							return (
 								<div className='coming-container'
@@ -125,7 +139,7 @@ class PartyU extends React.Component {
 										current={false}
 										quit={this.deleteQuitParty}
 									/>
-									<Invite />
+									<Invite partyId={this.state.comingPartyData[i].party_id} />
 									<div style={{ width: 200, float: 'left', paddingRight: '10px', marginLeft: '20px' }}>
 										Start : {(parseInt(this.state.comingPartyData[i].start_datetime.slice(11, 13)) + 7) % 24}{this.state.comingPartyData[i].start_datetime.slice(13, 16)}
 									</div>
@@ -133,32 +147,69 @@ class PartyU extends React.Component {
 							)
 						})
 					}
+					<hr style={{ borderTop: '1px solid #888787' }} />
+				</>
+			)
+		else
+			return (
+				<>
+					<div className="textCurrent" > Upcoming party </div>
+					<hr style={{ borderTop: '1px solid #888787' }} />
+				</>
+			)
+	}
 
+	invitedParty() {
+		if (this.state.invitedParty.length > 0)
+			return (
+				<>
+					<div className="textCurrent" > My invitation </div>
+					{
+						Object.keys(this.state.invitedParty).map((i) => {
+							return (
+								<div className='coming-container'
+									key={i} >
+									<PartyList
+										partyData={this.state.invitedParty[i]}
+										partyUser={true}
+										sm={false}
+										current={false}
+										quit={this.deleteQuitParty}
+										inv={true}
+									/>
+									{/* <Invite partyId={this.state.invitedParty[i].party_id} /> */}
+									<div style={{ width: 100, float: 'left', paddingRight: '10px', marginLeft: '20px' }}>
+										Start : {(parseInt(this.state.invitedParty[i].party_detail.start_datetime.slice(11, 13)) + 7) % 24}{this.state.invitedParty[i].party_detail.start_datetime.slice(13, 16)}
+									</div>
+									<div>
+										Invited by {this.state.invitedParty[i].party_detail.member_list[0].name}
+									</div>
+								</div>
+							)
+						})
+					}
 
 					<hr style={{ borderTop: '1px solid #888787' }} />
+				</>
+			)
+		else
+			return (
+				<>
 					<div className="textCurrent" > My invitation </div>
+					<hr style={{ borderTop: '1px solid #888787' }} />
+				</>
+			)
+	}
 
-					<div >
-						{
-							this.state.invitedParty &&
-							Object.keys(this.state.invitedParty).map((i) => {
-								return (
-									<div className='coming-container'
-										key={i} >
-										<PartyList partyData={this.state.invitedParty[i]}
-											partyUser={true}
-											sm={false}
-											inv={true}
-										/>
-										<div style={{ width: 150, float: 'left', paddingRight: '10px', marginLeft: '20px', marginRight: '20px' }} > {this.state.invitedParty[i].start_datetime.slice(11, 16)} - {this.state.invitedParty[i].end_datetime.slice(11, 16)} </div>
-										<div style={{ float: 'left' }} > Invited by {this.state.invitedParty[i].username} </div>
-									</div>
-								)
-							})
-						}
-					</div>
+	render() {
+		if (this.state.currentPartyData && this.state.comingPartyData && this.state.invitedParty)
+			return (
+				<div className='partyUser-container' >
+					{this.currentParty()}
+					{this.comingParty()}
+					{this.invitedParty()}
 				</div>
-			);
+			)
 		else
 			return <> </>
 	}

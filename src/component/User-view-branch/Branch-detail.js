@@ -258,7 +258,7 @@ export default class BranchDetail extends React.Component {
 
     getPartyData() {
         const date = new Date()
-        const url = `${localStorage.getItem('url')}/party/list/?date=${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}&shop_id=${this.state.shopData.shop_id}`
+        const url = `${localStorage.getItem('url')}/party/list/?date=${new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).toISOString().slice(0, 10)}&shop_id=${this.state.shopData.shop_id}`
         const head = {
             Authorization: `Bearer ${localStorage.getItem('access')}`
         }
@@ -291,8 +291,6 @@ export default class BranchDetail extends React.Component {
 
         Axios.post(url, form, { headers: head })
             .then((res) => {
-                console.log('uploaded');
-
                 this.setState({
                     changePic: true
                 })
@@ -651,7 +649,7 @@ export default class BranchDetail extends React.Component {
                             }
 
                             {/** Current Party in cafe */}
-                            <div className='party-list-container' style={{maxHeight: 500, marginBottom: 50}}>
+                            <div className='party-list-container' style={{ maxHeight: 500, marginBottom: 50 }}>
                                 {
                                     this.state.partyData &&
                                     this.state.role !== null &&

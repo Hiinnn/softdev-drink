@@ -86,7 +86,7 @@ export default class TableUserBill extends Component {
                             <thead>
                                 <tr>
                                     <td >Total</td>
-                                    <td >{partyOrder.total}</td>
+                                    <td >{this.state.partyOrder.total}</td>
                                 </tr>
                             </thead>
                         </Table>

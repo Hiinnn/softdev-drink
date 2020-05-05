@@ -1,4 +1,5 @@
 import React from 'react';
+import Axios from 'axios';
 
 
 class Invite extends React.Component {
@@ -14,17 +15,35 @@ class Invite extends React.Component {
 	}
 
 	handleSubmit(event) {
-		alert(this.state.value);
 		event.preventDefault();
+		this.postInvite()
+	}
+
+	postInvite() {
+		console.log(this.props.partyId);
+		
+		const url = `${localStorage.getItem('url')}/party/invitation/`
+		const data = {
+			username: this.state.value,
+			party_id: this.props.partyId
+		}
+		const head = {
+			Authorization: `Bearer ${localStorage.getItem('access')}`
+		}
+
+		Axios.post(url, data, { headers: head })
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log('party err', err.response)
+			})
 	}
 
 	render() {
 		return (
 			<div >
-				<form onSubmit={this.handleSubmit}
-					style={
-						{ margin: '20px', float: 'left' }
-					} >
+				<form onSubmit={this.handleSubmit} style={{ margin: '20px', float: 'left' }}>
 					<label >
 						<input type="text"
 							name="name"
@@ -36,7 +55,7 @@ class Invite extends React.Component {
 					<input type="submit"
 						value="INVITE"
 						className='INVITE'
-						style={{marginLeft: 15}}/>
+						style={{ marginLeft: 15 }} />
 				</form>
 			</div>
 		);

@@ -3,12 +3,15 @@ import './CheckTable.css';
 import { partyOrderArray } from '../../data/NEW/partyOrder';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import AddTableForm from '../AddTableForm/AddTableForm'
 
 class CheckTable extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			newParty: false
 		}
+		this.toggleAddParty = this.toggleAddParty.bind(this)
 	}
 
 	componentDidMount() {
@@ -75,35 +78,6 @@ class CheckTable extends React.Component {
 			})
 	}
 
-	postCreateParty() {
-		const date = new Date()
-		const startHr = date.getMinutes() < 30 ? date.getHours() : date.getHours() + 1
-		const startMin = date.getMinutes() < 30 ? '30' : '00'
-		const endHr = startHr + 1
-		const endMin = date.getMinutes() < 30 ? '00' : '30'
-
-		const url = `${localStorage.getItem('url')}/booking/book/`
-		const head = {
-			Authorization: `Bearer ${localStorage.getItem('access')}`
-		}
-		const data = {
-			shop_id: this.state.managerData.related_shop.shop_id,
-			party_name: 'Manager Booking',
-			member_max: 3,
-			start_datetime: new Date(date.getFullYear(), date.getMonth(), date.getDate(), startHr + 7, startMin, 0).toISOString().replace('.000Z', '+07:00'),
-			end_datetime: new Date(date.getFullYear(), date.getMonth(), date.getDate(), endHr + 7, endMin, 0).toISOString().replace('.000Z', '+07:00'),
-			is_join: 'False'
-		}
-
-		Axios.post(url, data, { headers: head })
-			.then((res) => {
-				window.location.reload()
-			})
-			.catch((err) => {
-				console.log('create ta err', err.response);
-			})
-	}
-
 	patchPaidBill(...e) {
 		const url = `${localStorage.getItem('url')}/ordering/party/bill/${this.state.partyList[e[0]].party_id}/`
 		const head = {
@@ -121,55 +95,67 @@ class CheckTable extends React.Component {
 			})
 	}
 
-	postAddOrder() {
-
+	toggleAddParty() {
+		this.setState({
+			newParty: !this.state.newParty
+		})
 	}
 
 	render() {
 		if (this.state.partyList && this.state.managerData && this.state.orderList)
 			return (
 				<div className="tableCheck-container" >
-					<table className="tbCheck"
-						style={
-							{ float: 'left' }} >
-						<thead >
-							<tr >
-								<th className="thCheck" > Party </th>
-								<th className="thCheck" > Menu </th>
-								<th className="thCheck" > Total </th>
-								<th className="thCheck" > Check </th>
-								{/* <th className="thCheck" > Clear </th> */}
-							</tr>
-						</thead>
+					{
+						!this.state.newParty &&
+						<>
+							<table className="tbCheck"
+								style={
+									{ float: 'left' }} >
+								<thead >
+									<tr >
+										<th className="thCheck" > Party </th>
+										<th className="thCheck" > Menu </th>
+										<th className="thCheck" > Total </th>
+										<th className="thCheck" > Check </th>
+										{/* <th className="thCheck" > Clear </th> */}
+									</tr>
+								</thead>
 
-						<tbody>
-							{
-								Object.keys(this.state.partyList).map((i) => {
-									return (
-										<tr className="data-tableCheck"
-											key={i} >
-											<td style={{ padding: "3%" }} > {parseInt(i)+1} </td>
-											<td className="add" >
-												<Link to={`/drinker/order/${this.props.match.params.shopId}/${this.state.partyList[i].party_id}`} style={{ textDecoration: 'none', color: 'white' }}>
-													add
+								<tbody>
+									{
+										Object.keys(this.state.partyList).map((i) => {
+											return (
+												<tr className="data-tableCheck"
+													key={i} >
+													<td style={{ padding: "3%" }} > {parseInt(i) + 1} </td>
+													<td className="add" >
+														<Link to={`/drinker/order/${this.props.match.params.shopId}/${this.state.partyList[i].party_id}`} style={{ textDecoration: 'none', color: 'white' }}>
+															add
 												</Link>
-											</td>
-											<td > {this.state.orderList[i].order_total} </td>
-											<td className="true" onClick={this.patchPaidBill.bind(this, i)}> ✔ </td>
-											{/* <td className="false" > ✘ </td> */}
-										</tr>
-									);
-								})
-							}
-						</tbody>
-					</table>
-					<div style={{ paddingTop: '280px', width: '500px', height: '40px', float: 'left', position: 'relative', left: '50%', transform: 'translateX(-50%)' }} >
-						<img className="imageplus"
-							src={require("../../asset/icon/plus.png")}
-							alt=""
-							onClick={this.postCreateParty.bind(this)}
-							width='40' />
-					</div>
+													</td>
+													<td > {this.state.orderList[i].order_total} </td>
+													<td className="true" onClick={this.patchPaidBill.bind(this, i)}> ✔ </td>
+													{/* <td className="false" > ✘ </td> */}
+												</tr>
+											);
+										})
+									}
+								</tbody>
+							</table>
+							<div style={{ paddingTop: '280px', width: '500px', height: '40px', float: 'left', position: 'relative', left: '50%', transform: 'translateX(-50%)' }}>
+								<img className="imageplus"
+									src={require("../../asset/icon/plus.png")}
+									alt=""
+									onClick={this.toggleAddParty}
+									width='40' />
+							</div>
+						</>
+					}
+					{
+						this.state.newParty &&
+						<AddTableForm shopId={this.state.managerData.related_shop.shop_id} toggle={this.toggleAddParty} />
+					}
+
 				</div>
 			);
 

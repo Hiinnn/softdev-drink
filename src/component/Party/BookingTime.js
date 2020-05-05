@@ -147,9 +147,7 @@ export default class BookingTime extends React.Component {
         const start = `${date.getFullYear()}-${month}-${day}T${startHr}:${startMin}:00+07:00`
         const end = `${date.getFullYear()}-${month}-${day}T${endHr}:${endMin}:00+07:00`
 
-        console.log(`${date.getFullYear()}-${month}-${day}T${startHr}:${startMin}:00+07:00`);
-
-
+        this.getCheckSeat()
         this.postCreateParty(
             this.props.shopId,
             this.state.partyName,
@@ -174,9 +172,31 @@ export default class BookingTime extends React.Component {
             Authorization: `Bearer ${localStorage.getItem('access')}`
         }
 
+        this.getCheckSeat()
+
         Axios.post(url, body, { headers: head })
             .then((res) => {
-                console.log('book', res);
+                window.location.reload()
+            })
+            .catch((err) => {
+                console.log(err.response);
+            })
+    }
+
+    getCheckSeat() {
+        const d = new Date()
+        const month = (d.getMonth() + 1) % 12 < 10 ? `0${(d.getMonth() + 1) % 12}` : (d.getMonth() + 1) % 12
+        const date = this.state.partyDate < 10 ? `0${this.state.partyDate}` : this.state.partyDate
+
+        const url = `${localStorage.getItem('url')}/booking/seat/get/?date=${d.getFullYear()}-${month}-${date}&shop_id=${this.props.shopId}`
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
+        Axios.get(url, { headers: head })
+            .then((res) => {
+                console.log('get day', res);
+                // window.location.reload()
             })
             .catch((err) => {
                 console.log(err.response);
@@ -207,7 +227,7 @@ export default class BookingTime extends React.Component {
                 {/** Select time */}
                 <div className="form-inline" id={'form' + sm}>
                     <select className="custom-select my-1 mr-sm-2 form-control-lg"
-                        id="inlineFormCustomSelectPref"
+                        id="Time"
                         value={this.state.selectTime}
                         disabled={!this.state.working || this.props.role !== 'dk'}
                         onChange={(e) => this.setState({ selectTime: e.target.value })}
@@ -228,7 +248,7 @@ export default class BookingTime extends React.Component {
                 {/* Date */}
                 <div className="form-inline" id={'form' + sm}>
                     <select className="custom-select my-1 mr-sm-2 form-control-lg"
-                        id="inlineFormCustomSelectPref"
+                        id="Date"
                         value={this.state.partyDate}
                         disabled={!this.state.working || this.props.role !== 'dk'}
                         onChange={(e) => this.setState({ partyDate: e.target.value })}
@@ -249,7 +269,7 @@ export default class BookingTime extends React.Component {
 
                 {/** Privacy radio check */}
                 <FormColumn>
-                    <div className="form-check" id="check">
+                    <div className="form-check" id="check" style={{ width: 90 }}>
                         <label className="form-check-label" htmlFor="exampleRadios2">Private</label>
                         <input className="form-check-input"
                             type="radio"
@@ -259,7 +279,7 @@ export default class BookingTime extends React.Component {
                             onChange={this.handlePartyType} />
                     </div>
 
-                    <div className="form-check" id="check">
+                    <div className="form-check" id="check" style={{ width: 90 }}>
                         <label className="form-check-label" htmlFor="exampleRadios2" >Public</label>
                         <input className="form-check-input"
                             type="radio"
@@ -287,7 +307,7 @@ export default class BookingTime extends React.Component {
 
 
 const FormColumn = styled.div`
-                    width: 100px;
+                    margin-left: 20px;
                     display: flex;
                     flex-direction: column;
 
@@ -304,7 +324,7 @@ const BookingContainer = styled.form`
 
                 color:white;
                 width: 100%;
-                padding: 15px;
+                padding-top: 15px;
                 padding-left: 20px;
                 padding-bottom: 25px;
                 border-bottom: solid #7a7a7a 1px;
