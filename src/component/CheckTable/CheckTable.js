@@ -59,7 +59,7 @@ class CheckTable extends React.Component {
 
 	getOrderList() {
 		const date = new Date()
-		const url = `${localStorage.getItem('url')}/ordering/party/bill/?date=${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}&shop_id=${this.state.managerData.related_shop.shop_id}`
+		const url = `${localStorage.getItem('url')}/ordering/party/bill/?date=${date.getFullYear()}-${(date.getMonth() + 1) % 12}-${date.getDate()}&shop_id=${this.state.managerData.related_shop.shop_id}&is_active=True`
 
 		const head = {
 			Authorization: `Bearer ${localStorage.getItem('access')}`
