@@ -6,23 +6,59 @@ import OrderTable from './OrderTable';
 
 import { orderData } from '../../data/NEW/Order';
 import './OrderGroup.css';
+import Axios from 'axios';
 
 class Order extends React.Component {
 
 	constructor() {
 		super()
-		// this.data = orderData
 		this.state = {
-			data: orderData,
 			order: [],
+			role: localStorage.getItem('role'),
+
+			orderData: {
+				food: [],
+				drink: []
+			},
 		}
 	}
 
-	cart_addOrder = (type, index) => {
+	componentDidMount() {
+		this.getOrderData()
+	}
 
-		if (this.state.order.findIndex(i => i.goods_name === this.state.data[type][index].goods_name) === -1) { // Check if order doesn't exist => add order to cart		
+	getOrderData = () => {
+		Axios.get(`${localStorage.getItem('url')}/stock/manage/?type=fd&shop_id=${this.props.match.params.shopId}`)
+			.then((res) => {
+				let sOrder = this.state.orderData;
+				sOrder.food = res.data
+				console.log(res.data);
+				
+				this.setState({
+					orderData: sOrder
+				})
+			})
+			.catch((err) => {
+				console.log('get ordergroup err', err.response);
+			})
+
+		Axios.get(`${localStorage.getItem('url')}/stock/manage/?type=dk&shop_id=${this.props.match.params.shopId}`)
+			.then((res) => {
+				let sOrder = this.state.orderData;
+				sOrder.drink = res.data
+				this.setState({
+					orderData: sOrder
+				})
+			})
+			.catch((err) => {
+				console.log('order err', err.response);
+			})
+	}
+
+	cart_addOrder = (type, index) => {
+		if (this.state.order.findIndex(i => i.goods_name === this.state.orderData[type][index].goods_name) === -1) { // Check if order doesn't exist => add order to cart		
 			this.setState({
-				order: this.state.order.concat([{ goods_name: this.state.data[type][index].goods_name, amount: 1 }])
+				order: this.state.order.concat([{ goods_name: this.state.orderData[type][index].goods_name, amount: 1, pk: this.state.orderData[type][index].pk }])
 			})
 		}
 	}
@@ -31,7 +67,7 @@ class Order extends React.Component {
 		let newOrder = [...this.state.order]
 
 		newOrder = [...newOrder.slice(0, index), ...newOrder.slice(index + 1, newOrder.length)] // Slice order[index] out
-		
+
 		this.setState({
 			order: newOrder
 		})
@@ -51,7 +87,7 @@ class Order extends React.Component {
 	decreaseOrder = (index) => {
 		let newOrder = [...this.state.order]
 
-		if (newOrder[index].amount === 1){
+		if (newOrder[index].amount === 1) {
 			this.cart_deleteOrder(index)
 			return;
 		}
@@ -62,27 +98,59 @@ class Order extends React.Component {
 		})
 	}
 
-	letsOrder() {
+	ordering() {
+		let data;
+		for (let i = 0; i < this.state.order.length; i++) {
+			data = {
+				party_id: this.props.match.params.partyId,
+				order_qty: this.state.order[i].amount,
+				goods_id: this.state.order[i].pk
+			}
+			this.postOrder(data)
+		}
+	}
 
+	postOrder(data) {
+		const url = `${localStorage.getItem('url')}/ordering/order_foods/`
+		const head = {
+			Authorization: `Bearer ${localStorage.getItem('access')}`
+		}
+
+		Axios.post(url, data, { headers: head })
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err.response);
+			})
 	}
 
 	render() {
 		return (
 			<div className="order-container" >
-				<div className="order-table-container" > {
-					Object.keys(this.state.data).map((type) => {
-						// console.log(this.state.data[type])
-						return (
-							<div key={type + " table"}
-								className="order-table" >
-								<OrderTable type={type}
-									name={this.state.data[type]}
-									addToCart={this.cart_addOrder.bind(this)}
-									width="400" />
-							</div>
-						)
-					})
-				}
+				<div className="order-table-container" >
+					<div className="order-table" >
+
+						<OrderTable
+							type={'food'}
+							width={400}
+							role={this.state.role}
+							disabledBt={this.state.role === 'dk'}
+							shopId={this.props.match.params.shopId}
+							addToCart={this.cart_addOrder.bind(this)}
+						/>
+					</div>
+
+					<div className="order-table" >
+						<OrderTable
+							type={'drink'}
+							width={400}
+							role={this.state.role}
+							disabledBt={this.state.role === 'dk'}
+							shopId={this.props.match.params.shopId}
+							addToCart={this.cart_addOrder.bind(this)}
+						/>
+					</div>
 
 					<div className="order-table"
 						style={
@@ -94,7 +162,7 @@ class Order extends React.Component {
 					</div>
 					<br />
 					<Button style={
-						{ display: 'block', float: 'right', width: "300px", fontSize: "20px" }} > Order now </Button>
+						{ display: 'block', float: 'right', width: "300px", fontSize: "20px" }} onClick={this.ordering.bind(this)}> Order now </Button>
 				</div>
 			</div>
 		);
@@ -120,7 +188,6 @@ class CartTable extends React.Component {
 				<tbody >
 					{
 						this.props.order && Object.keys(this.props.order).map((index) => {
-							console.log(index)
 							return (
 								<tr key={'cart' + index} >
 									<td width="60%"

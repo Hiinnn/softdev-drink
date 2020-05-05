@@ -22,18 +22,14 @@ export default class Recommended extends Component {
         const key = localStorage.getItem('searchKey')
         const url = localStorage.getItem('url')
         const token = localStorage.getItem('access')
+        const head = localStorage.getItem('role') !== null ? { Authorization: `Bearer ${token}` } : ''
 
-        Axios.get(`${url}/manager/shop/?search=`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+        Axios.get(`${url}/manager/shop/?search=`, { headers: head })
             .then((res) => {
                 this.setState({ shopArray: res.data })
             })
             .catch((err) => {
-                console.log('search did mount err', err)
+                console.log('search recc err', err)
             })
     }
 
@@ -69,7 +65,7 @@ export default class Recommended extends Component {
                                         <div className="rec-detail-container">
                                             <div className="rec-cafe-name">{cafe.shop_name}</div>
                                             <div className="rec-cafe-describe">{cafe.detail}</div>
-                                            <Link to={`/shop/${cafe.shop_id}`}> <div className="rec-learn-more">LEARN MORE</div></Link>
+                                            <Link to={`/shop/${cafe.shop_id}`} style={{ textDecoration: 'none' }}> <div className="rec-learn-more">LEARN MORE</div></Link>
                                         </div>
                                     </div>
 
@@ -80,7 +76,7 @@ export default class Recommended extends Component {
                                         <div className="rec-detail-container">
                                             <div className="rec-cafe-name">{cafe.shop_name}</div>
                                             <div className="rec-cafe-describe">{cafe.detail}</div>
-                                            <Link to={`/shop/${cafe.shop_id}`}> <div className="rec-learn-more">LEARN MORE</div></Link>
+                                            <Link to={`/shop/${cafe.shop_id}`} style={{ textDecoration: 'none' }}> <div className="rec-learn-more">LEARN MORE</div></Link>
                                         </div>
                                         <div className="rec-pic-container" style={{ marginLeft: "2%" }}>
                                             <div className="main-rec-pic"> <img src={`${localStorage.getItem('url')}${cafe.picture}`} alt="" /> </div>

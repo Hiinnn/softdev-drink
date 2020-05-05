@@ -134,18 +134,22 @@ class Navbar extends Component {
                     </Link>
                 }
 
-                <div className="search-box-wrapper">
-                    <input className="search-box" type="text"
-                        placeholder="Search"
-                        onChange={this.handleChange}
-                        value={this.state.searchKey}
-                        onKeyPress={event => {
-                            if (event.key === 'Enter') this.search();
-                        }} />
-                    <div className="search-icon-wrapper">
-                        <img className="search-icon" src={require('../../asset/Navbar/searchIcon.png')} alt="" onClick={this.search}></img>
+                {
+                    localStorage.getItem('role') !== 'ow' &&
+                    localStorage.getItem('role') !== 'sm' &&
+                    <div className="search-box-wrapper">
+                        <input className="search-box" type="text"
+                            placeholder="Search"
+                            onChange={this.handleChange}
+                            value={this.state.searchKey}
+                            onKeyPress={event => {
+                                if (event.key === 'Enter') this.search();
+                            }} />
+                        <div className="search-icon-wrapper">
+                            <img className="search-icon" src={require('../../asset/Navbar/searchIcon.png')} alt="" onClick={this.search}></img>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         )
     }

@@ -80,7 +80,7 @@ export default class BranchDetail extends React.Component {
     }
 
     componentDidUpdate = () => {
-        if (this.state.role !== null && this.state.shopData && !this.state.partyData ) this.getPartyData()
+        if (this.state.role !== null && this.state.shopData && !this.state.partyData) this.getPartyData()
     }
 
     getShopData = () => {
@@ -651,16 +651,18 @@ export default class BranchDetail extends React.Component {
                             }
 
                             {/** Current Party in cafe */}
-                            {
-                                this.state.partyData &&
-                                this.state.role !== null &&
-                                this.state.partyData.map((obj, i) => {
-                                    return (<PartyList
-                                        key={i}
-                                        partyData={obj}
-                                        disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
-                                })
-                            }
+                            <div className='party-list-container' style={{maxHeight: 500, marginBottom: 50}}>
+                                {
+                                    this.state.partyData &&
+                                    this.state.role !== null &&
+                                    this.state.partyData.map((obj, i) => {
+                                        return (<PartyList
+                                            key={i}
+                                            partyData={obj}
+                                            disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
+                                    })
+                                }
+                            </div>
                         </div>
                     </BranchDetailContainer>
                 </>
