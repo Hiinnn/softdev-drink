@@ -47,19 +47,17 @@
 
 .bill-table {
     width: 80%;
-    height: 400px;
-    background-color: hsl(0, 0%, 36%, 0.4);;
+
     left: 50%;
-    transform: translateX(-50%);
     position: relative;
-    
+    transform: translateX(-50%);
+
+    margin-top: 20px;
     max-height: 400px;
-    display: inline-block;
     overflow-y: scroll;
+    display: inline-block;
     
-    /*display: block;*/
-    /*overflow-y:auto;*/
-    /*width: 102.1%;*/
+    background-color: hsl(0, 0%, 36%, 0.4);;
 }
 
 .bill-table::-webkit-scrollbar {

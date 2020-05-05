@@ -141,7 +141,7 @@ export default class BookingTime extends React.Component {
         const endMin = parseInt(startMin) === 30 ? '00' : '30'
 
         const day = this.state.partyDate < 10 ? `0${this.state.partyDate}` : this.state.partyDate
-        let month = this.state.partyDate > date.getDate() ? date.getMonth() : date.getMonth() + 1
+        let month = this.state.partyDate >= date.getDate() ? (date.getMonth() + 1) % 12 : (date.getMonth() + 2) % 12
         month = month < 10 ? `0${month}` : month
 
         const start = `${date.getFullYear()}-${month}-${day}T${startHr}:${startMin}:00+07:00`

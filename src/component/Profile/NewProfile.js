@@ -155,7 +155,6 @@ export default class UserProfile extends React.Component {
                 NotifyAlert(() => { }, 'สำเร็จ!', 'ข้อมูลโปรไฟล์ถูกอัพเดตแล้ว', 'success');
             })
             .catch((err) => {
-                //console.log(('change err', err.response));
                 NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
@@ -170,7 +169,7 @@ export default class UserProfile extends React.Component {
             .then((res) => { 
             })
             .catch((err) => {
-                //console.log('del fav', err.response);
+                // console.log('del fav', err.response);
                 NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
@@ -205,13 +204,12 @@ export default class UserProfile extends React.Component {
 
             })
             .catch((err) => {
-                //console.log('change err', err.response); 
+                // console.log('change err', err.response); 
                 NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
 
     render() {
-        console.log('i love u so much ver much');
         return (
             <>
                 <div className="picandpro-container">

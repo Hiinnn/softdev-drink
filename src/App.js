@@ -21,17 +21,19 @@ import UserParty from './pages/User-party/User-party';
 import Navbar from './component/Nav-bar/Nav-bar';
 
 // * General
-import Result from './component/Result/Result';
-import SignUp from './component/Login-Sigup/SignUp-form';
-import LoginForm from './component/Login-Sigup/Login-form';
-import BranchDetail from './component/User-view-branch/Branch-detail';
+import Result from './component/Result/Result'
+import SignUp from './component/Login-Sigup/SignUp-form'
+import LoginForm from './component/Login-Sigup/Login-form'
+import BranchDetail from './component/User-view-branch/Branch-detail'
 import Reset from './component/Login-Sigup/Reset-password'
 
 // * User main
-import Slideshow from './component/Slideshow/Slideshow';
-import Recommended from './component/Recommended/Recommended';
-import UserProfile from './component/Profile/NewProfile';
-import PartyU from './component/partyUser/partyUser';
+import Slideshow from './component/Slideshow/Slideshow'
+import Recommended from './component/Recommended/Recommended'
+import UserProfile from './component/Profile/NewProfile'
+import PartyU from './component/partyUser/partyUser'
+import OrderGroup from './component/OrderTable/OrderGroup'
+import TableUserBill from './component/TableUserBill/TableUserBill'
 
 // * Owner main
 import Ownerform from './component/Owner-form/Owner-form'
@@ -44,7 +46,7 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://f4057185.ngrok.io');
+    localStorage.setItem('url', 'https://47cf9fbf.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
@@ -79,10 +81,12 @@ export default class App extends React.Component {
           <Route path="/search" component={Search} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={() => Login(this.login)} />
-          <Route path="/reset" component={ResetPW}/>
+          <Route path="/reset" component={ResetPW} />
 
           <Route path="/drinker/party/" component={DrinkerParty} />
           <Route path="/drinker/profile" component={() => <UserProfile />} />
+          <Route path="/drinker/order/:shopId/:partyId" component={props => <OrderGroup {...props} />} />
+          <Route path="/drinker/bill/:partyId" component={props => <TableUserBill {...props} />} />
           <Route path="/drinker/" component={DrinkerHome} />
 
           <Route path="/owner/shop/:shopId" render={props => <BranchDetail {...props} />} />
@@ -114,9 +118,9 @@ const Search = () => <Result />
 const ResetPW = () => <Reset />
 
 const DrinkerHome = () => <><Slideshow /> <Recommended /></>
+const DrinkerParty = () => <PartyU />
 
 const OwnerHome = () => <ShopOwnerTable />
 const CreateShop = () => <Ownerform />
 
-const DrinkerParty = () => <PartyU />
 

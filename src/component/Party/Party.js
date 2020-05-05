@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Invite from '../Invite/Invite';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default class PartyList extends React.Component {
     constructor(props) {
@@ -21,7 +22,6 @@ export default class PartyList extends React.Component {
 
         Axios.post(url, body, { headers: head })
             .then((res) => {
-                console.log(res);
             })
             .catch((err) => {
                 console.log(err.response);
@@ -30,46 +30,66 @@ export default class PartyList extends React.Component {
 
     render() {
         let sm = this.props.sm === true ? '-sm' : '';
-        return (
-            <Party >
-                {
-                    this.props.partyUser ?
-                        <div className={sm}
-                            style={
-                                { float: 'left', width: '360px', fontSize: '20px', textAlign: 'left' }
-                            } > {this.props.partyData.party_name} </div> :
-                        <div className={"party-name" + sm} > {this.props.partyData.party_name} </div>
-                }
+        if (this.props.partyData)
+            return (
+                <Party >
+                    {
+                        this.props.partyUser
+                            ? <div className={sm}
+                                style={
+                                    { float: 'left', width: '360px', fontSize: '20px', textAlign: 'left' }
+                                } > {this.props.partyData.party_name} </div>
+                            : <div className={"party-name" + sm} > {this.props.partyData.party_name} </div>
+                    }
 
 
-                <div className={"profile-pic-container" + sm} > {
-                    Object.keys(this.props.partyData.member_list).map((i) => {
-                        
-                        return (
-                            <div style={{ position: 'relative' }} key={i} >
-                                <img className={"party-profile-pic" + sm}
-                                    src={`${localStorage.getItem('url')}${this.props.partyData.member_list[i].picture}`} />
-                            </div>
-                        )
-                    })
-                }
-                </div>
-                {
-                    this.props.inv &&
-                    <div className={"join-bt" + sm} > ACCEPT </div>
-                }
-                {
-                    this.props.partyUser && !this.props.inv &&
-                    <div className={"join-bt" + sm}
-                        onClick={() => this.props.quit(this.props.partyData.party_id)} > QUIT </div>
-                }
-                {
-                    !this.props.partyUser && !this.props.inv &&
-                    <div className={`join-bt${sm}${(this.props.disabledBt === true || !this.props.partyData.is_join === true) ? " disabled-bt" : ""}`}
-                        onClick={this.postJoin} > Join </div>
-                }
-            </Party>
-        );
+                    <div className={"profile-pic-container" + sm} > {
+                        Object.keys(this.props.partyData.member_list).map((i) => {
+                            return (
+                                <div style={{ position: 'relative' }} key={i} >
+                                    <img className={"party-profile-pic" + sm}
+                                        src={`${localStorage.getItem('url')}${this.props.partyData.member_list[i].picture}`} />
+                                </div>
+                            )
+                        })
+                    }
+                    </div>
+                    {
+                        this.props.inv &&
+                        <div className={"join-bt" + sm} > ACCEPT </div>
+                    }
+                    <div style={{ flexDirection: 'column' }}>
+                        {
+                            this.props.partyUser && !this.props.inv &&
+                            <div className={"join-bt" + sm}
+                                onClick={() => this.props.quit(this.props.partyData.party_id)} > QUIT </div>
+                        }
+                        {
+                            this.props.partyUser && !this.props.inv && this.props.current &&
+                            <Link to={`/drinker/order/${this.props.partyData.shop_id}/${this.props.partyData.party_id}`} style={{textDecoration: 'none'}}>
+                                <div className={"join-bt" + sm}
+                                    style={{ marginTop: 10 }}
+                                    onClick={() => this.props.quit(this.props.partyData.party_id)}> Order </div>
+                            </Link>
+                        }
+                        {
+                            this.props.partyUser && !this.props.inv && this.props.current &&
+                            <Link to={`/drinker/bill/${this.props.partyData.party_id}`} style={{textDecoration: 'none'}}>
+                                <div className={"join-bt" + sm}
+                                    style={{ marginTop: 10 }}
+                                    onClick={() => this.props.quit(this.props.partyData.party_id)}> Bill </div>
+                            </Link>
+                        }
+                    </div>
+                    {
+                        !this.props.partyUser && !this.props.inv &&
+                        <div className={`join-bt${sm}${(this.props.disabledBt === true || !this.props.partyData.is_join === true) ? " disabled-bt" : ""}`}
+                            onClick={this.postJoin} > Join </div>
+                    }
+                </Party >
+            );
+        else
+            return <></>
     }
 }
 
@@ -84,6 +104,7 @@ const Party = styled.div`
                     border: solid #7a7a7a;
                     padding: 10px 15px 25px 10px;
                     border-width: 0px 0px 1px 0px;
+
 
                     /********************** Normal ***********************/
                     .party-name {

@@ -21,18 +21,14 @@ export default class SlideShow extends Component {
         const key = localStorage.getItem('searchKey')
         const url = localStorage.getItem('url')
         const token = localStorage.getItem('access')
+        const head = localStorage.getItem('role') !== null ? { Authorization: `Bearer ${token}` } : ''
 
-        Axios.get(`${url}/manager/shop/?search=`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+        Axios.get(`${url}/manager/shop/?search=`, { headers: head })
             .then((res) => {
                 this.setState({ shopArray: res.data })
             })
             .catch((err) => {
-                console.log('search did mount err', err)
+                console.log('search slide err', err)
             })
     }
 
@@ -49,7 +45,7 @@ export default class SlideShow extends Component {
                                             className="d-block w-100 "
                                             src={`${localStorage.getItem('url')}${this.state.shopArray[index].picture}`}
                                             alt={index}
-                                            style={{objectPosition: '50% 30%'}}
+                                            style={{ objectPosition: '50% 30%' }}
                                         />
                                     </Carousel.Item>
                                 )
