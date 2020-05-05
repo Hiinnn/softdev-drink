@@ -56,41 +56,51 @@ class ShopOwnerTable extends Component {
 
 	render() {
 		if (this.state.redirect) {
-			return <Redirect to={this.state.redirect} />
+			return <Redirect to = { this.state.redirect }
+			/>
 		}
 
 		const tempPic = 'https://image.freepik.com/free-photo/minimalist-background-with-green-leaves-white_23-2147752433.jpg';
 
-		return (
-			<div className=" ownerhome-container" >
-				<table className="table-shop-owner">
-					<tbody>
-						{
-							this.state.ownerData.related_shop.map((shop, i) => {
-								return (
-									<tr key={i} width='100%'>
-										<td width='60%'>
-											<img className="imgshop"
-												src={shop.pic === '/media/black.jpg' ? tempPic : `${localStorage.getItem('url')}${shop.pic}`}
-												alt={shop.shop_name}
-											/>
-										</td >
-										<td className="nameAddress" colSpan='40%'>
-											<h4 className="name" onClick={this.redirect.bind(this, shop.shop_id)}> {shop.shop_name} </h4>
-										</td>
-									</tr>
-								)
-							})
-						}
-						<tr width='100%'>
-							<td width='60%'></td>
-							<td width='40%'>
-								<Button onClick={this.createShop.bind(this)}> Create new shop</Button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+		return ( <
+			div className = " ownerhome-container" >
+			<
+			table className = "table-shop-owner" >
+			<
+			tbody > {
+				this.state.ownerData.related_shop.map((shop, i) => {
+					return ( <
+						tr key = { i }
+						width = '100%' >
+						<
+						td width = '60%' >
+						<
+						img className = "imgshop"
+						src = { shop.pic === '/media/black.jpg' ? tempPic : `${localStorage.getItem('url')}${shop.pic}` }
+						alt = { shop.shop_name }
+						/> <
+						/td > <
+						td className = "nameAddress"
+						colSpan = '40%' >
+						<
+						h4 className = "name"
+						onClick = { this.redirect.bind(this, shop.shop_id) } > { shop.shop_name } < /h4> <
+						/td> <
+						/tr>
+					)
+				})
+			} <
+			tr width = '100%' >
+			<
+			td width = '60%' > < /td> <
+			td width = '40%' >
+			<
+			Button onClick = { this.createShop.bind(this) } > Create new shop < /Button> <
+			/td> <
+			/tr> <
+			/tbody> <
+			/table> <
+			/div>
 		);
 	}
 }
