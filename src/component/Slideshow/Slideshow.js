@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import "./Slideshow.css";
-import { Carousel } from 'react-bootstrap';
-import { shops } from '../../data/Slideshowdata.js';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Carousel } from 'react-bootstrap';
 
 export default class SlideShow extends Component {
     constructor(props) {
@@ -11,14 +10,22 @@ export default class SlideShow extends Component {
         this.state = {
             shopArray: ''
         }
+
+        this.arr = [0, 1, 2, 3, 4]
     }
 
     componentDidMount() {
         this.getShopArray()
     }
 
+    componentDidUpdate() {
+        // reload data when error
+        if (!this.state.shopArray)
+            this.getShopArray()
+    }
+
     getShopArray() {
-        const key = localStorage.getItem('searchKey')
+        // get shopArray
         const url = localStorage.getItem('url')
         const token = localStorage.getItem('access')
         const head = localStorage.getItem('role') !== null ? { Authorization: `Bearer ${token}` } : ''
@@ -28,13 +35,15 @@ export default class SlideShow extends Component {
                 this.setState({ shopArray: res.data })
             })
             .catch((err) => {
-                console.log('search slide err', err)
+                this.getShopArray()
+                Promise.reject(err)
             })
     }
 
     render() {
         return (
             <div >
+                {/* Slideshow */}
                 <div id="main-slide">
                     <Carousel touch={true} interval={null}>
                         {
@@ -53,12 +62,18 @@ export default class SlideShow extends Component {
                         }
                     </Carousel>
                 </div>
+                {/* Sub picture bottom of Slideshow */}
                 <div className="hot-cafe-pic-container">
-                    {this.state.shopArray[0] && <Link to={`/shop/${this.state.shopArray[0].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[0].picture}`} /></Link>}
-                    {this.state.shopArray[1] && <Link to={`/shop/${this.state.shopArray[1].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[1].picture}`} /></Link>}
-                    {this.state.shopArray[2] && <Link to={`/shop/${this.state.shopArray[2].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[2].picture}`} /></Link>}
-                    {this.state.shopArray[3] && <Link to={`/shop/${this.state.shopArray[3].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[3].picture}`} /></Link>}
-                    {this.state.shopArray[4] && <Link to={`/shop/${this.state.shopArray[4].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }}><img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[4].picture}`} /></Link>}
+                    {
+                        this.arr.map((i) => {
+                            return (
+                                this.state.shopArray[i] &&
+                                <Link to={`/shop/${this.state.shopArray[i].shop_id}`} style={{ display: 'inline-block', margin: '20px', height: '120px' }} key={i}>
+                                    <img alt="" width="200px" height="100%" src={`${localStorage.getItem('url')}${this.state.shopArray[i].picture}`} />
+                                </Link>
+                            )
+                        })
+                    }
                 </div>
             </div>
         )

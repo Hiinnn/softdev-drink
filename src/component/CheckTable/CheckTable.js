@@ -117,7 +117,6 @@ class CheckTable extends React.Component {
 										<th className="thCheck" > Menu </th>
 										<th className="thCheck" > Total </th>
 										<th className="thCheck" > Check </th>
-										{/* <th className="thCheck" > Clear </th> */}
 									</tr>
 								</thead>
 
@@ -135,7 +134,6 @@ class CheckTable extends React.Component {
 													</td>
 													<td > {this.state.orderList[i].order_total} </td>
 													<td className="true" onClick={this.patchPaidBill.bind(this, i)}> ✔ </td>
-													{/* <td className="false" > ✘ </td> */}
 												</tr>
 											);
 										})

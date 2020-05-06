@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Recommended.css';
 
-import { shopArray } from '../../data/NEW/ShopArray';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -11,15 +10,19 @@ export default class Recommended extends Component {
         this.state = {
             shopArray: null,
         }
-
     }
 
     componentDidMount() {
         this.getShopArray()
     }
 
+    componentDidUpdate() {
+        // reload data when error
+        if (!this.state.shopArray)
+            this.getShopArray()
+    }
+
     getShopArray() {
-        const key = localStorage.getItem('searchKey')
         const url = localStorage.getItem('url')
         const token = localStorage.getItem('access')
         const head = localStorage.getItem('role') !== null ? { Authorization: `Bearer ${token}` } : ''
@@ -29,7 +32,7 @@ export default class Recommended extends Component {
                 this.setState({ shopArray: res.data })
             })
             .catch((err) => {
-                console.log('search recc err', err)
+                Promise.reject(err)
             })
     }
 
@@ -41,11 +44,11 @@ export default class Recommended extends Component {
                     {
                         Object.keys(this.state.shopArray).map((index) => {
                             const cafe = this.state.shopArray[index]
-
                             return (
                                 (index % 2) === 0 ?
-                                    /* Picture Left */
+                                    /*** Picture on Left ***/
                                     <div className="rec-cafe-container" key={`id ${cafe.shop_id + index}`}>
+                                        {/* shop picture */}
                                         <div className="rec-pic-container" style={{ marginRight: "2%" }}>
                                             <div className="main-rec-pic"> <img src={`${localStorage.getItem('url')}${cafe.picture}`} alt="" /> </div>
                                             <div className="sub-rec-pic">
@@ -62,22 +65,23 @@ export default class Recommended extends Component {
                                                 }
                                             </div>
                                         </div>
+                                        {/* shop detail */}
                                         <div className="rec-detail-container">
                                             <div className="rec-cafe-name">{cafe.shop_name}</div>
                                             <div className="rec-cafe-describe">{cafe.detail}</div>
                                             <Link to={`/shop/${cafe.shop_id}`} style={{ textDecoration: 'none' }}> <div className="rec-learn-more">LEARN MORE</div></Link>
                                         </div>
                                     </div>
-
                                     :
-
-                                    /* Picture Right */
+                                    /*** Picture on Right ***/
                                     <div className="rec-cafe-container" key={`id ${cafe.shop_id + index}`}>
+                                        {/* Shop detail */}
                                         <div className="rec-detail-container">
                                             <div className="rec-cafe-name">{cafe.shop_name}</div>
                                             <div className="rec-cafe-describe">{cafe.detail}</div>
                                             <Link to={`/shop/${cafe.shop_id}`} style={{ textDecoration: 'none' }}> <div className="rec-learn-more">LEARN MORE</div></Link>
                                         </div>
+                                        {/* Shop picture */}
                                         <div className="rec-pic-container" style={{ marginLeft: "2%" }}>
                                             <div className="main-rec-pic"> <img src={`${localStorage.getItem('url')}${cafe.picture}`} alt="" /> </div>
                                             <div className="sub-rec-pic">

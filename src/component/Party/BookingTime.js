@@ -4,6 +4,7 @@ import shopData from '../../data/NEW/Shop';
 import Axios from 'axios';
 import TimePicerk from 'react-time-picker'
 import TimePicker from 'react-time-picker/dist/TimePicker';
+import { NotifyAlert } from '../SweetAlert';
 
 export default class BookingTime extends React.Component {
     constructor(props) {
@@ -65,7 +66,6 @@ export default class BookingTime extends React.Component {
                     })
                 })
                 .catch((err) => {
-                    console.log('booking err', err)
                 })
         }
     }
@@ -116,22 +116,22 @@ export default class BookingTime extends React.Component {
         const date = new Date();
 
         if (this.state.partyName === '') {
-            this.setState({ partyName: 'Please enter party name.' })
+            NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'กรุณาใส่ชื่อของปาร์ตี้', 'error', false)
             return
         }
 
         if (this.state.partySize === 0) {
-            this.setState({ partyName: 'Party can\'t be empty.' })
+            NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'ขนาดของปาร์ตี้ต้องไม่ตำกว่า 1 คน', 'error', false)
             return
         }
 
         if (this.state.selectTime === '') {
-            this.setState({ partyName: 'Select time.' })
+            NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'กรุณาเลือกเวลาที่ต้องการจอง', 'error', false)
             return
         }
 
         if (this.state.partyType === '') {
-            this.setState({ partyName: 'Select party type.' })
+            NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'กรุณาเลือกประเภทของปาร์ตี้', 'error', false)
             return
         }
 
@@ -176,10 +176,9 @@ export default class BookingTime extends React.Component {
 
         Axios.post(url, body, { headers: head })
             .then((res) => {
-                window.location.reload()
+                NotifyAlert(() => { window.location.reload() }, 'สร้างปาร์ตี้สำเร็จ', '', 'success', false)
             })
             .catch((err) => {
-                console.log(err.response);
             })
     }
 
@@ -195,11 +194,8 @@ export default class BookingTime extends React.Component {
 
         Axios.get(url, { headers: head })
             .then((res) => {
-                console.log('get day', res);
-                // window.location.reload()
             })
             .catch((err) => {
-                console.log(err.response);
             })
     }
 

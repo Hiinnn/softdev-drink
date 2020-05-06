@@ -1,0 +1,252 @@
+/*********** Profile *************/
+
+
+/*--container--*/
+
+.picandpro-container {
+    width: 810px;
+    height: 730px;
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+}
+
+.profile-pic-container {
+    width: 300px;
+    height: 340px;
+    display: inline-block;
+}
+
+.profile-pic {
+    position: relative;
+    left: 50%;
+    border-radius: 50%;
+    object-fit: cover;
+    transform: translateX(-50%);
+}
+
+.profile-container {
+    width: 510px;
+    height: 340px;
+    float: right;
+    display: inline-block;
+    background-color: hsl(0, 0%, 36%, 0.4);
+    padding: 12px 12px;
+    border-radius: 4px;
+}
+
+
+/*--text--*/
+
+.textheader {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    text-align: left;
+    font-weight: bold;
+    vertical-align: middle;
+    color: white;
+}
+
+.text {
+    width: 100%;
+    height: 1px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    text-align: left;
+    vertical-align: middle;
+    color: white;
+}
+
+
+/*--input--*/
+
+.input-text[type=text],
+.input-text[type=email],
+.input-text[type=month] {
+    width: 300px;
+    padding: 2px 12px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    background-color: #999b9a;
+    cursor: auto;
+    color: #2e4b33;
+    border-radius: 4px;
+}
+
+.input-text:disabled {
+    color: white;
+    resize: none;
+    border: 0 transparent;
+    background-color: transparent;
+}
+
+
+/*--button--*/
+
+.one-button {
+    /*Save Profile*/
+    width: 120px;
+    background-color: #38573d;
+    color: white;
+    border: none;
+    padding: 5px 1px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 361px;
+    margin-right: 6%;
+}
+
+.one-button:hover {
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 0 10px #fff, 0 0 20px blanchedalmond;
+}
+
+
+/************ Password ************/
+
+
+/*--container--*/
+
+.password-container {
+    width: 510px;
+    height: 285px;
+    display: block;
+    background-color: hsl(0, 0%, 36%, 0.4);
+    padding: 12px 12px;
+    border-radius: 4px;
+    float: right;
+    margin-top: 20px;
+}
+
+
+/*--input--*/
+
+.input-password[type=password] {
+    width: 300px;
+    padding: 2px 12px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    background-color: #999b9a;
+    cursor: auto;
+    color: #2e4b33;
+    border-radius: 4px;
+}
+
+.input-password:disabled {
+    color: transparent;
+    background-color: transparent;
+    /* border: 0 transparent; */
+}
+
+
+/*--button--*/
+
+.two-button {
+    /*Save Password*/
+    width: 160px;
+    background-color: #38573d;
+    color: white;
+    border: none;
+    padding: 5px 1px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 320px;
+    margin-right: 7%;
+}
+
+.two-button:hover {
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 0 10px #fff, 0 0 20px blanchedalmond;
+}
+
+
+/*********** Myfav *************/
+
+.myfav-container {
+    width: 825px;
+    height: auto;
+    position: relative;
+    display: inline-block;
+    color: aliceblue;
+    text-align: center;
+    font-family: arial, sans-serif;
+    padding-bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hrcss {
+    color: #434343;
+    border-top: 1.5px solid #434343;
+}
+
+.imgShop {
+    width: 450px;
+    height: 225px;
+    border: 1px solid #7a7a7a;
+    margin-top: 6px;
+    margin-bottom: 10px;
+}
+
+.heart {
+    width: 35px;
+    height: 35px;
+    float: left;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.left-container {
+    /*background-color: rgba(137, 43, 226, 0.205);*/
+    height: auto;
+    width: auto;
+    float: left;
+    padding-top: 25px;
+}
+
+.right-container {
+    /*background-color: rgba(0, 255, 255, 0.226);*/
+    height: auto;
+    width: 360px;
+    float: left;
+    padding-top: 25px;
+    margin-left: 15px;
+}
+
+.right-container>div,
+.left-container>div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /*background-color: DodgerBlue;*/
+    text-align: left;
+}
+
+.learnBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #9b8a75;
+    border: 1px solid #9b8a75;
+    background-color: #262626;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.detailShop {
+    font-size: 12px;
+}

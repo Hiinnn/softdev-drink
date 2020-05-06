@@ -14,38 +14,45 @@ export default class ResetPassword extends React.Component {
             otp_code: '',
             redirect: null,
             page: 'get',
+            modal: {
+                show: false,
+                head: '',
+                body: '',
+                func: '',
+                button: '',
+            }
         }
+        this.redirect = this.redirect.bind(this)
+        this.toggleModal = this.toggleModal.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(e) {
+        // ? Change state when user input
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
     getOtp(e) {
+        // ? User request otp to email
         e.preventDefault()
-        console.log(this.state.username);
-
         const url = `${localStorage.getItem('url')}/reset/password/?username=${this.state.username}`
 
         Axios.get(url)
             .then((res) => {
-                console.log(res)
-                this.setState({
-                    page: 'submit'
-                })
             })
             .catch((err) => {
-                console.log('err', err);
             })
+
+        this.setState({
+            page: 'submit'
+        })
     }
 
     postOTP(e) {
+        // ? user enter otp to server
         e.preventDefault()
-        console.log(this.state.username);
-
         const url = `${localStorage.getItem('url')}/reset/password/?username=${this.state.username}`
         const body = {
             username: this.state.username,
@@ -54,24 +61,37 @@ export default class ResetPassword extends React.Component {
 
         Axios.post(url, body)
             .then((res) => {
-                console.log(res)
+                // set modal and set state
                 this.setState({
                     page: 'finish',
+                    modal: {
+                        show: true,
+                        head: 'Success',
+                        body: 'New password is in your email.',
+                        func: this.redirect,
+                        button: 'success'
+                    }
                 })
             })
             .catch((err) => {
-                console.log('err', err);
+                // set error modal
+                this.setState({
+                    modal: {
+                        show: true,
+                        head: 'Error',
+                        body: 'Your OTP is invalid.',
+                        func: this.toggleModal,
+                        button: 'danger'
+                    }
+                })
             })
     }
 
-    redirect() {
-        this.setState({
-            redirect: '/login'
-        })
-    }
-
     pageGetOTP() {
-        let xMid = {        // arrange item middle in x axis
+        // * User enter username page
+
+        // style arrange item middle in x axis
+        let xMid = {
             display: 'flex',
             justifyContent: 'center'
         }
@@ -81,6 +101,8 @@ export default class ResetPassword extends React.Component {
                 <Form className="login-form-wrapper" onSubmit={this.submit}>
                     <h2 style={xMid}>Reset Password</h2>
                     <br />
+
+                    {/* Input Username  */}
                     <Form.Group as={Row} controlId="formUsername">
                         <Form.Label column sm="3">
                             Username
@@ -94,9 +116,15 @@ export default class ResetPassword extends React.Component {
                             />
                         </Col>
                     </Form.Group>
-
                     <br />
-                    <Button size="lg" type="submit" style={{ position: 'relative', left: '50%', transform: 'translateX(-50%)', width: '100%' }} onClick={this.getOtp.bind(this)}>Get OTP</Button>
+
+                    {/* Submit button */}
+                    <Button size="lg"
+                        type="submit"
+                        style={{ position: 'relative', left: '50%', transform: 'translateX(-50%)', width: '100%' }}
+                        onClick={this.getOtp.bind(this)}>
+                        Get OTP
+                    </Button>
                     <br />
                     <br />
                 </Form>
@@ -105,7 +133,8 @@ export default class ResetPassword extends React.Component {
     }
 
     pageSubmit() {
-        let xMid = {        // arrange item middle in x axis
+        // * user already enter username and will submit the otp
+        let xMid = {
             display: 'flex',
             justifyContent: 'center'
         }
@@ -141,24 +170,42 @@ export default class ResetPassword extends React.Component {
         )
     }
 
-    pageFinish() {
+    showModal() {
+        // * Modal popup that use for interact to user
         return (
-            <Modal show={true}>
+            <Modal show={this.state.modal.show}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Finish</Modal.Title>
+                    <Modal.Title>{this.state.modal.head}</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body>New password in your e-mail.</Modal.Body>
+                <Modal.Body>{this.state.modal.body}</Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={this.redirect.bind(this)}>Close</Button>
+                    <Button variant={this.state.modal.button} onClick={this.state.modal.func}>Close</Button>
                 </Modal.Footer>
             </Modal>
         )
     }
 
-    render() {
+    redirect() {
+        // redirect when finish
+        this.setState({
+            redirect: '/login'
+        })
+    }
 
+    toggleModal() {
+        // toggle on-off modal
+        const modal = this.state.modal
+
+        modal.show = !modal.show
+        this.setState({
+            modal: modal
+        })
+    }
+
+    render() {
+        // ? Redirect
         if (this.state.redirect) {
             return (<Redirect to={this.state.redirect} />)
         }
@@ -166,8 +213,13 @@ export default class ResetPassword extends React.Component {
         if (this.state.page === 'get')
             return this.pageGetOTP()
         else if (this.state.page === 'submit')
-            return this.pageSubmit()
+            return (
+                <>
+                    {this.pageSubmit()}
+                    {this.showModal()}
+                </>
+            )
         else if (this.state.page === 'finish')
-            return this.pageFinish
+            return this.showModal()
     }
 }

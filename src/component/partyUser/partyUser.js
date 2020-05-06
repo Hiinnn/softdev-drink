@@ -21,6 +21,7 @@ class PartyU extends React.Component {
 	}
 
 	getMyParty() {
+		// get party data
 		const url = `${localStorage.getItem('url')}/party/my_party/?is_all=True`
 		const head = {
 			Authorization: `Bearer ${localStorage.getItem('access')}`
@@ -28,10 +29,10 @@ class PartyU extends React.Component {
 
 		Axios.get(url, { headers: head })
 			.then((res) => {
-				console.log(res);
-
 				let current = []
 				let coming = []
+
+				// put nearest party to current party and other is coming party
 				if (res.data.length > 0) {
 					let date = new Date()
 
@@ -50,7 +51,6 @@ class PartyU extends React.Component {
 				})
 			})
 			.catch((err) => {
-				console.log('party err', err)
 			})
 	}
 
@@ -70,13 +70,10 @@ class PartyU extends React.Component {
 				this.setState({
 					invitedParty: []
 				})
-				console.log('invite err', err.response)
 			})
 	}
 
 	deleteQuitParty(partyId) {
-		console.log(partyId);
-
 		const url = `${localStorage.getItem('url')}/party/participate/${partyId}`
 		const head = {
 			Authorization: `Bearer ${localStorage.getItem('access')}`
@@ -84,14 +81,14 @@ class PartyU extends React.Component {
 
 		Axios.delete(url, { headers: head })
 			.then((res) => {
-				this.getMyParty()
+				window.location.reload()
 			})
 			.catch((err) => {
-				console.log('quit err', err.response)
 			})
 	}
 
 	currentParty() {
+		// Check party is valid
 		if (this.state.currentPartyData.length > 0)
 			return (
 				<>
@@ -124,6 +121,7 @@ class PartyU extends React.Component {
 	}
 
 	comingParty() {
+		// Check party is valid
 		if (this.state.comingPartyData.length > 0)
 			return (
 				<>
@@ -160,6 +158,7 @@ class PartyU extends React.Component {
 	}
 
 	invitedParty() {
+		// Check party is valid
 		if (this.state.invitedParty.length > 0)
 			return (
 				<>
@@ -177,7 +176,6 @@ class PartyU extends React.Component {
 										quit={this.deleteQuitParty}
 										inv={true}
 									/>
-									{/* <Invite partyId={this.state.invitedParty[i].party_id} /> */}
 									<div style={{ width: 100, float: 'left', paddingRight: '10px', marginLeft: '20px' }}>
 										Start : {(parseInt(this.state.invitedParty[i].party_detail.start_datetime.slice(11, 13)) + 7) % 24}{this.state.invitedParty[i].party_detail.start_datetime.slice(13, 16)}
 									</div>

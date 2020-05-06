@@ -16,6 +16,7 @@ import PartyList from '../Party/Party'
 import BookingTime from '../Party/BookingTime'
 import OrderTable from '../OrderTable/OrderTable'
 import { Link, Redirect } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 export default class BranchDetail extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ export default class BranchDetail extends React.Component {
             shopData: null,
 
             selectDay: new Date().getDay(),
-            changedDay: false,
+            changedTime: false,
             officeday: [
                 {
                     weekday: 0,
@@ -68,6 +69,7 @@ export default class BranchDetail extends React.Component {
                 },
             ],
         }
+        this.days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
         this.edit = this.edit.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -82,9 +84,11 @@ export default class BranchDetail extends React.Component {
     componentDidUpdate = () => {
         if (this.state.role !== null && this.state.shopData && !this.state.partyData) this.getPartyData()
     }
-    
+
     getShopData = () => {
-        Axios.get(`${localStorage.getItem('url')}/manager/shop/${this.props.match.params.shopId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('access')}` } })
+        const url = `${localStorage.getItem('url')}/manager/shop/${this.props.match.params.shopId}`
+        const head = localStorage.getItem('role') === null ? null : { Authorization: `Bearer ${localStorage.getItem('access')}` }
+        Axios.get(url, { headers: head })
             .then((res) => {
                 this.setState({
                     shopData: res.data
@@ -92,10 +96,13 @@ export default class BranchDetail extends React.Component {
                     let newShopData = { ...this.state.shopData }
                     const officeday = { ...this.state.officeday }
                     const index = this.state.shopData.officeday.findIndex(element => element.weekday === new Date().getDay())
+
+                    // Check shop is open today
                     const time = index === -1
                         ? "We're Closed Today"
                         : `  ${this.ISOtoNormal(this.state.shopData.officeday[index].open_time)} - ${this.ISOtoNormal(this.state.shopData.officeday[index].close_time)}`
 
+                    // get shop office day to state
                     for (let i = 0; i < 7; i++) {
                         let index = this.state.shopData.officeday.findIndex(element => element.weekday === i)
                         if (index !== -1) {
@@ -104,6 +111,7 @@ export default class BranchDetail extends React.Component {
                         }
                     }
 
+                    // change phone format from +66 to 0
                     newShopData.phone_number = this.formatPhoneNumber(newShopData.phone_number);
 
                     this.setState({
@@ -114,21 +122,38 @@ export default class BranchDetail extends React.Component {
                 })
             })
             .catch((err) => {
-                console.log('branch err', err.response);
             })
-
     }
-    
+
+    getPartyData() {
+        const date = new Date()
+        const url = `${localStorage.getItem('url')}/party/list/?date=${new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).toISOString().slice(0, 10)}&shop_id=${this.state.shopData.shop_id}`
+        const head = {
+            Authorization: `Bearer ${localStorage.getItem('access')}`
+        }
+
+        Axios.get(url, { headers: head })
+            .then((res) => {
+                this.setState({ partyData: res.data })
+            })
+            .catch((err) => {
+                this.setState({ partyData: '' })
+            })
+    }
+
     ISOtoNormal = (time) => {
+        // change iso 8901 to normal format
         const newTime = time.slice(11, 19).split(':')
         return (`${(parseInt(newTime[0]) + 7) % 24}:${newTime[1]}`)
     }
 
     NormaltoISO = (time) => {
+        // change normal format to iso 8901 (only hr, min dont care any)
         return `2020-01-01T${time}:00+07:00`
     }
 
     formatPhoneNumber = (phone_number) => {
+        // formatting phone number
         if (phone_number[0] === '+') {
             phone_number = phone_number.slice(3);
             return phone_number.replace(/(\d{2})(\d{3})(\d{4})/, "0$1-$2-$3");
@@ -141,6 +166,7 @@ export default class BranchDetail extends React.Component {
     }
 
     handleChange = (e) => {
+        // change state when enter data
         e.preventDefault();
         const name = e.target.name;
         let value = e.target.value;
@@ -158,43 +184,33 @@ export default class BranchDetail extends React.Component {
         })
     }
 
-    changeDay = (e) => {
-        this.setState({ selectDay: e.value })
-    }
-
-    changeOpenTime = (e) => {
+    changeOpenTime = (...e) => {
+        // e -> [index, value]
         const newOffice = this.state.officeday
-        newOffice/*[this.state.selectDay]*/.open_time = e
+        newOffice[e[0]].open_time = e[1]
 
         this.setState({
-            /*changedDay: true,*/
-            officeay: newOffice
+            changedTime: true,
+            officeday: newOffice
         })
     }
 
     changeCloseTime = (e) => {
+        // e -> [index, value]
         const newOffice = this.state.officeday
-        newOffice/*[this.state.selectDay]*/.close_time = e
+        newOffice[e[0]].close_time = e[1]
 
         this.setState({
-            /*changedDay: true,*/
-            officeDay: newOffice
+            changedTime: true,
+            officeday: newOffice
         })
     }
 
-    postChangeTime = (url, body, header) => {
-        Axios.post(url, body, { headers: header })
-            .then((res) => {
-            })
-            .catch((err) => {
-                console.log('change time err', err.response);
-            })
-    }
-
     edit = () => {
+        // ! after edit shop data
         if (this.state.editable === true) {
             // loop send new time
-            if (this.state.changedDay === true) {
+            if (this.state.changedTime === true) {
                 const url = `${localStorage.getItem('url')}/booking/create/`
                 const header = { Authorization: `Bearer ${localStorage.getItem('access')}` }
                 let body;
@@ -252,27 +268,20 @@ export default class BranchDetail extends React.Component {
                 this.getShopData()
             })
             .catch((err) => {
-                console.log('pathc err', err.response);
             })
     }
 
-    getPartyData() {
-        const date = new Date()
-        const url = `${localStorage.getItem('url')}/party/list/?date=${new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).toISOString().slice(0, 10)}&shop_id=${this.state.shopData.shop_id}`
-        const head = {
-            Authorization: `Bearer ${localStorage.getItem('access')}`
-        }
-
-        Axios.get(url, { headers: head })
+    postChangeTime = (url, body, header) => {
+        Axios.post(url, body, { headers: header })
             .then((res) => {
-                this.setState({ partyData: res.data })
             })
             .catch((err) => {
-                console.log('err', err);
             })
     }
 
     addPic = (...params) => {
+        // params = [type, index, event]
+        // add pic to shop
         const e = params[2];
         e.preventDefault()
 
@@ -296,13 +305,14 @@ export default class BranchDetail extends React.Component {
                 })
             })
             .catch((err) => {
-                console.log(err.response)
             })
 
 
     }
 
-    removePic = (...params) => {    // type, index, event
+    removePic = (...params) => {
+        // params = [type, index, event]
+        // del pic to shop
         const e = params[2];
         e.preventDefault()
 
@@ -318,11 +328,13 @@ export default class BranchDetail extends React.Component {
                 })
             })
             .catch((err) => {
-                console.log('deleted', err.response)
             })
     }
 
     toggleLike() {
+        // dont do anything when dont login
+        if (!localStorage.getItem('role')) return
+
         const url = localStorage.getItem('url')
         const token = localStorage.getItem('access')
         const body = {
@@ -337,7 +349,6 @@ export default class BranchDetail extends React.Component {
                 .then((response) => {
                 })
                 .catch((err) => {
-                    console.log('like post err', err.response);
                 })
         }
         else {
@@ -345,9 +356,18 @@ export default class BranchDetail extends React.Component {
                 .then((response) => {
                 })
                 .catch((err) => {
-                    console.log('like del err', err.response);
                 })
         }
+    }
+
+    loading() {
+        // loading alert
+        Swal.fire({
+            icon: 'info',
+            title: 'Loading',
+            showConfirmButton: false,
+            timer: 700
+        })
     }
 
     render() {
@@ -355,9 +375,7 @@ export default class BranchDetail extends React.Component {
             return <Redirect to={this.state.redirect} />
         }
 
-        const tempPic = 'https://image.freepik.com/free-photo/minimalist-background-with-green-leaves-white_23-2147752433.jpg';
-
-        if (this.state.shopData && this.state.partyData)
+        if (this.state.shopData)
             return (
                 <>
                     <div className="add-rm-container">
@@ -397,8 +415,8 @@ export default class BranchDetail extends React.Component {
                     </div>
 
                     <BranchDetailContainer>
-                        {/********************** Left Column ***********************/}
 
+                        {/********************** Left Column ***********************/}
                         <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginRight: '1%' }}>
 
                             {/* Branch name */}
@@ -410,8 +428,6 @@ export default class BranchDetail extends React.Component {
                                         spellCheck="false"
                                         onChange={this.handleChange} />
                                 </div>
-
-
                                 {
                                     localStorage.getItem('role') !== 'ow' &&
                                     localStorage.getItem('role') !== 'sm' &&
@@ -467,7 +483,8 @@ export default class BranchDetail extends React.Component {
                                         style={{ width: '88.5%', }} />
                                 </div>
 
-                                {   // max seat
+                                {
+                                    // max seat
                                     this.state.editable &&
                                     <div className="form-group form-inline">
                                         <label style={{ marginBottom: 0 }} >Max seat :&nbsp;&nbsp;</label>
@@ -484,169 +501,28 @@ export default class BranchDetail extends React.Component {
                                     // Edit officeday
                                     this.state.editable &&
                                     <>
-                                        {/*
-                                        <div style={{ color: 'black', marginBottom: 20 }}>
-                                            <Select onChange={e => this.changeDay(e)}
-                                                options={[
-                                                    { value: 0, label: 'Monday' },
-                                                    { value: 1, label: 'Tuesday' },
-                                                    { value: 2, label: 'Wednesday' },
-                                                    { value: 3, label: 'Thursday' },
-                                                    { value: 4, label: 'Friday' },
-                                                    { value: 5, label: 'Saturday' },
-                                                    { value: 6, label: 'Sunday' }]} />
-                                            <TimePicker
-                                                disableClock
-                                                locale="sv-sv"
-                                                onChange={this.changeOpenTime}
-                                                value={this.state.officeday[this.state.selectDay].open_time}
-                                            />
-                                        -
-                                        <TimePicker
-                                                disableClock
-                                                locale="sv-sv"
-                                                onChange={this.changeCloseTime}
-                                                value={this.state.officeday[this.state.selectDay].close_time}
-                                            />
-                                        </div>
-                                        */}
-
-                                        <div style={{ fontSize: 18 }}>
-                                            <div>Monday
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> open </label>
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> close </label>
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeOpenTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
-                                                />
-                                                -
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeCloseTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
-                                                />
-                                            </div>
-                                            <div>Tuesday
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> open </label>
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> close </label>
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeOpenTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
-                                                />
-                                                -
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeCloseTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
-                                                />
-                                            </div>
-                                            <div>Wednesday
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> open </label>
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> close </label>
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeOpenTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
-                                                />
-                                                -
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeCloseTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
-                                                />
-                                            </div>
-                                            <div>Thursday
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> open </label>
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> close </label>
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeOpenTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
-                                                />
-                                                -
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeCloseTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
-                                                />
-                                            </div>
-                                            <div>Friday
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> open </label>
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> close </label>
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeOpenTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
-                                                />
-                                                -
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeCloseTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
-                                                />
-                                            </div>
-                                            <div>Saturday
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> open </label>
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> close </label>
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeOpenTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
-                                                />
-                                                -
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeCloseTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
-                                                />
-                                            </div>
-                                            <div>Sunday
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> open </label>
-                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
-                                                <label style={{ marginLeft: 5 }}> close </label>
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeOpenTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
-                                                />
-                                                -
-                                                <TimePicker
-                                                    disableClock
-                                                    locale="sv-sv"
-                                                    onChange={this.changeCloseTime}
-                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
-                                                />
-                                            </div>
-                                        </div>
-
+                                        {
+                                            this.days.map((day, i) => {
+                                                return (
+                                                    <div style={{ color: 'black', marginBottom: 20 }}>
+                                                        <div style={{ color: 'white', display: 'inline-block', width: 110 }}>{day}</div>
+                                                        <TimePicker
+                                                            disableClock
+                                                            locale="sv-sv"
+                                                            onChange={this.changeOpenTime.bind(this, i)}
+                                                            value={this.state.officeday[i].open_time}
+                                                        />
+                                                        <div style={{ color: 'white', display: 'inline' }}> - </div>
+                                                        <TimePicker
+                                                            disableClock
+                                                            locale="sv-sv"
+                                                            onChange={this.changeOpenTime.bind(this, i)}
+                                                            value={this.state.officeday[i].close_time}
+                                                        />
+                                                    </div>
+                                                )
+                                            })
+                                        }
                                     </>
                                 }
                             </div>
@@ -684,20 +560,17 @@ export default class BranchDetail extends React.Component {
                                 shopId={this.state.shopData.shop_id}
                                 disabledBt={this.state.role === 'dk'} // if role === owner or manager -> disable button
                             />
-
                         </div>
 
                         {/*********************** Right Column ***********************/}
-
                         <div className="col" style={{ backgroundColor: 'transparent', width: '49%', marginLeft: '1%' }}>
-
                             {/* Slidshow pic (subPic) */}
                             <div className="add-rm-container">
                                 <Carousel>
                                     {this.state.shopData.picture_sub.map((item, i) => {
                                         return (
                                             <Carousel.Item key={item + i}>
-                                                <img src={item.url === '/black.jpg' ? tempPic : `${localStorage.getItem('url')}${item.url}`}
+                                                <img src={`${localStorage.getItem('url')}${item.url}`}
                                                     className="sub-pic"
                                                     alt="" />
                                                 {
@@ -747,7 +620,7 @@ export default class BranchDetail extends React.Component {
 
                                     return (
                                         <div className="add-rm-container" style={width} key={i}>
-                                            <img src={item.url === '/black.jpg' ? tempPic : `${localStorage.getItem('url')}${item.url}`}
+                                            <img src={`${localStorage.getItem('url')}${item.url}`}
                                                 className="mini-pic"
                                                 alt=""
                                                 style={{ objectFit: 'cover', width: width, height: heigth }} />
@@ -788,25 +661,27 @@ export default class BranchDetail extends React.Component {
                             }
 
                             {/** Current Party in cafe */}
-                            <div className='party-list-container' style={{ maxHeight: 500, marginBottom: 50 }}>
-                                {
-                                    this.state.partyData &&
-                                    this.state.role !== null &&
-                                    this.state.partyData.map((obj, i) => {
-                                        return (<PartyList
-                                            key={i}
-                                            partyData={obj}
-                                            disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
-                                    })
-                                }
-                            </div>
+                            {
+                                this.state.partyData &&
+                                <div className='party-list-container' style={{ maxHeight: 500, marginBottom: 50 }}>
+                                    {
+                                        this.state.partyData &&
+                                        this.state.role !== null &&
+                                        this.state.partyData.map((obj, i) => {
+                                            return (<PartyList
+                                                key={i}
+                                                partyData={obj}
+                                                disabledBt={this.state.role !== 'dk'} />)   //disable button when role is owner or manage
+                                        })
+                                    }
+                                </div>
+                            }
                         </div>
                     </BranchDetailContainer>
                 </>
             )
-
         else
-            return (<></>)
+            return (<>{this.loading()}</>)
     }
 }
 

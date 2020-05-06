@@ -13,7 +13,12 @@ class Result extends Component {
 		}
 	}
 
+	componentDidMount = () => {
+		this.getData()
+	}
+
 	getData = () => {
+		// get search data
 		const key = localStorage.getItem('searchKey')
 		const url = localStorage.getItem('url')
 		const token = localStorage.getItem('access')
@@ -30,19 +35,11 @@ class Result extends Component {
 				this.setState({ shopData: res.data })
 			})
 			.catch((err) => {
-				console.log('search did mount err', err)
 			})
 	}
 
-	componentDidMount = () => {
-		this.getData()
-	}
-
-	componentDidUpdate = () => {
-		if (localStorage.getItem('searchKey')) this.getData()
-	}
-
 	toggleLike = (i) => {
+		// like or unlike shop 
 		const newShopData = { ...this.state.shopData }
 		newShopData[i].is_fav.is_fav = !this.state.shopData[i].is_fav.is_fav
 		this.setState({
@@ -75,14 +72,12 @@ class Result extends Component {
 					.then((response) => {
 					})
 					.catch((err) => {
-						console.log('like del err', err.response);
 					})
 			}
 		})
 	}
 
 	render() {
-		
 		return (
 			<div className="main-container" >
 				<div className="result-container" >
@@ -90,6 +85,7 @@ class Result extends Component {
 						Object.keys(this.state.shopData).map((i) => {
 							return (
 								<div key={i}>
+									{/* Shop IMG */}
 									<div className="left-container" >
 										<img className="imgShop"
 											src={`${localStorage.getItem('url')}${this.state.shopData[i].picture}`}
@@ -97,7 +93,7 @@ class Result extends Component {
 											align="left" />
 									</div>
 
-
+									{/* SHOP DETAIL */}
 									<div className="right-container" >
 										<div style={{ display: "block", width: "315px", float: "left", fontSize: "18px", marginTop: "10px" }}>
 											{this.state.shopData[i].shop_name}
@@ -119,35 +115,15 @@ class Result extends Component {
 										</div>
 										<div className="detailShop"
 											style={{ paddingTop: "20px" }}>
-											{/* open - close:  */}
 										</div>
 										<div className="detailShop" > location: {this.state.shopData[i].address} </div>
-										{/* < div className = "detailShop" > type: { this.state.shopData[i].type } </div > */}
 										<div className="detailShop" > contact: {this.state.shopData[i].phone_number.replace('+66', 0)} </div>
 										<Link
-											to={{
-												pathname: `/shop/${this.state.shopData[i].shop_id}`,
-											}}>
+											to={{ pathname: `/shop/${this.state.shopData[i].shop_id}`, }}>
 											<div className="learnBox"> LEARN MORE </div>
 										</Link>
-
-										{
-											// <BookingTime sm={true} />
-											// <div style={
-											// 	{ maxHeight: '240px', overflow: 'auto' }} > {
-											// 		Object.keys(partyData).map((i) => {
-											// 			return (< PartyList partyData={partyData[i]}
-											// 				key={i}
-											// 				sm={true}
-											// 			/>)
-											// 		})}
-											// </div> 
-										}
-
 									</div>
-									<hr className="hrcss"
-										style={{ height: "280px" }}
-									/>
+									<hr className="hrcss" style={{ height: "280px" }} />
 								</div >
 							)
 						})

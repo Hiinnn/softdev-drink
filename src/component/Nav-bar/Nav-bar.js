@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './Nav-bar.css';
-import { Link, Redirect } from 'react-router-dom';
 import Axios from 'axios';
+import { Link, Redirect } from 'react-router-dom';
+
+import './Nav-bar.css';
 
 // class navBar extends React {
 class Navbar extends Component {
@@ -18,22 +19,21 @@ class Navbar extends Component {
     }
 
     componentDidMount = () => {
+        // if logged in before -> re login
         if (localStorage.getItem('access') !== null) {
             this.loggedIn();
         }
     }
 
     componentDidUpdate = () => {
+        // refresh navbar when login 
         if (this.props.auth && this.state.profile === null && this.state.shopId === null) {
             this.loggedIn();
         }
+        // refresh navbar when logout
         else if (!this.props.auth && this.state.profile !== null) {
             this.loggedOut();
         }
-    }
-
-    setSearchType = (e) => {
-        this.setState({ searchType: e.target.value })
     }
 
     search = () => {
@@ -46,12 +46,17 @@ class Navbar extends Component {
             searchKey: '',
         })
 
+        // redirect to search path
         this.render = () => {
-            return <>{this.navComponent()}<Redirect to={{ pathname: redirect, state: { key: key } }} /></>
+            return <>
+                {this.navComponent()}
+                <Redirect to={{ pathname: redirect, state: { key: key } }} />
+            </>
         }
     }
 
     handleChange = (e) => {
+        // change state when search
         this.setState({ searchKey: e.target.value })
     }
 
@@ -60,6 +65,7 @@ class Navbar extends Component {
         const token = localStorage.getItem('access');
         const role = localStorage.getItem('role');
 
+        // set home page for each role
         switch (role) {
             case 'dk':
                 Axios.get(`${url}/user/profile/my_profile/`, {
@@ -109,11 +115,16 @@ class Navbar extends Component {
     navComponent = () => {
         return (
             <div className="nav-bar-container">
+
+                {/* Home Logo */}
                 <Link to={this.state.home}>
                     <div className="drink-logo"> DRINK </div>
                 </Link>
+
+                {/* Login */}
                 {!this.props.auth && <Link to="/login"><div className="nav-bar-button" style={{ paddingRight: 20 }}> Login </div></Link>}
 
+                {/* Logout */}
                 {
                     this.props.auth &&
                     <div className="nav-bar-button"
@@ -123,9 +134,17 @@ class Navbar extends Component {
                                 shopId: null,
                                 profile: null
                             });
+                            this.render = () => {
+                                return  <>
+                                            {this.navComponent()}
+                                            <Redirect to='/' />
+                                        </>
+                                }
                         }}
                         style={{ paddingRight: 20 }}> Logout </div>
                 }
+
+                {/* Redirect to Profile (drinker) */}
                 {
                     this.props.auth &&
                     localStorage.getItem('role') === 'dk' &&
@@ -134,6 +153,7 @@ class Navbar extends Component {
                     </Link>
                 }
 
+                {/* Searchbox (drinker) */}
                 {
                     localStorage.getItem('role') !== 'ow' &&
                     localStorage.getItem('role') !== 'sm' &&

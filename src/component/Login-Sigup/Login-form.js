@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form, Col, Row, Button } from 'react-bootstrap';
 import './Login-form.css';
-import { Link, Redirect } from 'react-router-dom';
 import Axios from 'axios';
+import { Link, Redirect } from 'react-router-dom';
+import { Form, Col, Row, Button, Modal } from 'react-bootstrap';
 
+// validate username and password
 const validateForm = ({ error, ...rest }) => {
     let valid = true;
 
@@ -25,20 +26,23 @@ export default class LoginForm extends React.Component {
             error: {
                 username: '',
                 password: '',
+            },
+            modal: {
+                show: false,
+                head: '',
+                body: '',
+                func: '',
+                button: '',
             }
         }
 
         this.submit = this.submit.bind(this)
+        this.toggleModal = this.toggleModal.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
-    componentDidMount = () => {
-        if (localStorage.getItem('access') !== null) {
-            this.setState({ redirect: '/' })
-        }
-    }
-
     handleChange(e) {
+        // change state of username and password
         const name = e.target.name;
         const value = e.target.value;
         const formError = { ...this.state.error }
@@ -64,21 +68,34 @@ export default class LoginForm extends React.Component {
         });
     }
 
+    toggleModal() {
+        // toggle on-off modal
+        const modal = this.state.modal
+
+        modal.show = !modal.show
+        this.setState({
+            modal: modal
+        })
+    }
+
     submit(event) {
         event.preventDefault();
 
+        // ! change raw data to form data
         const login = new FormData()
-
         login.append('username', this.state.username);
         login.append('password', this.state.password);
 
+        // Check form is valid
         if (validateForm(this.state)) {
             Axios.post(`${localStorage.getItem('url')}/login/token/`, login)
                 .then((res) => {
+                    // * store token in localStorage
                     localStorage.setItem('access', res.data.access);
                     localStorage.setItem('refresh', res.data.refresh);
                     localStorage.setItem('role', res.data.role);
 
+                    // set path to redirct for each role
                     if (res.data.role === 'dk') {
                         this.setState({
                             redirect: "/"
@@ -98,37 +115,73 @@ export default class LoginForm extends React.Component {
                             redirect: `/owner`
                         })
                     }
+
+                    // change App.js state to authenticated
                     this.props.auth();
                 })
                 .catch((error) => {
-
+                    // error when loggedin
+                    this.setState({
+                        modal: {
+                            show: true,
+                            head: 'Error',
+                            body: 'Your username or password are invalid.',
+                            func: this.toggleModal,
+                            button: 'danger'
+                        }
+                    })
                 })
         }
         else {
-            console.log('fuckr');
+            // toggle error modal
+            this.setState({
+                modal: {
+                    show: true,
+                    head: 'Error',
+                    body: 'Your username or password are invalid.',
+                    func: this.toggleModal,
+                    button: 'danger'
+                }
+            })
         }
     }
 
     render() {
-        let xMid = {        // arrange item middle in x axis
+        // arrange item middle in x axis
+        let xMid = {
             display: 'flex',
             justifyContent: 'center'
         }
 
+        // redirect
         if (this.state.redirect) {
             return (<Redirect to={this.state.redirect} />)
         }
 
         return (
             <div className="login-form-container">
+                {/* Modal */}
+                <Modal show={this.state.modal.show}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{this.state.modal.head}</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>{this.state.modal.body}</Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant={this.state.modal.button} onClick={this.state.modal.func}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+
                 <Form className="login-form-wrapper" onSubmit={this.submit}>
                     <h2 style={xMid}>DRINK</h2>
+
+                    {/* Username */}
                     <Form.Group as={Row} controlId="formUsername">
                         <Form.Label column sm="3">
                             Username
                         </Form.Label>
                         <Col>
-
                             <Form.Control
                                 type="text"
                                 name="username"
@@ -136,12 +189,12 @@ export default class LoginForm extends React.Component {
                                 value={this.state.username}
                                 isInvalid={this.state.error.username}
                             />
-
                             <Form.Control.Feedback type="valid">{this.state.error.username}</Form.Control.Feedback>
                             <Form.Control.Feedback type="invalid">{this.state.error.username}</Form.Control.Feedback>
                         </Col>
                     </Form.Group>
 
+                    {/* Password */}
                     <Form.Group as={Row} controlId="formPassword">
                         <Form.Label column sm="3">
                             Password
@@ -159,14 +212,18 @@ export default class LoginForm extends React.Component {
                         </Col>
                     </Form.Group>
 
+                    {/* Link to reset password */}
                     <Link to="/reset" style={{ display: 'inline', float: 'right' }}>Forgot your password ?</Link>
                     <br />
                     <br />
 
+                    {/* Login */}
                     <Button size="lg" type="submit" style={{ position: 'relative', left: '50%', transform: 'translateX(-50%)', width: '100%' }} >Login</Button>
                     <br />
                     <br />
                     <br />
+
+                    {/* Link to signup */}
                     <div style={xMid}>
                         <div style={{ display: 'inline' }}>Don't have an account?&nbsp;</div>
                         <Link to="/signup" style={{ display: 'inline' }}>Create Account</Link>

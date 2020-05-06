@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Invite from '../Invite/Invite';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import { NotifyAlert } from '../SweetAlert';
 
 export default class PartyList extends React.Component {
     constructor(props) {
@@ -24,11 +25,9 @@ export default class PartyList extends React.Component {
 
         Axios.post(url, body, { headers: head })
             .then((res) => {
-                console.log('joined');
-
+                NotifyAlert(() => { window.location.reload() }, 'เข้าร่วมปาร์ตี้สำเร็จ', '', 'success', false)
             })
             .catch((err) => {
-                console.log(err.response);
             })
     }
 
@@ -43,11 +42,9 @@ export default class PartyList extends React.Component {
 
         Axios.post(url, body, { headers: head })
             .then((res) => {
-                console.log('joined');
-
+                NotifyAlert(() => { window.location.reload() }, 'เข้าร่วมปาร์ตี้สำเร็จ', '', 'success', false)
             })
             .catch((err) => {
-                console.log(err.response);
             })
     }
 
@@ -59,21 +56,20 @@ export default class PartyList extends React.Component {
 
         Axios.delete(url, { headers: head })
             .then((res) => {
-                console.log('decline');
+                NotifyAlert(() => { window.location.reload() }, 'ยกเลิกคำเชิญสำเร็จ', '', 'success', false)
             })
             .catch((err) => {
-                console.log(err.response);
             })
     }
 
     render() {
         let sm = this.props.sm === true ? '-sm' : '';
-        console.log('partyyyyyyyyy', this.props.partyData);
 
         if (this.props.partyData)
             return (
                 <Party >
                     {
+                        // ! Partyname
                         this.props.partyUser
                             ? this.props.inv
                                 ? <div className={sm} style={{ float: 'left', width: '260px', fontSize: '20px', textAlign: 'left' }} > {this.props.partyData.party_detail.party_name} </div>
@@ -83,6 +79,7 @@ export default class PartyList extends React.Component {
 
 
                     {
+                        // ! Profile img
                         !this.props.inv &&
                         <div className={"profile-pic-container" + sm} >
                             {
@@ -99,6 +96,7 @@ export default class PartyList extends React.Component {
 
 
                     {
+                        // ! Accept-Decline bt when user was invited
                         this.props.inv &&
                         <>
                             <div className={"join-bt" + sm} onClick={this.postAcceptInvite}> ACCEPT </div>
@@ -107,11 +105,13 @@ export default class PartyList extends React.Component {
                     }
 
                     {
+                        // ! Quit party
                         this.props.partyUser && !this.props.inv && !this.props.current &&
                         <div className={"join-bt" + sm} onClick={() => this.props.quit(this.props.partyData.id)} > QUIT </div>
                     }
 
                     {
+                        // ! Button gropp for current party
                         this.props.partyUser && !this.props.inv && this.props.current &&
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <div className={"join-bt" + sm} onClick={() => this.props.quit(this.props.partyData.id)} > QUIT </div>
@@ -129,6 +129,7 @@ export default class PartyList extends React.Component {
                     }
 
                     {
+                        // ! Join button
                         !this.props.partyUser && !this.props.inv &&
                         <div className={`join-bt${sm}${(this.props.disabledBt === true || !this.props.partyData.is_join === true) ? " disabled-bt" : ""}`} onClick={this.postJoin} > Join </div>
                     }

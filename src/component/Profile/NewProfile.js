@@ -1,13 +1,13 @@
 import React from 'react'
 
-import './Myfav.css';
-import './Profile.css';
-import './Password.css';
+// import './Myfav.css'
+// import './Profile.css'
+// import './Password.css'
+import './NewProfile.css'
 
-import userData from '../../data/NEW/Drinker';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import userData from '../../data/NEW/Drinker';
 import { NotifyAlert } from '../../component/SweetAlert';
 
 export default class UserProfile extends React.Component {
@@ -34,6 +34,7 @@ export default class UserProfile extends React.Component {
                 new_password: '',
                 new_password_confirm: '',
             },
+            fav: false,
             editableData: false,
             editablePassword: false,
         };
@@ -49,7 +50,14 @@ export default class UserProfile extends React.Component {
         this.getUserFav()
     }
 
+    componentDidUpdate() {
+        // Reload data
+        if (!this.state.userData) this.getUserData()
+        if (!this.state.shopArray) this.getUserFav()
+    }
+
     getUserData() {
+        // get user data
         const url = `${localStorage.getItem('url')}/user/profile/my_profile/`
         const head = {
             Authorization: `Bearer ${localStorage.getItem('access')}`
@@ -57,6 +65,7 @@ export default class UserProfile extends React.Component {
 
         Axios.get(url, { headers: head })
             .then((res) => {
+                // change format of birth mount and phone number
                 let newData = res.data;
                 newData.birth_date = newData.birth_date.slice(0, 7);
                 newData.phone_number = newData.phone_number.replace('+66', 0)
@@ -65,11 +74,11 @@ export default class UserProfile extends React.Component {
                 })
             })
             .catch((err) => {
-                console.log('prof', err.response);
             })
     }
 
     getUserFav() {
+        // get user fav shop
         const url = `${localStorage.getItem('url')}/user/profile/favorite_shop/`
         const head = {
             Authorization: `Bearer ${localStorage.getItem('access')}`
@@ -77,17 +86,16 @@ export default class UserProfile extends React.Component {
 
         Axios.get(url, { headers: head })
             .then((res) => {
-                let newData = res.data;
                 this.setState({
-                    shopArray: newData
+                    shopArray: res.data
                 })
             })
             .catch((err) => {
-                console.log('fav err', err.response);
             })
     }
 
     handleDataChange = (e) => {
+        // * change state when user edit profile
         const name = e.target.name;
         const value = e.target.value;
         const newData = { ...this.state.userData };
@@ -100,7 +108,9 @@ export default class UserProfile extends React.Component {
     }
 
     editData = () => {
+        // * user press edit button
         if (this.state.editableData === true) {
+            // * patch request user profile
             const data = {
                 new_first_name: this.state.userData.first_name,
                 new_email: this.state.userData.email,
@@ -110,13 +120,14 @@ export default class UserProfile extends React.Component {
             this.patchChangeProfile(data)
         }
 
+        // toggle form
         this.setState(() => {
             return { editableData: !this.state.editableData }
         })
-
     }
 
     handlePasswordChange = (e) => {
+        // * change state when enter pw form 
         const name = e.target.name;
         const value = e.target.value;
         const newPassword = { ...this.state.passwordChange };
@@ -129,12 +140,14 @@ export default class UserProfile extends React.Component {
     }
 
     editPassword = () => {
+        // * user press change pw button
         if (this.state.editablePassword === true) {
             const data = {
                 old_password: this.state.passwordChange.old_password,
                 new_password: this.state.passwordChange.new_password,
                 new_password_confirm: this.state.passwordChange.new_password_confirm,
             }
+            // patch pw user profile
             this.patchChangeProfile(data)
         }
 
@@ -150,6 +163,7 @@ export default class UserProfile extends React.Component {
             Authorization: `Bearer ${localStorage.getItem('access')}`
         }
 
+        // alert when finish or fail
         Axios.patch(url, body, { headers: head })
             .then((res) => {
                 NotifyAlert(() => { }, 'สำเร็จ!', 'ข้อมูลโปรไฟล์ถูกอัพเดตแล้ว', 'success');
@@ -166,45 +180,34 @@ export default class UserProfile extends React.Component {
         }
 
         Axios.delete(url, { headers: head })
-            .then((res) => { 
+            .then((res) => {
+                NotifyAlert(() => { window.location.reload() }, 'สำเร็จ!', 'ลบร้านโปรดสำเร็จ', 'success');
             })
             .catch((err) => {
-                // console.log('del fav', err.response);
                 NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
 
     patchChangePic(e) {
+        // * upload new picture
         const picture = new FormData()
         const url = `${localStorage.getItem('url')}/user/profile/my_profile/`
         const head = {
             Authorization: `Bearer ${localStorage.getItem('access')}`
         }
-        
         picture.append('new_picture', e.target.files[0])
 
-        console.log(e.target.files[0]);
-        
-        Object.keys(picture).map((keys)=>{
-            console.log(keys);
-            
-        })
-        
         NotifyAlert(() => { }, 'กำลังดำเนินการ', 'กำลังอัพเดตรูปโปรไฟล์ กรุณารอสักครู่', 'info', false);
 
         Axios.patch(url, picture, { headers: head })
             .then((res) => {
                 console.log(res);
-                // window.location.reload(false);
-                setTimeout(()=> {
+                setTimeout(() => {
                     window.location.reload();
                 }, 2000)
-
                 NotifyAlert(() => { }, 'สำเร็จ!', 'รูปโปรไฟล์ถูกอัพเดตแล้ว โปรดรีเฟรชหน้าเว็บของท่าน', 'success');
-
             })
             .catch((err) => {
-                // console.log('change err', err.response); 
                 NotifyAlert(() => { }, 'ล้มเหลว!', 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
             })
     }
@@ -213,9 +216,10 @@ export default class UserProfile extends React.Component {
         return (
             <>
                 <div className="picandpro-container">
+                    {/* Profile picture */}
                     <div className="profile-pic-container">
                         <label style={{ display: 'block', left: '50%', position: 'relative', transform: 'translateX(-50%)', marginBottom: 10 }}>
-                            <img className="profile-pic" src={ `${localStorage.getItem('url')}${this.state.userData.picture}`} width="200" height="200" align="left" alt=""></img>
+                            <img className="profile-pic" src={`${localStorage.getItem('url')}${this.state.userData.picture}`} width="200" height="200" align="left" alt=""></img>
                         </label>
                         <input type='file'
                             style={{
@@ -229,6 +233,7 @@ export default class UserProfile extends React.Component {
                             onChange={this.patchChangePic.bind(this)} />
                     </div>
 
+                    {/* Profile edit data form */}
                     <div className="profile-container">
                         <div>
                             <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
@@ -261,6 +266,7 @@ export default class UserProfile extends React.Component {
                         <br /><br /><br />
                     </div>
 
+                    {/* Profile edit pw form */}
                     <div className="password-container">
                         <label className="textheader" style={{ marginLeft: 20 }}> Password Reset </label>
                         <br /><br />
@@ -296,8 +302,8 @@ export default class UserProfile extends React.Component {
                     </div>
                 </div>
 
+                {/* USer fav shop */}
                 <div className="myfav-main-container" >
-
                     <div className="myfav-container" >
                         <h5 style={{ marginBottom: "10px" }}> My favourite </h5> {
                             Object.keys(this.state.shopArray).map((i) => {

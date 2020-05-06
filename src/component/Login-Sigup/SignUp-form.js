@@ -1,20 +1,20 @@
 import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button, Modal } from 'react-bootstrap';
 
 import './SignUp-form.css';
-import CreateModal from '../Modal/Modal';
 
-const usernameRegex = RegExp(/[a-zA-Z0-9]/)              // contain at least 1 uppercase and 1 lowercase
-const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number
+const usernameRegex = RegExp(/[a-zA-Z0-9]/)                                     // contain only eng. letter and number
+const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number and longer than 8 letter
 const nameRegex = RegExp(/^[a-zA-Z]+$/)                                         // contain name and surname (only english letter)
-const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)      // Email format -----@-----.---
-const phoneRegex = RegExp(/^[0-9]{8,}$/)                                           // Phone number contain only number
+const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)        // Email format -----@-----.---
+const phoneRegex = RegExp(/^[0-9]{10,}$/)                                       // Phone number contain only number and longer than 10
 
+
+// Validate all form before send request
 const validateForm = ({ error, form }) => {
     let valid = true;
-
     // validate form errors being empty
     Object.values(error).forEach(val => {
         val !== null && val.length !== 0 && (valid = false);
@@ -30,17 +30,6 @@ const validateForm = ({ error, form }) => {
 export default class SignUp extends React.Component {
     constructor(props) {
         super(props)
-
-        this.form = {
-            username: ['Username', 'text'],
-            password: ['Password', 'password'],
-            password_confirm: ['Confirm Password', 'password'],
-            first_name: ['Name Surname', 'text'],
-            birth_date: ['Birth Month', 'month'],
-            email: ['Email', 'email',],
-            phone_number: ['Phone', 'text', '[0-9]{8,}'],
-        }
-
         this.state = {
             form: {
                 email: '',
@@ -53,17 +42,6 @@ export default class SignUp extends React.Component {
                 birth_date: '',
                 phone_number: '',
                 address: 'nothing'
-
-                // email: 'aaa@hotmail.com',
-                // first_name: 'hin',
-                // last_name: 'hinn',
-                // username: 'hinnnnn',
-                // password: '181113Hk',
-                // password_confirm: '181113Hk',
-                // nickname: 'hinna',
-                // birth_date: '2020-01-01',
-                // phone_number: '+66944932354',
-                // address: 'mai bok'
             },
             error: {
                 username: '',
@@ -80,13 +58,23 @@ export default class SignUp extends React.Component {
                 head: '',
                 body: '',
                 button: '',
-                showModal: false,
-                toggle: this.toggleModal,
-                redirect: this.toggleModal,
+                show: false,
+                func: null,
             },
             role: 'dk',
             check: false,
             redirect: '',
+        }
+
+        // form for map to component
+        this.form = {
+            username: ['Username', 'text'],
+            password: ['Password', 'password'],
+            password_confirm: ['Confirm Password', 'password'],
+            first_name: ['Name Surname', 'text'],
+            birth_date: ['Birth Month', 'month'],
+            email: ['Email', 'email',],
+            phone_number: ['Phone', 'text', '[0-9]{10,}'],
         }
 
         this.submit = this.submit.bind(this)
@@ -99,12 +87,15 @@ export default class SignUp extends React.Component {
     }
 
     handleChange(e) {
+        // change state when input to form
+
         e.preventDefault();
         const name = e.target.name;
         let value = e.target.value;
         const newForm = { ...this.state.form }
         const formError = { ...this.state.error }
 
+        // change value of form and check format by regular expression
         switch (name) {
             case "username":
                 formError[name] =
@@ -167,7 +158,6 @@ export default class SignUp extends React.Component {
         }
 
         newForm[name] = value;
-
         this.setState({
             form: newForm,
             error: formError
@@ -175,26 +165,28 @@ export default class SignUp extends React.Component {
     }
 
     handleCheck(e) {
+        // change state when agree or disagree with term & cond.
         this.setState({
             check: e.target.checked
         });
     }
 
     handleSelect(e) {
+        // change state when select role of account
         this.setState({
             role: e.target.value
         })
     }
 
-    setModal(head, body, button, toggle, redirect) {
+    setModal(head, body, button, func) {
+        // function for set modal popup text and style
         let newModal = { ...this.state.modal }
 
         newModal.head = head
         newModal.body = body
         newModal.button = button
-        newModal.showModal = true
-        newModal.toggle = toggle
-        newModal.redirect = redirect
+        newModal.show = true
+        newModal.func = func
 
         this.setState({
             modal: newModal
@@ -202,78 +194,106 @@ export default class SignUp extends React.Component {
     }
 
     toggleModal() {
+        // function for show or hide modal popup
         let newModal = { ...this.state.modal }
 
-        newModal.showModal = !this.state.modal.showModal
+        newModal.show = !this.state.modal.show
         this.setState({
             modal: newModal
         })
     }
 
     redirect() {
+        // redirect to other page
         this.setState({ redirect: '/login' })
     }
 
     submit(event) {
+        // * submit form
         event.preventDefault();
-        if (validateForm(this.state) && this.state.check) {     /* Form is valid */
+        // * validate that form is valid and agree with term and cond.
+        if (validateForm(this.state) && this.state.check) {
             const url = localStorage.getItem('url');
-            const sentForm = new FormData();                    // change raw data to formData
+
+            // change raw data to formData
+            const sentForm = new FormData();
             const path = this.state.role === 'dk' ? '/user/profile/' : this.state.role === 'ow' ? '/owner/profile/' : '9999';
             const newForm = this.state.form
             newForm.phone_number = newForm.phone_number.replace(/^0/, '+66');
-
-
             for (let value of Object.entries(newForm)) {
                 sentForm.append(value[0], value[1]);
             }
 
+            // send request
             Axios.post(`${url + path}`, sentForm)
                 .then((res) => {
-                    this.setModal('Sign up success', 'You re going to Login page', 'success', this.toggleModal, this.redirect)
+                    // set modal popup to interact with user
+                    this.setModal('Sign up success', 'You re going to Login page', 'success', this.redirect)
                 })
                 .catch((err) => {
-                    this.setModal('Error', Object.values(err.response.data), 'danger', this.toggleModal, this.toggleModal)
+                    // set modal popup to interact with user
+                    this.setModal('Error', Object.values(err.response.data), 'danger', this.toggleModal)
                 })
         }
-        else if (!this.state.check) {                            /* User dont agree with term and policy */
-            console.log('dont check');
-            this.setModal('Error', 'Please read Term of Service and Privacy Notice.', 'danger', this.toggleModal, this.toggleModal)
+        // ! User dont agree with term and cond.
+        else if (!this.state.check) {
+            // set modal popup to interact with user
+            this.setModal('Error', 'Please read Term of Service and Privacy Notice.', 'danger', this.toggleModal)
         }
-        else {                                                  /* etc. error */
+        // ! smth in form is error.
+        else {
+            let getError = false;
             for (let key of Object.entries(this.state.error)) {
                 if (key[1].length > 0) {
-                    this.setModal('Error', key[1], 'danger', this.toggleModal, this.toggleModal)
+                    getError = true
+                    this.setModal('Error', key[1], 'danger', this.toggleModal)
                     break;
                 }
             }
-            console.log('taek');
+            if(!getError){
+                this.setModal('Error', 'Form can\'t be empty.', 'danger', this.toggleModal)
+            }
         }
     }
 
+    showModal() {
+        return (
+            <Modal show={this.state.modal.show}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{this.state.modal.head}</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>{this.state.modal.body}</Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant={this.state.modal.button} onClick={this.state.modal.func}>Close</Button>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+
     render() {
+        // redirect
         if (this.state.redirect) {
             return (<Redirect to={this.state.redirect} />)
         }
 
-        let xMid = {
+        // style for set component at middle in horizontal
+        const xMid = {
             left: '50%',
             position: 'relative',
             transform: 'translateX(-50%)'
         }
 
-        let term = <a href="eiei">Term of Service</a>
-        let condition = <a href="eiei">Privacy Notice</a>
+        // term and condition of web
+        const term = <a href="">Term of Service</a>
+        const condition = <a href="">Privacy Notice</a>
 
         return (
             <div className="sign-up-form-container">
 
-                <CreateModal show={this.state.modal.showModal}
-                    head={this.state.modal.head}
-                    body={this.state.modal.body}
-                    button={this.state.modal.button}
-                    toggle={this.state.modal.toggle}
-                    redirect={this.state.modal.redirect} />
+                {/* Modal (Popup when user interact with signup page) */}
+                {this.showModal()}
 
                 <Form className="sign-up-wrapper" onSubmit={this.submit}>
                     <h3>Sign-up</h3>
@@ -318,7 +338,6 @@ export default class SignUp extends React.Component {
                             </div>
                         </Col>
                     </Form.Group>
-
 
                     {/* Checkbox term and condition */}
                     <Form.Group>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import { NotifyAlert } from '../SweetAlert'
 
 
 class Invite extends React.Component {
@@ -11,6 +12,7 @@ class Invite extends React.Component {
 	}
 
 	handleChange(event) {
+		// set state when enter username
 		this.setState({ value: event.target.value });
 	}
 
@@ -20,8 +22,6 @@ class Invite extends React.Component {
 	}
 
 	postInvite() {
-		console.log(this.props.partyId);
-		
 		const url = `${localStorage.getItem('url')}/party/invitation/`
 		const data = {
 			username: this.state.value,
@@ -33,10 +33,10 @@ class Invite extends React.Component {
 
 		Axios.post(url, data, { headers: head })
 			.then((res) => {
-				console.log(res);
+				NotifyAlert(() => { }, 'เชิญสำเร็จ', '', 'success', false)
 			})
 			.catch((err) => {
-				console.log('party err', err.response)
+				NotifyAlert(() => { }, 'ล้มเหลว', 'ไม่สามารถเชิญผู้ใช้ได้', 'error', false)
 			})
 	}
 
