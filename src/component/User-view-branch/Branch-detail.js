@@ -82,7 +82,7 @@ export default class BranchDetail extends React.Component {
     componentDidUpdate = () => {
         if (this.state.role !== null && this.state.shopData && !this.state.partyData) this.getPartyData()
     }
-
+    
     getShopData = () => {
         Axios.get(`${localStorage.getItem('url')}/manager/shop/${this.props.match.params.shopId}`, { headers: { Authorization: `Bearer ${localStorage.getItem('access')}` } })
             .then((res) => {
@@ -118,7 +118,7 @@ export default class BranchDetail extends React.Component {
             })
 
     }
-
+    
     ISOtoNormal = (time) => {
         const newTime = time.slice(11, 19).split(':')
         return (`${(parseInt(newTime[0]) + 7) % 24}:${newTime[1]}`)
@@ -164,20 +164,20 @@ export default class BranchDetail extends React.Component {
 
     changeOpenTime = (e) => {
         const newOffice = this.state.officeday
-        newOffice[this.state.selectDay].open_time = e
+        newOffice/*[this.state.selectDay]*/.open_time = e
 
         this.setState({
-            changedDay: true,
+            /*changedDay: true,*/
             officeay: newOffice
         })
     }
 
     changeCloseTime = (e) => {
         const newOffice = this.state.officeday
-        newOffice[this.state.selectDay].close_time = e
+        newOffice/*[this.state.selectDay]*/.close_time = e
 
         this.setState({
-            changedDay: true,
+            /*changedDay: true,*/
             officeDay: newOffice
         })
     }
@@ -486,6 +486,7 @@ export default class BranchDetail extends React.Component {
                                     // Edit officeday
                                     this.state.editable &&
                                     <>
+                                        {/*
                                         <div style={{ color: 'black', marginBottom: 20 }}>
                                             <Select onChange={e => this.changeDay(e)}
                                                 options={[
@@ -510,6 +511,144 @@ export default class BranchDetail extends React.Component {
                                                 value={this.state.officeday[this.state.selectDay].close_time}
                                             />
                                         </div>
+                                        */}
+
+                                        <div style={{ fontSize: 18 }}>
+                                            <div>Monday
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> open </label>
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> close </label>
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeOpenTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
+                                                />
+                                                -
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeCloseTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
+                                                />
+                                            </div>
+                                            <div>Tuesday
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> open </label>
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> close </label>
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeOpenTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
+                                                />
+                                                -
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeCloseTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
+                                                />
+                                            </div>
+                                            <div>Wednesday
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> open </label>
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> close </label>
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeOpenTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
+                                                />
+                                                -
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeCloseTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
+                                                />
+                                            </div>
+                                            <div>Thursday
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> open </label>
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> close </label>
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeOpenTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
+                                                />
+                                                -
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeCloseTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
+                                                />
+                                            </div>
+                                            <div>Friday
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> open </label>
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> close </label>
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeOpenTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
+                                                />
+                                                -
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeCloseTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
+                                                />
+                                            </div>
+                                            <div>Saturday
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> open </label>
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> close </label>
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeOpenTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
+                                                />
+                                                -
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeCloseTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
+                                                />
+                                            </div>
+                                            <div>Sunday
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> open </label>
+                                                <input type="radio" name="o-c" style={{ marginLeft: 10 }}></input>
+                                                <label style={{ marginLeft: 5 }}> close </label>
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeOpenTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.open_time}
+                                                />
+                                                -
+                                                <TimePicker
+                                                    disableClock
+                                                    locale="sv-sv"
+                                                    onChange={this.changeCloseTime}
+                                                    value={this.state.officeday/*[this.state.selectDay]*/.close_time}
+                                                />
+                                            </div>
+                                        </div>
+
                                     </>
                                 }
                             </div>
@@ -651,7 +790,7 @@ export default class BranchDetail extends React.Component {
                             }
 
                             {/** Current Party in cafe */}
-                            <div className='party-list-container' style={{maxHeight: 500, marginBottom: 50}}>
+                            <div className='party-list-container' style={{ maxHeight: 500, marginBottom: 50 }}>
                                 {
                                     this.state.partyData &&
                                     this.state.role !== null &&
@@ -679,11 +818,9 @@ const BranchDetailContainer = styled.div`
                 display: flex;
                 padding: 0px;
                 margin-top: 20px;
-
                 position: relative;
                 left: 50%;
                 transform: translateX(-50%);
-
                 .col {
                     padding: 0px;
                     display: flex;
@@ -693,9 +830,7 @@ const BranchDetailContainer = styled.div`
                 .name-wrapper {
                     width: 100%;
                     height: 100px;
-
                     display: flex;
-
                     font-size: 30px;
                     padding-left: 5px;
                     
@@ -703,7 +838,6 @@ const BranchDetailContainer = styled.div`
                     border: #7a7a7a solid;
                     border-width: 0px 0px 1px 0px;
                 }
-
                 .branch-name {
                     width: 410px;
                     margin-right: 20px;
@@ -714,24 +848,19 @@ const BranchDetailContainer = styled.div`
                     flex-direction: column;
                     justify-content: center;
                 }
-
                 .fav-wrapper {
                     width: 50px;
                     height: 50px;
                     border-radius: 100%;
-
                     display: flex;
                     align-items:center;
                     flex-direction: column;
                     justify-content: center;
-
                     position: relative;
                     top: 50%;
                     transform: translateY(-50%);
-
                     background-color: white;
                 }
-
                 .description {
                     width: 100%;
                     overflow: auto;
@@ -742,7 +871,6 @@ const BranchDetailContainer = styled.div`
                     text-align: center;
                     flex-direction: column;
                     justify-content: flex-start;
-
                     font-size: 20px;
                     padding-top: 10px;
                     padding-left: 5px;
@@ -752,16 +880,13 @@ const BranchDetailContainer = styled.div`
                     border-width: 0px 0px 1px 0px;
                     transition:  cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s;
                 }
-
                 .details {
                     width: 100%;
                     height: auto;
                     min-height: 150px;
-
                     display: flex;
                     flex-direction:column;
                     justify-content: center;
-
                     font-size: 20px;
                     padding-top: 20px;
                     padding-left: 5px;
@@ -772,13 +897,11 @@ const BranchDetailContainer = styled.div`
                     border: #7a7a7a solid;
                     border-width: 0px 0px 1px 0px;
                 }
-
                 .branch-name input,
                 .description textarea,
                 .details div input {
                     transition:  cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s;
                 }
-
                 .sub-pic {
                     width: 100%;
                     height: 300px;
@@ -786,47 +909,38 @@ const BranchDetailContainer = styled.div`
                     display: flex;
                     object-fit: cover
                 }
-
                 .mini-pic-wrapper {
                     width: 100%;
                     margin-top: 20px;
                     padding-bottom: 20px;
-
                     display: flex;
                     justify-content:center;
                     flex-wrap: wrap;
                     flex-direction: row;
-
                     border: #7a7a7a solid;
                     border-width: 0px 0px 1px 0px;
                 }
-
                 .mini-pic {
                     width: 100%;
                     padding: 2px;
-
 	                background-size: cover;
 	                background-repeat: no-repeat;
                 }
-
                 .edit-bt {
                     width: 80px;
                     height: 30px;
                     margin-bottom: 20px;
-
                     display: flex;
                     margin-left: auto;
                     align-items: center;
                     flex-direction: column;
                     justify-content:center;
-
                     color: white;
                     outline: none;
                     border-radius: 5px;
                     border: gold solid 1px;
                     background-color: black;
                 }
-
                 .edit-bt:hover{
                     cursor: pointer;
                     box-shadow: 
@@ -835,13 +949,11 @@ const BranchDetailContainer = styled.div`
                         0 0 20px wheat,
                         0 0 21px wheat;
                 }
-
                 .add-rm-container {
                     width: auto;
                     position: relative;
                     background: transparent;
                 }
-
                 .add-rm-pic {
                     width: 40px; 
                     height: 40px;
@@ -855,7 +967,6 @@ const BranchDetailContainer = styled.div`
                     left: 100%;
                     z-index: 10;
                     position: absolute;
-
                     text-decoration: none;
                     color: rgba(0,0,0,0.9);
                     -webkit-text-stroke-width: 1px;
@@ -865,35 +976,28 @@ const BranchDetailContainer = styled.div`
                 .add-rm-container .carousel-control-next {
                     z-index: 5;
                 }
-
                 .add-rm-pic-sm {
                     width: 20px;
                     height: 30px;
                 }
-
                 .add-rm-pic:nth-child(odd) {
                     transform: translate(-100%,-100%);
                 }
-
                 .add-rm-pic:nth-child(odd):hover {
                     cursor: pointer;
                     color: red;
                 }
-
                 .add-rm-pic:nth-child(even) {
                     transform: translate(-200%,-100%);
                 }
-
                 .add-rm-pic:nth-child(even):hover {
                     cursor: pointer;
                     color: blue;
                 }
-
                 .add-rm-pic:hover {
                     cursor: pointer;
                     color: black;
                 }
-
                 .branch-name input:disabled,
                 .description textarea:disabled,
                 .details input:disabled {
@@ -902,7 +1006,6 @@ const BranchDetailContainer = styled.div`
                     border: 0 transparent;
                     background-color: transparent;
                 }
-
                 .branch-name input:enabled,
                 .description textarea:enabled,
                 .details input:enabled {
@@ -911,29 +1014,23 @@ const BranchDetailContainer = styled.div`
                     outline: none;
                     text-overflow: inherit;
                 }
-
                 .description textarea {
                     min-height: 200px;
                 }
-
                 .details input:nth-child(1) {
                     border-radius: 5px 5px 0px 0px;
                 }
-
                 .details input:nth-child(2) {
                     border-radius: 0px;
                 }
-
                 .details input:nth-child(3) {
                     border-radius: 0px 0px 5px 5px;
                 }
-
                 .css-2b097c-container {
                     width: 135px;
                     margin-right: 10px;
                     display: inline-block;
                 }   
-
                 .react-time-picker{
                     width: 120px;
                     margin-left: 10px;
