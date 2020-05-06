@@ -1,6 +1,7 @@
 .tableCheck-container {
 	width: 100%;
-	height: 740px;
+	min-height: 877px;
+	max-height: 877px;
 	background-image: url('../../asset/MainBackground/bgor1.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;

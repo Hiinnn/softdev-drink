@@ -2,11 +2,11 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import OrderTable from './OrderTable';
-// import OrderData from '../../data/OrderData';
 
-import { orderData } from '../../data/NEW/Order';
 import './OrderGroup.css';
 import Axios from 'axios';
+import { NotifyAlert } from '../SweetAlert';
+import Swal from 'sweetalert2';
 
 class Order extends React.Component {
 
@@ -32,14 +32,11 @@ class Order extends React.Component {
 			.then((res) => {
 				let sOrder = this.state.orderData;
 				sOrder.food = res.data
-				console.log(res.data);
-				
 				this.setState({
 					orderData: sOrder
 				})
 			})
 			.catch((err) => {
-				console.log('get ordergroup err', err.response);
 			})
 
 		Axios.get(`${localStorage.getItem('url')}/stock/manage/?type=dk&shop_id=${this.props.match.params.shopId}`)
@@ -51,12 +48,12 @@ class Order extends React.Component {
 				})
 			})
 			.catch((err) => {
-				console.log('order err', err.response);
 			})
 	}
 
 	cart_addOrder = (type, index) => {
-		if (this.state.order.findIndex(i => i.goods_name === this.state.orderData[type][index].goods_name) === -1) { // Check if order doesn't exist => add order to cart		
+		// Check if order doesn't exist => add order to cart
+		if (this.state.order.findIndex(i => i.goods_name === this.state.orderData[type][index].goods_name) === -1) {
 			this.setState({
 				order: this.state.order.concat([{ goods_name: this.state.orderData[type][index].goods_name, amount: 1, pk: this.state.orderData[type][index].pk }])
 			})
@@ -64,6 +61,7 @@ class Order extends React.Component {
 	}
 
 	cart_deleteOrder = (index) => {
+		// delete order from cart
 		let newOrder = [...this.state.order]
 
 		newOrder = [...newOrder.slice(0, index), ...newOrder.slice(index + 1, newOrder.length)] // Slice order[index] out
@@ -74,6 +72,7 @@ class Order extends React.Component {
 	}
 
 	increaseOrder = (index) => {
+		// increase number of order
 		let newOrder = [...this.state.order]
 
 		if (newOrder[index].amount > 0) {
@@ -85,6 +84,7 @@ class Order extends React.Component {
 	}
 
 	decreaseOrder = (index) => {
+		// decrease number of order
 		let newOrder = [...this.state.order]
 
 		if (newOrder[index].amount === 1) {
@@ -99,6 +99,7 @@ class Order extends React.Component {
 	}
 
 	ordering() {
+		// loop order
 		let data;
 		for (let i = 0; i < this.state.order.length; i++) {
 			data = {
@@ -118,10 +119,17 @@ class Order extends React.Component {
 
 		Axios.post(url, data, { headers: head })
 			.then((res) => {
-				console.log(res);
+				Swal.fire({
+					icon: 'success',
+					title: 'สั่งอาหารสำเร็จ',
+					showConfirmButton: false,
+					timer: 1500
+				}).then(() => {
+					window.location.reload()
+				})
 			})
 			.catch((err) => {
-				console.log(err.response);
+				NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', '', 'error', false)
 			})
 	}
 
@@ -129,8 +137,9 @@ class Order extends React.Component {
 		return (
 			<div className="order-container" >
 				<div className="order-table-container" >
-					<div className="order-table" >
 
+					{/* Food Table */}
+					<div className="order-table" >
 						<OrderTable
 							type={'food'}
 							width={400}
@@ -141,6 +150,7 @@ class Order extends React.Component {
 						/>
 					</div>
 
+					{/* Drink Table */}
 					<div className="order-table" >
 						<OrderTable
 							type={'drink'}
@@ -152,6 +162,7 @@ class Order extends React.Component {
 						/>
 					</div>
 
+					{/* Cart Table */}
 					<div className="order-table"
 						style={
 							{ marginRight: '0px' }} >
@@ -161,6 +172,8 @@ class Order extends React.Component {
 						/>
 					</div>
 					<br />
+
+					{/* Order button */}
 					<Button style={
 						{ display: 'block', float: 'right', width: "300px", fontSize: "20px" }} onClick={this.ordering.bind(this)}> Order now </Button>
 				</div>

@@ -7,16 +7,13 @@ import './Branch-detail.css'
 import Select from 'react-select'
 import TimePicker from 'react-time-picker'
 
-// data
-import shopData from '../../data/NEW/Shop'
-import { orderData } from '../../data/NEW/Order'
-
 // Component
 import PartyList from '../Party/Party'
 import BookingTime from '../Party/BookingTime'
 import OrderTable from '../OrderTable/OrderTable'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { NotifyAlert } from '../SweetAlert'
 
 export default class BranchDetail extends React.Component {
     constructor(props) {
@@ -266,6 +263,10 @@ export default class BranchDetail extends React.Component {
         Axios.patch(url, data, { headers: header })
             .then((res) => {
                 this.getShopData()
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000)
+                NotifyAlert(() => { }, 'สำเร็จ!', 'แก้ไขข้อมูลสำเร็จ', 'success');
             })
             .catch((err) => {
             })
@@ -298,13 +299,20 @@ export default class BranchDetail extends React.Component {
         form.append('shop_id', this.state.shopData.shop_id)
         form.append('picture_id', params[1])
 
+        NotifyAlert(() => { }, 'กำลังดำเนินการ', 'กำลังอัพเดตรูปโปรไฟล์ กรุณารอสักครู่', 'info', true);
+
         Axios.post(url, form, { headers: head })
             .then((res) => {
                 this.setState({
                     changePic: true
                 })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000)
+                NotifyAlert(() => { }, 'สำเร็จ!', 'อัพเดทรูปสำเร็จ โปรดรีเฟรชหน้าเว็บของท่าน', 'success');
             })
             .catch((err) => {
+                NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'กรุณกรอกข้อมูลให้ครบ', 'error', false)
             })
 
 
@@ -314,9 +322,11 @@ export default class BranchDetail extends React.Component {
         // params = [type, index, event]
         // del pic to shop
         const e = params[2];
+        console.log(params[1]);
+
         e.preventDefault()
 
-        const url = `${localStorage.getItem('url')}/manager/picture/${params[0]}`
+        const url = `${localStorage.getItem('url')}/manager/picture/${params[1]}`
         const head = {
             Authorization: `Bearer ${localStorage.getItem('access')}`
         }
@@ -326,8 +336,14 @@ export default class BranchDetail extends React.Component {
                 this.setState({
                     changePic: true
                 })
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000)
+                NotifyAlert(() => { }, 'สำเร็จ!', 'ลบรูปสำเร็จ', 'success');
             })
             .catch((err) => {
+                console.log(err.response);
+
             })
     }
 
@@ -628,7 +644,7 @@ export default class BranchDetail extends React.Component {
                                                 this.state.role === 'ow' &&
                                                 <>
                                                     <div className="add-rm-pic"
-                                                        style={{ fontSize: '20px', width: '30px', height: '30px' }}>
+                                                        style={{ fontSize: '20px', width: '30px', height: '30px', transform: 'translate(-110%,-110%)' }}>
                                                         🞦<input type="file"
                                                             style={{
                                                                 opacity: 0.0,
@@ -641,11 +657,6 @@ export default class BranchDetail extends React.Component {
                                                             accept={"image/*"}
                                                             onChange={this.addPic.bind(this, 'mn', item.pk)}
                                                         />
-                                                    </div>
-                                                    <div className="add-rm-pic"
-                                                        style={{ fontSize: '20px', width: '30px', height: '30px' }}
-                                                        onClick={this.removePic.bind(this, 'mn', item.pk)}>
-                                                        🞮
                                                     </div>
                                                 </>
                                             }

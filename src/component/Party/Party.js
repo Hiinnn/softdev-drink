@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import Invite from '../Invite/Invite';
 import Axios from 'axios';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { NotifyAlert } from '../SweetAlert';
 
@@ -186,7 +185,7 @@ const Party = styled.div`
 
                     .profile-pic-container::-webkit-scrollbar-thumb {
                         border-radius: 10px;
-                        background-color: rgb(34, 28, 28);
+	                    background-image: linear-gradient(rgb(255, 251, 0),rgb(247, 0, 255));
                     }
 
                     .party-profile-pic {

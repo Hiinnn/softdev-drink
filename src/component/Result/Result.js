@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Result.css';
 import Axios from 'axios';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-
-
-class Result extends Component {
+class Result extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {

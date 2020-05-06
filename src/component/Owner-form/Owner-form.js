@@ -1,16 +1,18 @@
 import React from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col} from 'react-bootstrap';
 import './Owner-form.css';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { NotifyAlert } from '../SweetAlert';
 
-const usernameRegex = RegExp(/[a-zA-Z0-9]/)              // contain at least 1 uppercase and 1 lowercase
+const usernameRegex = RegExp(/[a-zA-Z0-9]/)                                     // contain at least 1 uppercase and 1 lowercase
 const passwordRegex = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)  // contain at least 1 uppercase and 1 lowercase and 1 number
 const nameRegex = RegExp(/^[a-zA-Z]+$/)                                         // contain name and surname (only english letter)
-const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)      // Email format -----@-----.---
-const phoneRegex = RegExp(/^[0-9]{8,}$/)                                           // Phone number contain only number
-const maxseatRegex = RegExp(/^[0-9]*$/)
-const pictureRegex = RegExp(/(.jpg|.jpeg|.png)$/)
+const emailRegex = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)        // Email format -----@-----.---
+const phoneRegex = RegExp(/^[0-9]{10,}$/)                                       // Phone number contain only number
+const maxseatRegex = RegExp(/^[0-9]*$/)                                         // Number only
+const pictureRegex = RegExp(/(.jpg|.jpeg|.png)$/)                               // Picture only
+
 
 const validateForm = ({ error, form }) => {
     let valid = true;
@@ -68,19 +70,14 @@ export default class Ownerform extends React.Component {
                 phone_number: '',
                 detail: '',
             },
-            role: 'ow',
-            check: true,
         }
 
-
-
         this.submit = this.submit.bind(this);
-        this.handleCheck = this.handleCheck.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
     }
 
     handleChange(e) {
+        // ! change state when enter data
         e.preventDefault();
         const name = e.target.name;
         let value = e.target.value;
@@ -164,22 +161,11 @@ export default class Ownerform extends React.Component {
         });
     }
 
-    handleCheck(e) {
-        this.setState({
-            check: e.target.checked
-        });
-    }
-
-    handleSelect(e) {
-        this.setState({
-            role: e.target.value
-        })
-    }
 
     submit(event) {
         event.preventDefault();
 
-        if (validateForm(this.state) && this.state.check) {
+        if (validateForm(this.state)) {
             console.log('finish');
 
             const newForm = this.state.form
@@ -197,23 +183,27 @@ export default class Ownerform extends React.Component {
 
             Axios.post(url, sentForm, { headers: head })
                 .then((res) => {
-                    this.setState({
-                        redirect: '/owner'
-                    })
+                    setTimeout(() => {
+                        this.setState({
+                            redirect: '/owner'
+                        })
+                    }, 1000)
+                    NotifyAlert(() => { }, 'สำเร็จ!', '', 'success');
                 })
                 .catch((err) => {
                     console.log('err', err.response);
                 })
         }
         else {
-            console.log('xxx');
+            NotifyAlert(() => { }, 'เกิดข้อผิดพลาด!', 'กรุณากรอกข้อมูลให้ครบ', 'error');
         }
     }
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to={this.state.redirect}/>
+            return <Redirect to={this.state.redirect} />
         }
+
         return (
             <div className="owner-form-container">
                 <Form className="form-wrapper" onSubmit={this.submit}>

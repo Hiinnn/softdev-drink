@@ -1,9 +1,8 @@
-import React from 'react';
 import './partyUser.css';
-import PartyList from '../Party/Party';
-import Invite from '../Invite/Invite';
-import { partyData, partyArray } from '../../data/NEW/Party';
+import React from 'react';
 import Axios from 'axios';
+import Invite from '../Invite/Invite';
+import PartyList from '../Party/Party';
 
 class PartyU extends React.Component {
 	constructor(props) {

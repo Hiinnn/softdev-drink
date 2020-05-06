@@ -1,9 +1,9 @@
 import React from 'react';
 import './CheckTable.css';
-import { partyOrderArray } from '../../data/NEW/partyOrder';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import AddTableForm from '../AddTableForm/AddTableForm'
+import { NotifyAlert } from '../SweetAlert';
 
 class CheckTable extends React.Component {
 	constructor(props) {
@@ -89,9 +89,11 @@ class CheckTable extends React.Component {
 
 		Axios.patch(url, data, { headers: head })
 			.then((res) => {
+				window.location.reload()
 			})
 			.catch((err) => {
 				console.log('create ta err', err.response);
+				NotifyAlert(()=>{},'เกิดข้อผิดพลาด','ยังไม่ถึงเวลาที่จองไว้', 'error', false)
 			})
 	}
 
@@ -106,6 +108,7 @@ class CheckTable extends React.Component {
 			return (
 				<div className="tableCheck-container" >
 					{
+						// Table Management page
 						!this.state.newParty &&
 						<>
 							<table className="tbCheck"
@@ -150,13 +153,13 @@ class CheckTable extends React.Component {
 						</>
 					}
 					{
+						// Add new Table page
 						this.state.newParty &&
 						<AddTableForm shopId={this.state.managerData.related_shop.shop_id} toggle={this.toggleAddParty} />
 					}
 
 				</div>
 			);
-
 		else
 			return <></>
 	}

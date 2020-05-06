@@ -1,9 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import shopData from '../../data/NEW/Shop';
 import Axios from 'axios';
-import TimePicerk from 'react-time-picker'
-import TimePicker from 'react-time-picker/dist/TimePicker';
+import styled from 'styled-components';
 import { NotifyAlert } from '../SweetAlert';
 
 export default class BookingTime extends React.Component {

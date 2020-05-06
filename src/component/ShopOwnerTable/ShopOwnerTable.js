@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
-import './ShopOwnerTable.css';
-//import { shops } from '../../data/ShopOwnerData.js';
-import ownerData from '../../data/NEW/Owner';
+import React from 'react';
 import Axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import './ShopOwnerTable.css';
 import { Button } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
-class ShopOwnerTable extends Component {
+class ShopOwnerTable extends React.Component {
 
 	constructor(props) {
 
 		super(props);
 		this.state = {
 			redirect: null,
-			ownerData: ownerData
+			ownerData: null,
 		};
-
-		// this.redirect = this.redirect.bind(this)
 	}
 
 	componentDidMount() {
@@ -56,52 +52,43 @@ class ShopOwnerTable extends Component {
 
 	render() {
 		if (this.state.redirect) {
-			return <Redirect to = { this.state.redirect }
-			/>
+			return <Redirect to={this.state.redirect} />
 		}
 
-		const tempPic = 'https://image.freepik.com/free-photo/minimalist-background-with-green-leaves-white_23-2147752433.jpg';
-
-		return ( <
-			div className = " ownerhome-container" >
-			<
-			table className = "table-shop-owner" >
-			<
-			tbody > {
-				this.state.ownerData.related_shop.map((shop, i) => {
-					return ( <
-						tr key = { i }
-						width = '100%' >
-						<
-						td width = '60%' >
-						<
-						img className = "imgshop"
-						src = { shop.pic === '/media/black.jpg' ? tempPic : `${localStorage.getItem('url')}${shop.pic}` }
-						alt = { shop.shop_name }
-						/> <
-						/td > <
-						td className = "nameAddress"
-						colSpan = '40%' >
-						<
-						h4 className = "name"
-						onClick = { this.redirect.bind(this, shop.shop_id) } > { shop.shop_name } < /h4> <
-						/td> <
-						/tr>
-					)
-				})
-			} <
-			tr width = '100%' >
-			<
-			td width = '60%' > < /td> <
-			td width = '40%' >
-			<
-			Button onClick = { this.createShop.bind(this) } > Create new shop < /Button> <
-			/td> <
-			/tr> <
-			/tbody> <
-			/table> <
-			/div>
-		);
+		if (this.state.ownerData)
+			return (
+				<div className=" ownerhome-container" >
+					<div className="table-wrapper">
+						<table className="table-shop-owner" >
+							<tbody > {
+								this.state.ownerData.related_shop.map((shop, i) => {
+									return (
+										<tr key={i} width='100%' >
+											<td width='60%' >
+												<img className="imgshop"
+													src={`${localStorage.getItem('url')}${shop.pic}`}
+													alt={shop.shop_name}
+												/>
+											</td >
+											<td className="nameAddress"
+												colSpan='40%' >
+												<h4 className="name" onClick={this.redirect.bind(this, shop.shop_id)} > {shop.shop_name} </h4>
+											</td>
+										</tr>
+									)
+								})
+							}
+								<tr className="row justify-content-center">
+									<td>
+										<Button onClick={this.createShop.bind(this)} style={{marginTop: 30}}> Create new shop </Button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			);
+		else
+			return <></>
 	}
 }
 export default ShopOwnerTable;

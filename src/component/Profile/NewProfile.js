@@ -1,10 +1,5 @@
 import React from 'react'
-
-// import './Myfav.css'
-// import './Profile.css'
-// import './Password.css'
 import './NewProfile.css'
-
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import userData from '../../data/NEW/Drinker';
@@ -201,7 +196,6 @@ export default class UserProfile extends React.Component {
 
         Axios.patch(url, picture, { headers: head })
             .then((res) => {
-                console.log(res);
                 setTimeout(() => {
                     window.location.reload();
                 }, 2000)

@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-import './TableUserBill.css';
-//import { listMenu } from '../../data/listMenu';
-import Table from 'react-bootstrap/Table'; 		//className = "table"
-import { partyOrder } from '../../data/NEW/partyOrder';
 import Axios from 'axios';
+import './TableUserBill.css';
+import Table from 'react-bootstrap/Table'; 		//className = "table"
 
 export default class TableUserBill extends Component {
 
     constructor(props) {
-
         super(props);
-
-        // this.partyOrder = partyOrder;
-
         this.state = {
             editable: false,
             partyOrder: null,
@@ -37,7 +31,6 @@ export default class TableUserBill extends Component {
                 this.setState({
                     partyOrder: res.data
                 })
-                // window.location.reload()
             })
             .catch((err) => {
                 console.log('create ta err', err.response);

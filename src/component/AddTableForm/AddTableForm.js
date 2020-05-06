@@ -1,15 +1,16 @@
 import React from 'react';
 import { Form, Col, Row, Button } from 'react-bootstrap';
 import './AddTableForm.css';
-import { partyData } from '../../data/NEW/Party';
 import Axios from 'axios';
+import { NotifyAlert } from '../SweetAlert';
+import Swal from 'sweetalert2';
 
 class AddTableForm extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			party_name: partyData.party_name,
-			member_max: partyData.member_max,
+			party_name: '',
+			member_max: 0,
 		}
 	}
 
@@ -54,10 +55,17 @@ class AddTableForm extends React.Component {
 		Axios.post(url, data, { headers: head })
 			.then((res) => {
 				this.props.toggle()
-				window.location.reload()
+				Swal.fire({
+					icon: 'success',
+					title: 'เพิ่มปาร์ตี้สำเร็จ',
+					showConfirmButton: false,
+					timer: 1500
+				}).then(() => {
+					window.location.reload()
+				})
 			})
 			.catch((err) => {
-				console.log('create ta err', err.response);
+				NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'กรุณากรอกข้อมูลให้ครบ', 'error', false)
 			})
 	}
 
@@ -65,18 +73,20 @@ class AddTableForm extends React.Component {
 		return (
 			<div>
 				<Form className="NEW-PARTY-wrapper" >
-					<h2 style={
-						{ textAlign: 'center', paddingBottom: '10px' }} > NEW PARTY </h2>
+					<h2 style={{ textAlign: 'center', paddingBottom: '10px' }} > NEW PARTY </h2>
+
+					{/* Party name */}
 					<Form.Group as={Row} style={{ paddingBottom: '15px' }} >
 						<Form.Label style={{ marginTop: '8px' }} >Party name </Form.Label>
 						<Col >
 							<Form.Control type="text"
 								name="Party_name"
 								placeholder="Party name"
-								onChange={this.handleChange} />
+								onChange={this.handlePartyName} />
 						</Col>
 					</Form.Group>
 
+					{/* Party member size */}
 					<Form.Group as={Row} >
 						<Form.Label style={{ marginTop: '8px', marginRight: '20px' }} >Member max </Form.Label>
 						<Col >
@@ -85,7 +95,7 @@ class AddTableForm extends React.Component {
 									<img className="size-button"
 										src="https://image.flaticon.com/icons/svg/271/271220.svg" />
 								</a>
-								<div className="party-size" > {this.state.member_max}คน </div>
+								<div className="party-size" > {this.state.member_max} คน </div>
 								<a className="size-button-wrapper" onClick={() => this.changePartySize('+')} >
 									<img className="size-button" src="https://image.flaticon.com/icons/svg/271/271228.svg" />
 								</a>
@@ -96,8 +106,8 @@ class AddTableForm extends React.Component {
 
 					<br />
 					<br />
-
-					<Button type="submit" style={{ width: '150px', float: 'right' }} > Create table </Button>
+					{/* Create button */}
+					<Button onClick={this.postCreateParty.bind(this)} style={{ width: '150px', float: 'right' }} > Create table </Button>
 				</Form>
 			</div>
 		);
