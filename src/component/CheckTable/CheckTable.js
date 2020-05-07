@@ -21,6 +21,9 @@ class CheckTable extends React.Component {
 	componentDidUpdate() {
 		if (this.state.managerData && !this.state.partyList) {
 			this.getPartyList()
+		}
+
+		if (this.state.managerData && !this.state.orderList) {
 			this.getOrderList()
 		}
 	}
@@ -51,12 +54,12 @@ class CheckTable extends React.Component {
 		}
 		Axios.get(url, { headers: head })
 			.then((res) => {
+				const partylist = this.checkPartyTime(res.data)
 				this.setState({
-					partyList: res.data
-				})
+					partyList: partylist
+				})	
 			})
 			.catch((err) => {
-				console.log('check ta err', err.response);
 			})
 	}
 
@@ -74,7 +77,6 @@ class CheckTable extends React.Component {
 				})
 			})
 			.catch((err) => {
-				console.log('order ta err', err.response);
 			})
 	}
 
@@ -92,9 +94,24 @@ class CheckTable extends React.Component {
 				window.location.reload()
 			})
 			.catch((err) => {
-				console.log('create ta err', err.response);
-				NotifyAlert(()=>{},'เกิดข้อผิดพลาด','ยังไม่ถึงเวลาที่จองไว้', 'error', false)
+				NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'ยังไม่ถึงเวลาที่จองไว้', 'error', false)
 			})
+	}
+
+	checkPartyTime(partyArray) {
+		let tempArray = []
+		const time = new Date()
+		if (partyArray) {
+			for (let index = 0; index < partyArray.length; index++) {
+				if ((parseInt(partyArray[index].start_datetime.slice(11, 13)) + 7) % 24 <= time.getHours() && parseInt(partyArray[index].start_datetime.slice(15, 16)) <= time.getMinutes()) {
+					tempArray.push(partyArray[index])
+				}
+			}
+		}
+		else
+			return []
+
+		return tempArray
 	}
 
 	toggleAddParty() {

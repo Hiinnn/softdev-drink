@@ -2,7 +2,6 @@ import React from 'react'
 import './NewProfile.css'
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
-import userData from '../../data/NEW/Drinker';
 import { NotifyAlert } from '../../component/SweetAlert';
 
 export default class UserProfile extends React.Component {
@@ -22,7 +21,7 @@ export default class UserProfile extends React.Component {
         }
 
         this.state = {
-            userData: userData,
+            userData: null,
             shopArray: '',
             passwordChange: {
                 old_password: '',
@@ -207,140 +206,143 @@ export default class UserProfile extends React.Component {
     }
 
     render() {
-        return (
-            <>
-                <div className="picandpro-container">
-                    {/* Profile picture */}
-                    <div className="profile-pic-container">
-                        <label style={{ display: 'block', left: '50%', position: 'relative', transform: 'translateX(-50%)', marginBottom: 10 }}>
-                            <img className="profile-pic" src={`${localStorage.getItem('url')}${this.state.userData.picture}`} width="200" height="200" align="left" alt=""></img>
-                        </label>
-                        <input type='file'
-                            style={{
-                                width: 105,
-                                display: 'block',
-                                top: 10,
-                                left: '50%',
-                                position: 'relative',
-                                transform: 'translateX(-50%)'
-                            }}
-                            onChange={this.patchChangePic.bind(this)} />
-                    </div>
+        if (this.state.userData)
+            return (
+                <>
+                    <div className="picandpro-container">
+                        {/* Profile picture */}
+                        <div className="profile-pic-container">
+                            <label style={{ display: 'block', left: '50%', position: 'relative', transform: 'translateX(-50%)', marginBottom: 10 }}>
+                                <img className="profile-pic" src={`${localStorage.getItem('url')}${this.state.userData.picture}`} width="200" height="200" align="left" alt=""></img>
+                            </label>
+                            <input type='file'
+                                style={{
+                                    width: 105,
+                                    display: 'block',
+                                    top: 10,
+                                    left: '50%',
+                                    position: 'relative',
+                                    transform: 'translateX(-50%)'
+                                }}
+                                onChange={this.patchChangePic.bind(this)} />
+                        </div>
 
-                    {/* Profile edit data form */}
-                    <div className="profile-container">
-                        <div>
-                            <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
+                        {/* Profile edit data form */}
+                        <div className="profile-container">
+                            <div>
+                                <label className="textheader" style={{ marginLeft: 20 }} > Profile </label>
+                                <br /><br />
+                                {
+                                    Object.keys(this.dataForm).map((val) => {
+                                        return (
+                                            <div key={val}>
+                                                <label className="text" style={{ marginLeft: 20 }}> {this.dataForm[val][0]}
+                                                    < input className='input-text' type={this.dataForm[val][1]} style={{ marginLeft: this.dataForm[val][2] }}
+                                                        name={val}
+                                                        disabled={!this.state.editableData}
+                                                        value={this.state.userData[val]}
+                                                        onChange={this.handleDataChange}
+                                                    >
+                                                    </input>
+                                                </label>
+                                                <br />
+                                                <br />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+
+                            <br />
+                            <div className="one-button" onClick={this.editData} >
+                                {this.state.editableData === true ? 'Save Profile' : 'Edit'}
+                            </div>
+                            <br /><br /><br />
+                        </div>
+
+                        {/* Profile edit pw form */}
+                        <div className="password-container">
+                            <label className="textheader" style={{ marginLeft: 20 }}> Password Reset </label>
                             <br /><br />
                             {
-                                Object.keys(this.dataForm).map((val) => {
+                                Object.keys(this.passForm).map((keys) => {
                                     return (
-                                        <div key={val}>
-                                            <label className="text" style={{ marginLeft: 20 }}> {this.dataForm[val][0]}
-                                                < input className='input-text' type={this.dataForm[val][1]} style={{ marginLeft: this.dataForm[val][2] }}
-                                                    name={val}
-                                                    disabled={!this.state.editableData}
-                                                    value={this.state.userData[val]}
-                                                    onChange={this.handleDataChange}
+                                        <div key={keys}>
+                                            <label className="text" style={{ marginLeft: 20 }}> {this.passForm[keys][0]}
+                                                <input className="input-password" type="password" style={{ marginLeft: this.passForm[keys][2] }}
+                                                    name={keys}
+                                                    disabled={!this.state.editablePassword}
+                                                    onChange={this.handlePasswordChange}
+                                                    value={this.state.passwordChange[keys]}
                                                 >
                                                 </input>
                                             </label>
-                                            <br />
-                                            <br />
+                                            <br /><br />
                                         </div>
                                     )
                                 })
                             }
-                        </div>
+                            <br />
+                            <div className="two-button" onClick={this.editPassword}>
+                                {this.state.editablePassword === true ? 'Save Password' : 'Reset password'}
+                            </div>
+                            <br /><br />
 
-                        <br />
-                        <div className="one-button" onClick={this.editData} >
-                            {this.state.editableData === true ? 'Save Profile' : 'Edit'}
-                        </div>
-                        <br /><br /><br />
-                    </div>
-
-                    {/* Profile edit pw form */}
-                    <div className="password-container">
-                        <label className="textheader" style={{ marginLeft: 20 }}> Password Reset </label>
-                        <br /><br />
-                        {
-                            Object.keys(this.passForm).map((keys) => {
-                                return (
-                                    <div key={keys}>
-                                        <label className="text" style={{ marginLeft: 20 }}> {this.passForm[keys][0]}
-                                            <input className="input-password" type="password" style={{ marginLeft: this.passForm[keys][2] }}
-                                                name={keys}
-                                                disabled={!this.state.editablePassword}
-                                                onChange={this.handlePasswordChange}
-                                                value={this.state.passwordChange[keys]}
-                                            >
-                                            </input>
-                                        </label>
-                                        <br /><br />
-                                    </div>
-                                )
-                            })
-                        }
-                        <br />
-                        <div className="two-button" onClick={this.editPassword}>
-                            {this.state.editablePassword === true ? 'Save Password' : 'Reset password'}
-                        </div>
-                        <br /><br />
-
-                        <div className="two-button" >
-                            <Link to='/drinker/party' style={{ textDecoration: 'none', color: 'white' }}>
-                                My Party
+                            <div className="two-button" >
+                                <Link to='/drinker/party' style={{ textDecoration: 'none', color: 'white' }}>
+                                    My Party
                             </Link>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* USer fav shop */}
-                <div className="myfav-main-container" >
-                    <div className="myfav-container" >
-                        <h5 style={{ marginBottom: "10px" }}> My favourite </h5> {
-                            Object.keys(this.state.shopArray).map((i) => {
-                                return (
-                                    <div key={i}>
-                                        <div className="left-container" >
-                                            <img className="imgShop"
-                                                src={`${localStorage.getItem('url')}${this.state.shopArray[i].picture}`}
-                                                alt={this.state.shopArray[i].shop_name}
-                                                align="left" />
-                                        </div>
-
-                                        <div className="right-container" >
-                                            <div style={{ display: "block", width: "315px", float: "left", fontSize: "18px", marginTop: "10px" }}>
-                                                {this.state.shopArray[i].shop_name}
+                    {/* USer fav shop */}
+                    <div className="myfav-main-container" >
+                        <div className="myfav-container" >
+                            <h5 style={{ marginBottom: "10px" }}> My favourite </h5> {
+                                Object.keys(this.state.shopArray).map((i) => {
+                                    return (
+                                        <div key={i}>
+                                            <div className="left-container" >
+                                                <img className="imgShop"
+                                                    src={`${localStorage.getItem('url')}${this.state.shopArray[i].picture}`}
+                                                    alt={this.state.shopArray[i].shop_name}
+                                                    align="left" />
                                             </div>
 
-                                            <div style={{ height: "50px" }}>
-                                                <img src={require("../../asset/icon/heart2.png")}
-                                                    onClick={() => this.deleteFav(this.state.shopArray[i].pk)}
-                                                    alt="heart"
-                                                    style={{ width: "35px", height: "35px", float: "left", marginTop: "5px", cursor: "pointer" }} />
-                                            </div >
+                                            <div className="right-container" >
+                                                <div style={{ display: "block", width: "315px", float: "left", fontSize: "18px", marginTop: "10px" }}>
+                                                    {this.state.shopArray[i].shop_name}
+                                                </div>
 
-                                            <div style={{ display: "block", width: "340px", wordWrap: "break-word", height: "90px", paddingTop: "10px", fontSize: "12px" }}>
-                                                {this.state.shopArray[i].detail}
+                                                <div style={{ height: "50px" }}>
+                                                    <img src={require("../../asset/icon/heart2.png")}
+                                                        onClick={() => this.deleteFav(this.state.shopArray[i].pk)}
+                                                        alt="heart"
+                                                        style={{ width: "35px", height: "35px", float: "left", marginTop: "5px", cursor: "pointer" }} />
+                                                </div >
+
+                                                <div style={{ display: "block", width: "340px", wordWrap: "break-word", height: "90px", paddingTop: "10px", fontSize: "12px" }}>
+                                                    {this.state.shopArray[i].detail}
+                                                </div>
+
+                                                <div className="detailShop" > location: {this.state.shopArray[i].address} </div>
+                                                <div className="detailShop" > contact: {this.state.shopArray[i].phone_number.replace('+66', 0)} </div>
+                                                <Link to={`/shop/${this.state.shopArray[i].shop_id}`}><div className="learnBox" > LEARN MORE </div></Link>
                                             </div>
-
-                                            <div className="detailShop" > location: {this.state.shopArray[i].address} </div>
-                                            <div className="detailShop" > contact: {this.state.shopArray[i].phone_number.replace('+66', 0)} </div>
-                                            <Link to={`/shop/${this.state.shopArray[i].pk}`}><div className="learnBox" > LEARN MORE </div></Link>
-                                        </div>
-                                        <hr className="hrcss"
-                                            style={{ height: "280px" }}
-                                        />
-                                    </div >
-                                )
-                            })
-                        } <hr className="hrcss" />
-                        <br />
-                    </div>
-                </div >
-            </>
-        );
+                                            <hr className="hrcss"
+                                                style={{ height: "280px" }}
+                                            />
+                                        </div >
+                                    )
+                                })
+                            } <hr className="hrcss" />
+                            <br />
+                        </div>
+                    </div >
+                </>
+            );
+        else
+            return <></>
     }
 }

@@ -1,20 +1,8 @@
 import React from 'react';
 import './App.css';
 
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
-// import SignUp from './pages/Login-Signup/Sign-up';
-import LoginPage from './pages/Login-Signup/Login';
-import ResetPassword from './pages/Login-Signup/Reset-password-page';
-
-// import UserHome from './pages/User-home/User-home';
-import UserBill from './pages/User-bill/User-bill';
-import UserOrder from './pages/User-Order/User-Order';
-
-// import OwnerHome from './pages/Owner-home/Owner-home';
-import SearchResult from './pages/Search-result/Search-result';
-
-import TableCheck from './pages/TableCheck/TableCheck';
 import UserParty from './pages/User-party/User-party';
 
 // ! Component ************************************
@@ -46,7 +34,7 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'https://8668fe96.ngrok.io');
+    localStorage.setItem('url', 'http://3427b2d3.ngrok.io');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
@@ -106,10 +94,10 @@ export default class App extends React.Component {
 }
 
 
-const Home = () =>  <>
-                      <Slideshow />
-                      <Recommended />
-                    </>
+const Home = () => <>
+  <Slideshow />
+  <Recommended />
+</>
 
 const Login = (login) => <LoginForm auth={login} />
 const Signup = () => <SignUp />

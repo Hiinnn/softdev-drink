@@ -32,7 +32,7 @@ class Navbar extends Component {
         }
         // refresh navbar when logout
         else if (!this.props.auth && this.state.profile !== null) {
-            this.loggedOut();
+            this.props.loggedOut();
         }
     }
 
@@ -135,11 +135,11 @@ class Navbar extends Component {
                                 profile: null
                             });
                             this.render = () => {
-                                return  <>
-                                            {this.navComponent()}
-                                            <Redirect to='/' />
-                                        </>
-                                }
+                                return <>
+                                    {this.navComponent()}
+                                    <Redirect to='/' />
+                                </>
+                            }
                         }}
                         style={{ paddingRight: 20 }}> Logout </div>
                 }

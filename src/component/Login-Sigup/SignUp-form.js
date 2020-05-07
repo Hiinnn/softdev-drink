@@ -110,11 +110,11 @@ export default class SignUp extends React.Component {
                         ? ""
                         : "Password must be longer than 8 characters and contain at least 1 uppercase, 1 lower case and 1 number.";
                 break;
-            case "password_comfirm":
+            case "password_confirm":
                 formError[name] =
                     value === this.state.form.password
                         ? ""
-                        : "Password & Confirm password must be the same.";
+                        : "Password & confirm password must be the same.";
                 break;
             case "first_name":
                 let [Name, Surname] = value.split(' ')

@@ -121,15 +121,16 @@ export default class LoginForm extends React.Component {
                 })
                 .catch((error) => {
                     // error when loggedin
-                    this.setState({
-                        modal: {
-                            show: true,
-                            head: 'Error',
-                            body: 'Your username or password are invalid.',
-                            func: this.toggleModal,
-                            button: 'danger'
-                        }
-                    })
+                    if (localStorage.getItem('role') !== 'sm')
+                        this.setState({
+                            modal: {
+                                show: true,
+                                head: 'Error',
+                                body: 'Your username or password are invalid.',
+                                func: this.toggleModal,
+                                button: 'danger'
+                            }
+                        })
                 })
         }
         else {

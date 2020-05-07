@@ -33,7 +33,6 @@ class ShopOwnerTable extends React.Component {
 				})
 			})
 			.catch((err) => {
-				console.log(err.response);
 			})
 	}
 
@@ -60,27 +59,30 @@ class ShopOwnerTable extends React.Component {
 				<div className=" ownerhome-container" >
 					<div className="table-wrapper">
 						<table className="table-shop-owner" >
-							<tbody > {
-								this.state.ownerData.related_shop.map((shop, i) => {
-									return (
-										<tr key={i} width='100%' >
-											<td width='60%' >
-												<img className="imgshop"
-													src={`${localStorage.getItem('url')}${shop.pic}`}
-													alt={shop.shop_name}
-												/>
-											</td >
-											<td className="nameAddress"
-												colSpan='40%' >
-												<h4 className="name" onClick={this.redirect.bind(this, shop.shop_id)} > {shop.shop_name} </h4>
-											</td>
-										</tr>
-									)
-								})
-							}
+
+							<tbody >
+								{
+									this.state.ownerData &&
+									this.state.ownerData.related_shop.map((shop, i) => {
+										return (
+											<tr key={i} width='100%' >
+												<td width='60%' >
+													<img className="imgshop"
+														src={`${localStorage.getItem('url')}${shop.pic}`}
+														alt={shop.shop_name}
+													/>
+												</td >
+												<td className="nameAddress"
+													colSpan='40%' >
+													<h1 className="name" onClick={this.redirect.bind(this, shop.shop_id)} > {shop.shop_name} </h1>
+												</td>
+											</tr>
+										)
+									})
+								}
 								<tr className="row justify-content-center">
 									<td>
-										<Button onClick={this.createShop.bind(this)} style={{marginTop: 30}}> Create new shop </Button></td>
+										<Button onClick={this.createShop.bind(this)} style={{ marginTop: 30 }}> Create new shop </Button></td>
 								</tr>
 							</tbody>
 						</table>

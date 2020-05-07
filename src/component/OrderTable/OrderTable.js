@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';		//className = "btn"
 import './OrderTable.css';
 import { orderData } from '../../data/NEW/Order'
 import Axios from 'axios';
+import { NotifyAlert } from '../SweetAlert';
 
 export default class OrderTable extends Component {
 	constructor(props) {
@@ -37,7 +38,6 @@ export default class OrderTable extends Component {
 				})
 			})
 			.catch((err) => {
-				console.log('order err', err.response);
 			})
 	}
 
@@ -99,7 +99,6 @@ export default class OrderTable extends Component {
 			})
 
 			this.postRequestNewOrder(this.props.shopId, this.state.new_goods_name, this.state.new_goods_price, this.props.type === 'food' ? 'fd' : 'dk', newOrder)
-
 		}
 	}
 

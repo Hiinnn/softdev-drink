@@ -142,7 +142,7 @@ export default class BookingTime extends React.Component {
         month = month < 10 ? `0${month}` : month
 
         const start = `${date.getFullYear()}-${month}-${day}T${startHr}:${startMin}:00+07:00`
-        const end = `${date.getFullYear()}-${month}-${day}T${endHr}:${endMin}:00+07:00`
+        const end = `${date.getFullYear()}-${month}-${day}T${endHr+1}:${endMin}:00+07:00`
 
         this.getCheckSeat()
         this.postCreateParty(

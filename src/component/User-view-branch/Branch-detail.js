@@ -4,7 +4,6 @@ import { Carousel, Form } from 'react-bootstrap'
 
 import Axios from 'axios'
 import './Branch-detail.css'
-import Select from 'react-select'
 import TimePicker from 'react-time-picker'
 
 // Component
@@ -71,7 +70,7 @@ export default class BranchDetail extends React.Component {
         this.edit = this.edit.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.changeOpenTime = this.changeOpenTime.bind(this)
-        this.changeCloseTime = this.changeCloseTime.bind(this)
+        // this.changeCloseTime = this.changeCloseTime.bind(this)
     }
 
     componentDidMount = () => {
@@ -192,7 +191,7 @@ export default class BranchDetail extends React.Component {
         })
     }
 
-    changeCloseTime = (e) => {
+    changeCloseTime = (...e) => {
         // e -> [index, value]
         const newOffice = this.state.officeday
         newOffice[e[0]].close_time = e[1]
@@ -299,7 +298,7 @@ export default class BranchDetail extends React.Component {
         form.append('shop_id', this.state.shopData.shop_id)
         form.append('picture_id', params[1])
 
-        NotifyAlert(() => { }, 'กำลังดำเนินการ', 'กำลังอัพเดตรูปโปรไฟล์ กรุณารอสักครู่', 'info', true);
+        NotifyAlert(() => { }, 'กำลังดำเนินการ', 'กำลังอัพเดตรูป กรุณารอสักครู่', 'info', true);
 
         Axios.post(url, form, { headers: head })
             .then((res) => {
@@ -309,7 +308,7 @@ export default class BranchDetail extends React.Component {
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000)
-                NotifyAlert(() => { }, 'สำเร็จ!', 'อัพเดทรูปสำเร็จ โปรดรีเฟรชหน้าเว็บของท่าน', 'success');
+                NotifyAlert(() => { }, 'สำเร็จ!', 'อัพเดทรูปสำเร็จ', 'success');
             })
             .catch((err) => {
                 NotifyAlert(() => { }, 'เกิดข้อผิดพลาด', 'กรุณกรอกข้อมูลให้ครบ', 'error', false)
@@ -322,7 +321,6 @@ export default class BranchDetail extends React.Component {
         // params = [type, index, event]
         // del pic to shop
         const e = params[2];
-        console.log(params[1]);
 
         e.preventDefault()
 
@@ -342,8 +340,6 @@ export default class BranchDetail extends React.Component {
                 NotifyAlert(() => { }, 'สำเร็จ!', 'ลบรูปสำเร็จ', 'success');
             })
             .catch((err) => {
-                console.log(err.response);
-
             })
     }
 
@@ -519,8 +515,9 @@ export default class BranchDetail extends React.Component {
                                     <>
                                         {
                                             this.days.map((day, i) => {
+                                                console.log(day, i);
                                                 return (
-                                                    <div style={{ color: 'black', marginBottom: 20 }}>
+                                                    <div style={{ color: 'black', marginBottom: 20 }} key={i}>
                                                         <div style={{ color: 'white', display: 'inline-block', width: 110 }}>{day}</div>
                                                         <TimePicker
                                                             disableClock
@@ -532,7 +529,7 @@ export default class BranchDetail extends React.Component {
                                                         <TimePicker
                                                             disableClock
                                                             locale="sv-sv"
-                                                            onChange={this.changeOpenTime.bind(this, i)}
+                                                            onChange={this.changeCloseTime.bind(this, i)}
                                                             value={this.state.officeday[i].close_time}
                                                         />
                                                     </div>
@@ -545,17 +542,16 @@ export default class BranchDetail extends React.Component {
 
                             {/** Edit button */}
                             {
-                                this.state.role === 'ow' &&
+                                (this.state.role === 'ow' || this.state.role === 'sm') &&
                                 <button className="edit-bt" onClick={this.edit}>
                                     {this.state.editable === true ? 'Confirm' : 'Edit'}
                                 </button>
-
-                                ||
-
+                            }
+                            {
                                 this.state.role === 'sm' &&
                                 <button className="edit-bt" onClick={() => this.setState({ redirect: `/manager/check/${this.state.shopData.shop_id}` })}>
                                     Table
-                            </button>
+                                </button>
                             }
 
 
@@ -608,11 +604,14 @@ export default class BranchDetail extends React.Component {
                                                                 onChange={this.addPic.bind(this, 'sb', item.pk)}
                                                             />
                                                         </div>
-                                                        <div className="add-rm-pic"
-                                                            style={{ fontSize: '30px' }}
-                                                            onClick={this.removePic.bind(this, 'sb', item.pk)}
-                                                        >🞮
-                                                        </div>
+                                                        {
+                                                            i !== 1 &&
+                                                            <div className="add-rm-pic"
+                                                                style={{ fontSize: '30px' }}
+                                                                onClick={this.removePic.bind(this, 'sb', item.pk)}
+                                                            >🞮
+                                                            </div>
+                                                        }
                                                     </>
                                                 }
                                             </Carousel.Item>
@@ -692,7 +691,7 @@ export default class BranchDetail extends React.Component {
                 </>
             )
         else
-            return (<>{this.loading()}</>)
+            return <></>
     }
 }
 

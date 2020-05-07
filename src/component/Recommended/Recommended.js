@@ -58,7 +58,8 @@ export default class Recommended extends React.Component {
                                                             <img src={`${localStorage.getItem('url')}${item.url}`}
                                                                 alt="" key={i}
                                                                 style={{ objectFit: 'cover' }}
-                                                                height='100'
+                                                                height='100%'
+                                                                width='100%'
                                                             />
                                                         )
                                                     })

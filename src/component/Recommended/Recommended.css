@@ -111,6 +111,8 @@
     position: relative;
     display: inline-block;
 
+    object-fit: cover;
+
     margin-top: 10px;
     overflow: hidden;
 

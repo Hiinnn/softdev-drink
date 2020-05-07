@@ -30,12 +30,11 @@ class PartyU extends React.Component {
 			.then((res) => {
 				let current = []
 				let coming = []
-
 				// put nearest party to current party and other is coming party
 				if (res.data.length > 0) {
 					let date = new Date()
 
-					if (parseInt(res.data[0].start_datetime.slice(12, 13)) <= date.getHours())
+					if ((parseInt(res.data[0].start_datetime.slice(11, 13)) + 7) % 24 <= date.getHours() && parseInt(res.data[0].start_datetime.slice(11, 13)) <= date.getMinutes())
 						current.push(res.data[0])
 					else
 						coming.push(res.data[0])
