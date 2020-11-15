@@ -8,7 +8,7 @@ export default class SlideShow extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            shopArray: ''
+            shopArray: '',
         }
 
         this.arr = [0, 1, 2, 3, 4]
@@ -18,25 +18,21 @@ export default class SlideShow extends Component {
         this.getShopArray()
     }
 
-    componentDidUpdate() {
-        // reload data when error
-        if (!this.state.shopArray)
-            this.getShopArray()
-    }
-
     getShopArray() {
         // get shopArray
         const url = localStorage.getItem('url')
         const token = localStorage.getItem('access')
         const head = localStorage.getItem('role') !== null ? { Authorization: `Bearer ${token}` } : ''
 
+        this.setState({ loading: true })
+
         Axios.get(`${url}/manager/shop/?search=`, { headers: head })
             .then((res) => {
-                this.setState({ shopArray: res.data })
+                this.setState({ shopArray: res.data, loaded: true, loading: false })
             })
             .catch((err) => {
-                this.getShopArray()
                 Promise.reject(err)
+                window.alert('Load Failed')
             })
     }
 

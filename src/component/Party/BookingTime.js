@@ -32,7 +32,7 @@ export default class BookingTime extends React.Component {
         const lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
         today = today.getDate()
 
-        let arr = new Array()
+        let arr = []
 
         for (let i = 0; i < 7; i++) {
             arr.push((today + i) % lastDate)
@@ -83,6 +83,7 @@ export default class BookingTime extends React.Component {
                     timeArr.push(temp)
                 }
             }
+            return null
         })
         return timeArr;
     }
@@ -142,7 +143,7 @@ export default class BookingTime extends React.Component {
         month = month < 10 ? `0${month}` : month
 
         const start = `${date.getFullYear()}-${month}-${day}T${startHr}:${startMin}:00+07:00`
-        const end = `${date.getFullYear()}-${month}-${day}T${endHr+1}:${endMin}:00+07:00`
+        const end = `${date.getFullYear()}-${month}-${day}T${endHr + 1}:${endMin}:00+07:00`
 
         this.getCheckSeat()
         this.postCreateParty(
@@ -206,14 +207,14 @@ export default class BookingTime extends React.Component {
 
                 {/** Select party size */}
                 <div className={"party-size-container" + sm}>
-                    <a className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('-')}>
-                        <img className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271220.svg" />
+                    <a href="/#" className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('-')}>
+                        <img alt='size-bt-sub' className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271220.svg" />
                     </a>
 
                     <div className={"party-size" + sm}>{this.state.partySize} คน</div>
 
-                    <a className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('+')}>
-                        <img className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271228.svg" />
+                    <a href="/#" className={"size-button-wrapper" + sm} onClick={() => this.changePartySize('+')}>
+                        <img alt='size-bt-add' className={"size-button" + sm} src="https://image.flaticon.com/icons/svg/271/271228.svg" />
                     </a>
                 </div>
 

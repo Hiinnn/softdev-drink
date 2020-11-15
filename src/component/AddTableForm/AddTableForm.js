@@ -91,13 +91,13 @@ class AddTableForm extends React.Component {
 						<Form.Label style={{ marginTop: '8px', marginRight: '20px' }} >Member max </Form.Label>
 						<Col >
 							<div className="party-size-container" >
-								<a className="size-button-wrapper" onClick={() => this.changePartySize('-')} >
-									<img className="size-button"
+								<a href="/#" className="size-button-wrapper" onClick={() => this.changePartySize('-')} >
+									<img alt="size-bt-sub" className="size-button"
 										src="https://image.flaticon.com/icons/svg/271/271220.svg" />
 								</a>
 								<div className="party-size" > {this.state.member_max} คน </div>
-								<a className="size-button-wrapper" onClick={() => this.changePartySize('+')} >
-									<img className="size-button" src="https://image.flaticon.com/icons/svg/271/271228.svg" />
+								<a href="/#" className="size-button-wrapper" onClick={() => this.changePartySize('+')} >
+									<img alt="size-bt-add" className="size-button" src="https://image.flaticon.com/icons/svg/271/271228.svg" />
 								</a>
 							</div>
 

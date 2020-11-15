@@ -26,8 +26,6 @@ class ShopOwnerTable extends React.Component {
 		}
 		Axios.get(url, { headers: head })
 			.then((res) => {
-				console.log('resss', res.data);
-
 				this.setState({
 					ownerData: res.data
 				})
@@ -43,7 +41,6 @@ class ShopOwnerTable extends React.Component {
 	}
 
 	redirect(...e) {
-		console.log(e[0])
 		this.setState({
 			redirect: `/shop/${e[0]}`
 		})

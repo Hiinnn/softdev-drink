@@ -33,6 +33,7 @@ export default class Recommended extends React.Component {
             })
             .catch((err) => {
                 Promise.reject(err)
+                window.alert('Load Failed')
             })
     }
 

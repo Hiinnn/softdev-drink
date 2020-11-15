@@ -68,6 +68,7 @@ export default class UserProfile extends React.Component {
                 })
             })
             .catch((err) => {
+                window.alert('Load Failed')
             })
     }
 

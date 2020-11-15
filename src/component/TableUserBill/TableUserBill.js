@@ -27,13 +27,11 @@ export default class TableUserBill extends Component {
 
         Axios.get(url, { headers: head })
             .then((res) => {
-                console.log(res);
                 this.setState({
                     partyOrder: res.data
                 })
             })
             .catch((err) => {
-                console.log('create ta err', err.response);
             })
     }
 

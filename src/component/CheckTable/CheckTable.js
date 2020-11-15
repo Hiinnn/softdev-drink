@@ -9,7 +9,7 @@ class CheckTable extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			newParty: false
+			newParty: false,
 		}
 		this.toggleAddParty = this.toggleAddParty.bind(this)
 	}
@@ -41,7 +41,7 @@ class CheckTable extends React.Component {
 				})
 			})
 			.catch((err) => {
-				console.log('check da err', err.response);
+				window.alert('Load Failed')
 			})
 	}
 
@@ -57,7 +57,7 @@ class CheckTable extends React.Component {
 				const partylist = this.checkPartyTime(res.data)
 				this.setState({
 					partyList: partylist
-				})	
+				})
 			})
 			.catch((err) => {
 			})

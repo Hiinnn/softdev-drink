@@ -515,7 +515,6 @@ export default class BranchDetail extends React.Component {
                                     <>
                                         {
                                             this.days.map((day, i) => {
-                                                console.log(day, i);
                                                 return (
                                                     <div style={{ color: 'black', marginBottom: 20 }} key={i}>
                                                         <div style={{ color: 'white', display: 'inline-block', width: 110 }}>{day}</div>

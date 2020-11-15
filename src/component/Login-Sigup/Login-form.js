@@ -60,6 +60,7 @@ export default class LoginForm extends React.Component {
                         ? ""
                         : "Invalid Password";
                 break;
+            default:
         }
 
         this.setState({

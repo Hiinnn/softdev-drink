@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col} from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import './Owner-form.css';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
@@ -166,8 +166,6 @@ export default class Ownerform extends React.Component {
         event.preventDefault();
 
         if (validateForm(this.state)) {
-            console.log('finish');
-
             const newForm = this.state.form
             newForm.phone_number = newForm.phone_number.replace(/^0/, '+66');
 
@@ -191,7 +189,6 @@ export default class Ownerform extends React.Component {
                     NotifyAlert(() => { }, 'สำเร็จ!', '', 'success');
                 })
                 .catch((err) => {
-                    console.log('err', err.response);
                 })
         }
         else {

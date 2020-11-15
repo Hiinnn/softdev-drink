@@ -53,11 +53,11 @@ class Result extends React.Component {
 						headers: {
 							Authorization: `Bearer ${token}`
 						}
-					})
+					}
+				)
 					.then((response) => {
 					})
 					.catch((err) => {
-						console.log('like post err', err);
 					})
 			}
 			else {

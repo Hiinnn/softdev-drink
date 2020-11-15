@@ -85,7 +85,6 @@ export default class App extends React.Component {
           <Route path="/manager/check/:shopId" render={props => <CheckTable {...props} />} />
 
           <Route path="/" component={Home} />
-          <Route component={() => <div>KUY</div>} />
 
         </Switch>
       </div>

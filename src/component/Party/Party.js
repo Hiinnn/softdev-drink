@@ -85,7 +85,7 @@ export default class PartyList extends React.Component {
                                 Object.keys(this.props.partyData.member_list).map((i) => {
                                     return (
                                         <div style={{ position: 'relative' }} key={i} >
-                                            <img className={"party-profile-pic" + sm} src={`${localStorage.getItem('url')}${this.props.partyData.member_list[i].picture}`} />
+                                            <img alt={`party-profile-pic-${i}`} className={"party-profile-pic" + sm} src={`${localStorage.getItem('url')}${this.props.partyData.member_list[i].picture}`} />
                                         </div>
                                     )
                                 })

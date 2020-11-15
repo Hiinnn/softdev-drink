@@ -250,7 +250,7 @@ export default class SignUp extends React.Component {
                     break;
                 }
             }
-            if(!getError){
+            if (!getError) {
                 this.setModal('Error', 'Form can\'t be empty.', 'danger', this.toggleModal)
             }
         }
@@ -286,8 +286,8 @@ export default class SignUp extends React.Component {
         }
 
         // term and condition of web
-        const term = <a href="">Term of Service</a>
-        const condition = <a href="">Privacy Notice</a>
+        const term = <a href="/#">Term of Service</a>
+        const condition = <a href="/#">Privacy Notice</a>
 
         return (
             <div className="sign-up-form-container">
