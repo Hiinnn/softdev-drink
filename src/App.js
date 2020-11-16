@@ -34,7 +34,7 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props)
-    localStorage.setItem('url', 'http://3427b2d3.ngrok.io');
+    localStorage.setItem('url', 'https://aqueous-anchorage-20696.herokuapp.com');
     this.state = {
       auth: true && localStorage.getItem("access") !== null
     }
